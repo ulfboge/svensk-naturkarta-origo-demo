@@ -77,24 +77,30 @@ python -m http.server 3000 --directory public
 
 ---
 
-## Current state (Phase 1 — working)
+## Current state (Phase 1 — COMPLETE ✅)
 
 - [x] Origo v2.10 bundle deployed at `public/js/`, `public/css/`, `public/img/`
 - [x] `public/index.html` correctly mounts Origo
 - [x] `public/config/origo.json` — OSM + OpenTopoMap backgrounds, NV WMS layers, Skogsstyrelsen WMS, local GeoJSON sample
 - [x] `public/data/sample-skyddade.geojson` — 8 Swedish national parks/nature reserves as GeoJSON Points
 - [x] Git repository initialised
+- [x] **WMS layers fully working** — named sources fix applied and verified in browser
+  - OSM basemap renders ✅
+  - Naturvårdsverket Naturreservat WMS renders (blue-purple polygon overlays) ✅
+  - Origo UI controls all present: zoom, layer panel, scale bar, attribution, coordinates, measure ✅
+  - Zero console errors from Origo ✅
 
 ---
 
 ## What to do next (Phase 2)
 
-1. Test map in browser at http://localhost:3000 — verify WMS layers load
-2. Verify GetCapabilities for Naturvårdsverket and Skogsstyrelsen (see URLs below)
-3. Add remaining NV layers (biotopskydd, strandskydd, etc.)
-4. Configure popups properly (verify attribute names match WMS GetFeatureInfo output)
-5. Consider switching basemap to Lantmäteriet WMTS for a fully Swedish look
-6. Deploy to GitHub Pages
+1. Zoom into Sweden and toggle on Nationalparker + Natura 2000 layers — verify they render
+2. Toggle on Skogsstyrelsen avverkningsanmälningar layer — verify it renders
+3. Click a Naturreservat polygon — verify the popup shows attributes (NAMN, AREAL_HA, etc.)
+4. Verify attribute names match actual WMS GetFeatureInfo response (may need adjustment)
+5. Add remaining NV layers (biotopskydd, strandskydd, etc.)
+6. Consider switching basemap to Lantmäteriet WMTS for a fully Swedish look
+7. Deploy to GitHub Pages
 
 ---
 
