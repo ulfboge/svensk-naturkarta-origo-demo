@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+  public/index.html — Naturkarta entry point
+  ──────────────────────────────────────────
+  Serve this directory with any static file server:
+
+    python -m http.server 3000 --directory public
+    (then open http://localhost:3000)
+
+  File layout required by Origo (paths are root-relative from public/):
+    css/         ← Origo's CSS + SVG sprites  (MUST be at root, not origo/css/)
+    js/          ← origo.min.js               (MUST be at root, not origo/js/)
+    img/         ← Origo's images             (MUST be at root, not origo/img/)
+    config/      ← origo.json config
+    data/        ← GeoJSON data files
+    src/         ← our custom CSS overrides
+-->
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="description" content="Naturkarta — kartvisare for skyddad natur och skogsdata i Sverige">
+  <meta name="theme-color" content="#2d6a4f">
+  <title>Naturkarta — Skyddad natur och skog</title>
+
+  <!-- Origo framework CSS (controls, popups, layer legend panel) -->
+  <link href="css/style.css" rel="stylesheet">
+
+  <!-- Our minimal green-theme overrides — loaded after Origo CSS -->
+  <link href="src/style.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- #app-wrapper MUST be completely empty — Origo fills it entirely -->
+<div id="app-wrapper"></div>
+
+<!-- Origo UMD bundle — registers the global Origo() function -->
+<script src="js/origo.min.js"></script>
+
+<!-- Initialise the map — same pattern as Origo's own example index.html -->
+<script type="text/javascript">
+  var viewer = Origo('config/origo.json');
+  window.viewer = viewer; // expose for browser console: viewer.getMap()
+</script>
+
+</body>
+</html>

@@ -1,33 +1,43 @@
 <!DOCTYPE html>
 <!--
-  index.html — Application shell for Svensk Naturkarta
-  ──────────────────────────────────────────────────────
-  Origo Map takes over the entire #app-wrapper div at runtime.
-  Keep this file minimal — do not add map controls or layers here.
-  Everything visual is driven by public/config/origo.json.
+  index.html — Svensk Naturkarta
+  ──────────────────────────────
+  This file runs without any build tool.
+  Serve the project root with any static server:
+
+    npx serve .                 (recommended — zero install needed)
+    npx http-server . -p 3000   (alternative)
+    python -m http.server 3000  (if you have Python)
+
+  Load order:
+    1. Origo CSS    — framework styles from public/origo/
+    2. Custom CSS   — our green-theme overrides
+    3. origo.min.js — registers the global Origo() function
+    4. main.js      — calls Origo('/config/origo.json')
 -->
 <html lang="sv">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <meta name="description" content="Naturkarta — kartvisare för skyddad natur och skogsdata" />
     <meta name="theme-color" content="#2d6a4f" />
     <title>Naturkarta — Skyddad natur och skog</title>
+
+    <!-- Origo's own CSS (controls, popups, layer switcher) -->
+    <link rel="stylesheet" href="origo/css/style.css" />
+
+    <!-- Our green-theme overrides -->
+    <link rel="stylesheet" href="src/style.css" />
   </head>
 
   <body>
-    <!--
-      #app-wrapper — Origo mounts here.
-      Must match the "target" value in public/config/origo.json → map.target
-    -->
-    <div id="app-wrapper">
-      <div id="loading-screen" role="status" aria-label="Laddar kartan">
-        <div class="loading-logo">🌲</div>
-        <div class="loading-spinner"></div>
-        <p class="loading-text">Laddar naturkarta…</p>
-      </div>
-    </div>
+    <!-- Origo mounts the map into this div -->
+    <div id="app-wrapper"></div>
 
-    <script type="module" src="/src/main.js"></script>
+    <!-- Origo browser bundle — sets the global Origo() function -->
+    <script src="origo/js/origo.min.js"></script>
+
+    <!-- Our entry script -->
+    <script src="src/main.js"></script>
   </body>
 </html>

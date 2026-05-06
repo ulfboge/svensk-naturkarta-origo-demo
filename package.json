@@ -8,20 +8,8 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "dependencies": {
-    "origo-map": "latest"
-  },
   "devDependencies": {
     "vite": "^5.0.0"
   },
-  "keywords": [
-    "origo",
-    "gis",
-    "webgis",
-    "openlayers",
-    "naturvårdsverket",
-    "skyddad-natur",
-    "sverige",
-    "sweden"
-  ]
+  "keywords": ["origo", "gis", "webgis", "openlayers", "naturvårdsverket", "sverige"]
 }
