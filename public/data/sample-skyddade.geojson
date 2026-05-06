@@ -1,0 +1,104 @@
+{
+  "type": "FeatureCollection",
+  "_comment": "Sample protected nature areas for the offline vector layer demo.",
+  "_comment2": "Coordinates are approximate centroids in WGS 84 (EPSG:4326): [longitude, latitude].",
+  "_comment3": "Replace with real data from Naturvårdsverket WFS in Phase 2.",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [18.2996, 59.4376] },
+      "properties": {
+        "name": "Tyresta nationalpark",
+        "typ": "Nationalpark",
+        "areal_ha": 4917,
+        "inrattat": "1993",
+        "beskrivning": "Urskog och barrskogslandskap söder om Stockholm. En av landets mest besökta nationalparker.",
+        "lankinfo": "https://www.naturvardsverket.se/tyresta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [18.5500, 68.3500] },
+      "properties": {
+        "name": "Abisko nationalpark",
+        "typ": "Nationalpark",
+        "areal_ha": 7700,
+        "inrattat": "1909",
+        "beskrivning": "Sveriges äldsta nationalpark i Lappland. Känt för midnattssolen och norrskenet.",
+        "lankinfo": "https://www.naturvardsverket.se/abisko"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [14.3000, 59.0000] },
+      "properties": {
+        "name": "Tiveden nationalpark",
+        "typ": "Nationalpark",
+        "areal_ha": 1352,
+        "inrattat": "1983",
+        "beskrivning": "Vildmarkslandskap med urskog, sjöar och mytomspunna platser i Västergötland.",
+        "lankinfo": "https://www.naturvardsverket.se/tiveden"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [11.3000, 58.8000] },
+      "properties": {
+        "name": "Kosterhavets nationalpark",
+        "typ": "Nationalpark",
+        "areal_ha": 38960,
+        "inrattat": "2009",
+        "beskrivning": "Sveriges enda marina nationalpark, med Europas artrikaste hav vid Västerhavet.",
+        "lankinfo": "https://www.naturvardsverket.se/kosterhavet"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [16.4000, 56.9000] },
+      "properties": {
+        "name": "Store Mosse nationalpark",
+        "typ": "Nationalpark",
+        "areal_ha": 7850,
+        "inrattat": "1982",
+        "beskrivning": "Södra Sveriges största myrmarker och ett internationellt viktigt fågelområde.",
+        "lankinfo": "https://www.naturvardsverket.se/store-mosse"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [15.6500, 63.4000] },
+      "properties": {
+        "name": "Skuleskogen nationalpark",
+        "typ": "Nationalpark",
+        "areal_ha": 2360,
+        "inrattat": "1984",
+        "beskrivning": "Del av Höga Kustenlandskapet, ett UNESCO World Heritage-område med urbergsklippor och gammelskog.",
+        "lankinfo": "https://www.naturvardsverket.se/skuleskogen"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [12.8000, 59.1000] },
+      "properties": {
+        "name": "Norra Värmlands naturreservat (demo)",
+        "typ": "Naturreservat",
+        "areal_ha": 3200,
+        "inrattat": "2005",
+        "beskrivning": "Exempelobjekt för portfolioprojektet. Representerar ett typiskt kommunalt naturreservat.",
+        "lankinfo": "https://www.naturvardsverket.se/skyddad-natur"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [17.9500, 59.2000] },
+      "properties": {
+        "name": "Björnö naturreservat (demo)",
+        "typ": "Naturreservat",
+        "areal_ha": 820,
+        "inrattat": "1999",
+        "beskrivning": "Exempelobjekt med natur- och friluftsvärden nära Stockholm. Demo för popup och attributvisning.",
+        "lankinfo": "https://www.naturvardsverket.se/skyddad-natur"
+      }
+    }
+  ]
+}

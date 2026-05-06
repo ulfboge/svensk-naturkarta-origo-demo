@@ -1,0 +1,308 @@
+{
+  "map": {
+    "target": "app-wrapper",
+
+    "projection": "EPSG:3857",
+
+    "_center_note": "Stockholm city centre in EPSG:3857 [x, y]. Change to zoom to another region.",
+    "center": [2010680, 8234000],
+
+    "zoom": 6,
+    "minZoom": 5,
+    "maxZoom": 19,
+    "extent": [-20037508, -20037508, 20037508, 20037508]
+  },
+
+  "groups": [
+    {
+      "name": "background",
+      "title": "Bakgrundskartor",
+      "exclusive": true
+    },
+    {
+      "name": "naturskydd",
+      "title": "Skyddad natur",
+      "expanded": true
+    },
+    {
+      "name": "skog",
+      "title": "Skogsdata",
+      "expanded": false
+    }
+  ],
+
+  "layers": [
+
+    {
+      "_section": "══ BAKGRUNDSKARTOR ══",
+
+      "name": "osm",
+      "title": "OpenStreetMap",
+      "group": "background",
+      "type": "XYZ",
+      "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      "attribution": "© <a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap</a> contributors",
+      "visible": true
+    },
+
+    {
+      "name": "osm_topo",
+      "title": "OpenTopoMap",
+      "group": "background",
+      "type": "XYZ",
+      "url": "https://tile.opentopomap.org/{z}/{x}/{y}.png",
+      "attribution": "Kartdata: © OpenStreetMap contributors, SRTM | Kartvisning: © <a href='https://opentopomap.org' target='_blank'>OpenTopoMap</a>",
+      "visible": false
+    },
+
+    {
+      "_lantmateriet_note": "Activate when you have a free Lantmäteriet API key.",
+      "_lantmateriet_note2": "Replace YOUR_TOKEN and change map.projection to EPSG:3006.",
+      "_name": "lantmateriet_topo",
+      "_title": "Lantmäteriet Topografisk webbkarta",
+      "_type": "WMTS",
+      "_url": "https://api.lantmateriet.se/open/topowebb/v1/wmts?token=YOUR_TOKEN",
+      "_layer": "topowebb",
+      "_matrixSet": "3006",
+      "_visible": false
+    },
+
+    {
+      "_section": "══ NATURVÅRDSVERKET — SKYDDAD NATUR ══",
+      "_note": "WMS from Naturvårdsverket. All layers are publicly accessible.",
+      "_note2": "ALWAYS verify exact layer names via GetCapabilities before production use:",
+      "_note3": "https://geodata.naturvardsverket.se/naturvardsverket/ows?SERVICE=WMS&REQUEST=GetCapabilities",
+
+      "name": "nv_naturreservat",
+      "title": "Naturreservat",
+      "group": "naturskydd",
+      "type": "WMS",
+      "url": "https://geodata.naturvardsverket.se/naturvardsverket/ows",
+      "params": {
+        "LAYERS": "NV.Naturreservat",
+        "FORMAT": "image/png",
+        "TRANSPARENT": true,
+        "VERSION": "1.3.0"
+      },
+      "visible": true,
+      "queryable": true,
+      "opacity": 0.75,
+      "legend": true,
+      "_popup_note": "Update attribute names after running GetFeatureInfo on the layer.",
+      "attributes": [
+        { "name": "NAMN",         "title": "Namn" },
+        { "name": "IUCNKATEGORI", "title": "IUCN-kategori" },
+        { "name": "AREAL_HA",     "title": "Areal (ha)" },
+        { "name": "BESLDAT",      "title": "Beslutsdatum" },
+        { "name": "LANSKOD",      "title": "Länsbeteckning" }
+      ]
+    },
+
+    {
+      "name": "nv_nationalparker",
+      "title": "Nationalparker",
+      "group": "naturskydd",
+      "type": "WMS",
+      "url": "https://geodata.naturvardsverket.se/naturvardsverket/ows",
+      "params": {
+        "LAYERS": "NV.Nationalpark",
+        "FORMAT": "image/png",
+        "TRANSPARENT": true,
+        "VERSION": "1.3.0"
+      },
+      "visible": false,
+      "queryable": true,
+      "opacity": 0.8,
+      "legend": true,
+      "attributes": [
+        { "name": "NAMN",     "title": "Namn" },
+        { "name": "AREAL_HA", "title": "Areal (ha)" },
+        { "name": "BESLDAT",  "title": "Inrättat" }
+      ]
+    },
+
+    {
+      "name": "nv_natura2000_habitat",
+      "title": "Natura 2000 (habitatdirektivet)",
+      "group": "naturskydd",
+      "type": "WMS",
+      "url": "https://geodata.naturvardsverket.se/naturvardsverket/ows",
+      "params": {
+        "LAYERS": "NV.Natura2000Habitat",
+        "FORMAT": "image/png",
+        "TRANSPARENT": true,
+        "VERSION": "1.3.0"
+      },
+      "visible": false,
+      "queryable": true,
+      "opacity": 0.65,
+      "legend": true,
+      "attributes": [
+        { "name": "SITENAME", "title": "Områdesnamn" },
+        { "name": "SITECODE", "title": "Områdeskod" },
+        { "name": "AREAL_HA", "title": "Areal (ha)" }
+      ]
+    },
+
+    {
+      "name": "nv_natura2000_fagel",
+      "title": "Natura 2000 (fågeldirektivet)",
+      "group": "naturskydd",
+      "type": "WMS",
+      "url": "https://geodata.naturvardsverket.se/naturvardsverket/ows",
+      "params": {
+        "LAYERS": "NV.Natura2000Fagel",
+        "FORMAT": "image/png",
+        "TRANSPARENT": true,
+        "VERSION": "1.3.0"
+      },
+      "visible": false,
+      "queryable": true,
+      "opacity": 0.65,
+      "legend": true,
+      "attributes": [
+        { "name": "SITENAME", "title": "Områdesnamn" },
+        { "name": "SITECODE", "title": "Områdeskod" },
+        { "name": "AREAL_HA", "title": "Areal (ha)" }
+      ]
+    },
+
+    {
+      "name": "nv_biotopskydd",
+      "title": "Biotopskyddsområden",
+      "group": "naturskydd",
+      "type": "WMS",
+      "url": "https://geodata.naturvardsverket.se/naturvardsverket/ows",
+      "params": {
+        "LAYERS": "NV.Biotopskyddsomrade",
+        "FORMAT": "image/png",
+        "TRANSPARENT": true,
+        "VERSION": "1.3.0"
+      },
+      "visible": false,
+      "queryable": true,
+      "opacity": 0.7,
+      "legend": true,
+      "attributes": [
+        { "name": "NAMN",     "title": "Namn" },
+        { "name": "BIOTOP",   "title": "Biotopklass" },
+        { "name": "AREAL_HA", "title": "Areal (ha)" },
+        { "name": "BESLDAT",  "title": "Beslutsdatum" }
+      ]
+    },
+
+    {
+      "_section": "══ SKOGSSTYRELSEN ══",
+      "_note": "Verify layer names via GetCapabilities:",
+      "_note2": "https://geodata.skogsstyrelsen.se/arcgis/services/Avverkningsanmalningar/MapServer/WmsServer?REQUEST=GetCapabilities",
+
+      "name": "ss_avverkningsanmalningar",
+      "title": "Avverkningsanmälningar",
+      "group": "skog",
+      "type": "WMS",
+      "url": "https://geodata.skogsstyrelsen.se/arcgis/services/Avverkningsanmalningar/MapServer/WmsServer",
+      "params": {
+        "LAYERS": "0",
+        "FORMAT": "image/png",
+        "TRANSPARENT": true,
+        "VERSION": "1.3.0"
+      },
+      "visible": false,
+      "queryable": true,
+      "opacity": 0.8,
+      "legend": true,
+      "attributes": [
+        { "name": "AnmDatum",   "title": "Anmälningsdatum" },
+        { "name": "AnmArtal",   "title": "År" },
+        { "name": "SluttAvvHA", "title": "Areal slutavv. (ha)" },
+        { "name": "Kommun",     "title": "Kommun" }
+      ]
+    },
+
+    {
+      "_section": "══ LOKALA DATA / GEOJSON ══",
+      "_note": "Sample features stored in public/data/ — works completely offline.",
+
+      "name": "sample_skyddade",
+      "title": "Exempelobjekt (lokal GeoJSON)",
+      "group": "naturskydd",
+      "type": "vector",
+      "url": "data/sample-skyddade.geojson",
+      "format": "geojson",
+      "visible": true,
+      "queryable": true,
+      "style": "skyddat_omrade_style",
+      "attributes": [
+        { "name": "name",        "title": "Namn" },
+        { "name": "typ",         "title": "Skyddstyp" },
+        { "name": "areal_ha",    "title": "Areal (ha)" },
+        { "name": "inrattat",    "title": "Inrättat" },
+        { "name": "beskrivning", "title": "Beskrivning" },
+        { "name": "lankinfo",    "title": "Mer info", "type": "url", "url": "{{lankinfo}}", "urlLabel": "Läs mer" }
+      ]
+    }
+  ],
+
+  "styles": {
+    "skyddat_omrade_style": [
+      [
+        {
+          "stroke": {
+            "color": "#2d6a4f",
+            "width": 2
+          },
+          "fill": {
+            "color": "rgba(82, 183, 136, 0.25)"
+          }
+        }
+      ]
+    ]
+  },
+
+  "controls": [
+    { "name": "zoom" },
+    { "name": "rotate" },
+    { "name": "scaleline" },
+    { "name": "attribution" },
+    {
+      "name": "coordinates",
+      "options": {
+        "projection": "EPSG:4326",
+        "decimals": 5,
+        "label": "Koordinater"
+      }
+    },
+    {
+      "name": "layerswitcher",
+      "options": {
+        "expanded": true
+      }
+    },
+    { "name": "progressbar" },
+    { "name": "fullscreen" },
+    { "name": "mapmenu" },
+    { "name": "sharemap" },
+    {
+      "name": "measure",
+      "options": {
+        "measureTools": ["length", "area"]
+      }
+    },
+    { "name": "print" },
+    {
+      "_search_note": "Lantmäteriet ortnamn API — no key needed for basic use.",
+      "_search_note2": "Comment out if the search API is unavailable.",
+      "name": "search",
+      "options": {
+        "providers": [
+          {
+            "name": "ortnamn",
+            "title": "Sök plats i Sverige",
+            "url": "https://api.lantmateriet.se/distribution/produkter/ortnamn/v2.1/ortnamn",
+            "type": "ortnamn"
+          }
+        ]
+      }
+    }
+  ]
+}

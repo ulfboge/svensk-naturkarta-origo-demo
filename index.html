@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+  index.html — Application shell for Svensk Naturkarta
+  ──────────────────────────────────────────────────────
+  Origo Map takes over the entire #app-wrapper div at runtime.
+  Keep this file minimal — do not add map controls or layers here.
+  Everything visual is driven by public/config/origo.json.
+-->
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="Naturkarta — kartvisare för skyddad natur och skogsdata" />
+    <meta name="theme-color" content="#2d6a4f" />
+    <title>Naturkarta — Skyddad natur och skog</title>
+  </head>
+
+  <body>
+    <!--
+      #app-wrapper — Origo mounts here.
+      Must match the "target" value in public/config/origo.json → map.target
+    -->
+    <div id="app-wrapper">
+      <div id="loading-screen" role="status" aria-label="Laddar kartan">
+        <div class="loading-logo">🌲</div>
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Laddar naturkarta…</p>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
