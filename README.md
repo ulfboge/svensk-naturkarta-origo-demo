@@ -1,202 +1,200 @@
-# svensk-naturkarta-origo-demo
+# Naturkarta — Skyddad natur och skog
 
-> **Portfolio project** — A minimal Swedish web GIS viewer focused on nature conservation and forestry, built with [Origo Map](https://github.com/origo-map/origo) and [OpenLayers](https://openlayers.org/).
+A portfolio web GIS application demonstrating Swedish nature conservation data using [Origo Map](https://github.com/origo-map/origo) — the open-source GIS framework used by Swedish municipalities and county administrative boards (_länsstyrelser_).
+
+> The application mimics a realistic Swedish municipal/regional nature conservation GIS portal.
 
 ---
 
-## What this project demonstrates
+## What it shows
 
-This application mimics a realistic **municipal or regional GIS portal** of the kind used by Swedish county administrative boards (_länsstyrelser_), municipalities, and forestry authorities. The focus area is nature conservation — showing protected areas, Natura 2000 sites, and forest data on top of a Swedish topographic base map.
+| Layer | Source | Type |
+|---|---|---|
+| Naturreservat (hela Sverige) | Naturvårdsverket | WMS |
+| Naturreservat — klickbar popup, Stockholms Län | Naturvårdsverket (CC0) | Local GeoJSON |
+| Nationalparker | Naturvårdsverket | WMS |
+| Natura 2000 | Naturvårdsverket INSPIRE | WMS |
+| Avverkningsanmälningar | Skogsstyrelsen | WMS |
+| Bakgrundskarta | OpenStreetMap / OpenTopoMap | Tile |
 
-**Portfolio value:**
-- Configuration-driven web GIS (the way Swedish municipalities actually build these)
-- Integration with Swedish open geodata services (Naturvårdsverket, Skogsstyrelsen, Lantmäteriet)
-- OGC-standard WMS/WFS consumption
-- Modern frontend toolchain (Vite + ES modules)
-- Clean, documented, Git-tracked project structure
+Click any nature reserve in the Stockholm area to see a popup with name, protection type, IUCN category, area, designation date, county, municipality, and manager.
 
 ---
 
 ## Tech stack
 
-| Layer | Technology |
+| What | How |
 |---|---|
-| Map framework | [Origo Map](https://github.com/origo-map/origo) |
-| Rendering engine | OpenLayers (via Origo) |
-| Build / dev server | [Vite](https://vitejs.dev/) |
-| Language | JavaScript (ES modules) |
-| Styling | CSS (custom, on top of Origo's own CSS) |
-| Data | Swedish open WMS/WFS services + local GeoJSON |
-| Projection | EPSG:3857 (dev) → EPSG:3006 SWEREF99 TM (production) |
-| Version control | Git |
+| Map framework | [Origo Map v2.10](https://github.com/origo-map/origo/releases/tag/v2.10.0) |
+| Rendering engine | OpenLayers 9 (bundled inside Origo) |
+| Dev server | `python -m http.server` — no build step |
+| Configuration | `public/config/origo.json` — one JSON file controls all layers, styles, and controls |
+| Projection | EPSG:3857 display, coordinate readout in SWEREF99 TM + WGS84 |
 
----
-
-## Data sources
-
-All data used in this project is **open / freely accessible**:
-
-| Source | What | URL |
-|---|---|---|
-| Naturvårdsverket | Naturreservat, Nationalparker, Natura 2000 | https://geodata.naturvardsverket.se |
-| Skogsstyrelsen | Avverkningsanmälningar, skogliga grunddata | https://geodata.skogsstyrelsen.se |
-| Lantmäteriet | Topografisk webbkarta (free API key) | https://www.lantmateriet.se |
-| OpenStreetMap | Background tiles (no key needed) | https://tile.openstreetmap.org |
-
-See [`docs/02_data_sources.md`](docs/02_data_sources.md) for full details, GetCapabilities URLs, and licence information.
+**No npm. No bundler. No backend.** The same architecture used by many Swedish municipal GIS deployments.
 
 ---
 
 ## Project structure
 
 ```
-svensk-naturkarta-origo-demo/
-├── README.md                    ← this file
-├── CLAUDE.md                    ← AI assistant context
-├── .gitignore
-│
-├── docs/
-│   ├── 01_project_goal.md       ← vision and scope
-│   ├── 02_data_sources.md       ← Swedish geodata services + licences
-│   ├── 03_architecture.md       ← technical design
-│   └── 04_tasks.md              ← roadmap / task log
-│
-├── index.html                   ← HTML shell (Origo mounts here)
-├── package.json                 ← npm deps + scripts
-├── vite.config.js               ← dev server + CORS proxy
-│
-├── src/
-│   ├── main.js                  ← imports Origo, fetches config, starts viewer
-│   └── style.css                ← layout + nature-themed overrides
-│
-└── public/
-    ├── config/
-    │   └── origo.json           ← THE map config (layers, controls, styles)
-    └── data/
-        └── sample-skyddade.geojson  ← local sample features
+public/
+  css/            Origo CSS + SVG icon sprites (must be at web root)
+  js/             origo.min.js — pre-built UMD bundle
+  img/            Origo image assets
+  config/
+    origo.json    ← THE file to edit: layers, styles, controls
+  data/
+    naturreservat-stockholm.geojson   383 nature reserves, Stockholms Län
+    sample-skyddade.geojson           8 handpicked national parks (points)
+  src/
+    style.css     Custom nature-green theme overrides
+  index.html      Loads origo.min.js and calls Origo('config/origo.json')
 ```
-
-The **single most important file** is `public/config/origo.json`. Adding a new layer, changing a style, or toggling a control requires only editing that JSON — no JavaScript needed.
 
 ---
 
-## Installation (Windows / PowerShell)
-
-### Prerequisites
-
-| Tool | Version | Check |
-|---|---|---|
-| Node.js | 18 or higher | `node --version` |
-| npm | bundled with Node | `npm --version` |
-| Git | any | `git --version` |
-| VS Code | recommended | — |
-
-Download Node.js from [nodejs.org](https://nodejs.org/en/download) — choose the **LTS** installer.
-
-### Step 1 — Clone or open the project
+## How to run
 
 ```powershell
-# If you haven't already:
-cd C:\Users\galag\GitHub
-git clone <your-repo-url> svensk-naturkarta-origo-demo
+git clone https://github.com/YOUR_USERNAME/svensk-naturkarta-origo-demo
 cd svensk-naturkarta-origo-demo
-
-# Or if you already have the folder:
-cd C:\Users\galag\GitHub\svensk-naturkarta-origo-demo
+python -m http.server 3000 --directory public
+# Open http://localhost:3000
 ```
 
-### Step 2 — Install dependencies
-
-```powershell
-npm install
-```
-
-This downloads `origo-map` (which bundles OpenLayers) and `vite` into `node_modules/`. Expect ~200 MB — this is normal. `node_modules/` is excluded from Git via `.gitignore`.
-
-If you see peer-dependency warnings:
-
-```powershell
-npm install --legacy-peer-deps
-```
-
-### Step 3 — Start the development server
-
-```powershell
-npm run dev
-```
-
-Vite starts at **http://localhost:3000** and opens a browser tab automatically. The map loads with:
-- OpenStreetMap tiles as background
-- Naturvårdsverket nature reserve boundaries (WMS — requires internet)
-- Sample local vector points (works offline)
-
-**Hot reload:** Any change you save to `public/config/origo.json` or `src/style.css` instantly refreshes the browser.
-
-### Step 4 — Build for production
-
-```powershell
-npm run build
-```
-
-Output goes to `dist/`. To preview the production build locally:
-
-```powershell
-npm run preview
-```
+No install step. No compilation. Open and edit.
 
 ---
 
-## Adding a WMS layer (quick reference)
+## How to add a WMS layer
 
-Open `public/config/origo.json` and add to the `layers` array:
+All configuration lives in `public/config/origo.json`. The Origo WMS pattern uses a **named source** — the URL belongs in the top-level `source` object, not on the layer:
+
+```json
+"source": {
+  "naturvardsverket": {
+    "url": "https://geodata.naturvardsverket.se/naturvardsregistret/wms"
+  }
+},
+"layers": [
+  {
+    "name": "nv_naturreservat",
+    "title": "Naturreservat",
+    "group": "naturskydd",
+    "type": "WMS",
+    "source": "naturvardsverket",
+    "id": "Naturreservat",
+    "format": "image/png",
+    "sourceParams": { "TRANSPARENT": "true" },
+    "visible": true,
+    "queryable": false,
+    "opacity": 0.75
+  }
+]
+```
+
+`"id"` becomes the `LAYERS=` WMS parameter. `"sourceParams"` maps to additional WMS query parameters. The layer's own `"url"` property is ignored by Origo — always use a named source.
+
+## How to add a clickable GeoJSON layer
 
 ```json
 {
-  "name": "my_new_layer",
-  "title": "Mitt nya lager",
+  "name": "my_layer",
+  "title": "Mitt lager",
   "group": "naturskydd",
-  "type": "WMS",
-  "url": "https://geodata.naturvardsverket.se/naturvardsverket/ows",
-  "params": {
-    "LAYERS": "NV.Naturreservat",
-    "FORMAT": "image/png",
-    "TRANSPARENT": true,
-    "VERSION": "1.3.0"
-  },
+  "type": "GEOJSON",
+  "source": "data/my-file.geojson",
   "visible": true,
-  "queryable": true
+  "queryable": true,
+  "zIndex": 10,
+  "style": "my_style",
+  "attributes": [
+    { "name": "NAMN",    "title": "Namn",     "prefix": ": " },
+    { "name": "AREA_HA", "title": "Areal (ha)", "prefix": ": " }
+  ]
 }
 ```
 
-Then add `"naturskydd"` to the `groups` array if it doesn't exist yet. Save — done.
+`"zIndex": 10` ensures the vector layer renders on top of tile basemaps. `"prefix": ": "` adds the separator between label and value in the popup.
 
 ---
 
-## Connecting to external WMS — verifying layer names
+## Data sources & licences
 
-Before adding a WMS layer, always check what layers the service actually exposes:
+| Dataset | Provider | Licence |
+|---|---|---|
+| Naturreservat, Nationalparker, Natura 2000 | [Naturvårdsverket](https://www.naturvardsverket.se/om-oss/oppna-data-och-apier/) | CC0 |
+| Avverkningsanmälningar | [Skogsstyrelsen](https://www.skogsstyrelsen.se/sjalvservice/karttjanster/) | CC0 |
+| Basemap tiles | [OpenStreetMap](https://www.openstreetmap.org/) contributors | ODbL |
+| Basemap tiles | [OpenTopoMap](https://opentopomap.org/) | CC-BY-SA |
 
-```
-https://geodata.naturvardsverket.se/naturvardsverket/ows?SERVICE=WMS&REQUEST=GetCapabilities
-```
+The GeoJSON file `naturreservat-stockholm.geojson` was fetched directly from Naturvårdsverket's WFS endpoint using an OGC XML spatial filter and converted with 5-decimal coordinate rounding (~1 m precision).
 
-Open the URL in a browser or paste it into QGIS → *Layer* → *Add WMS/WMTS layer* → *Connect*. QGIS will list all available layers with their exact names.
+---
+
+## Architecture decisions
+
+**Why Origo Map?**
+Origo is the de facto standard framework for Swedish municipal web GIS. It is used by hundreds of Swedish _kommuner_ and _länsstyrelser_. Knowing Origo is a directly marketable skill. It is built on OpenLayers 9, so knowledge transfers to both ecosystems.
+
+**Why no build step / no npm?**
+Origo is distributed as a pre-built UMD bundle. Adding Vite or webpack adds complexity with no functional gain for a configuration-driven app. The Python dev server mirrors how Swedish municipalities typically serve Origo in production environments.
+
+**Why static GeoJSON instead of live WFS?**
+Naturvårdsverket's WFS is an ESRI ArcGIS Server endpoint. Origo's WFS client hardcodes `outputFormat=application/json`, which the server rejects — it only accepts GML 3.2 output formats. Pre-downloading as static GeoJSON is the pragmatic solution: it loads faster, works offline, and avoids CORS issues.
+
+**Why EPSG:3857?**
+Web Mercator matches OSM and OpenTopoMap tile pyramids. Coordinate display is converted to SWEREF99 TM (Swedish national grid) and WGS84 in the position control.
 
 ---
 
 ## Roadmap
 
-See [`docs/04_tasks.md`](docs/04_tasks.md) for the full task list. Planned phases:
+### Phase 3 — More layers
 
-- **Phase 1** ✅ Project structure + documentation + minimal working map
-- **Phase 2** — Real Swedish WMS layers (Naturvårdsverket, Skogsstyrelsen)
-- **Phase 3** — UI polish (green theme, Swedish labels, legend)
-- **Phase 4** — SWEREF99 TM projection + Lantmäteriet background
-- **Phase 5** — (Future) Local PostGIS data + GeoServer/QGIS Server
+- [ ] Biotopskyddsområden (NV WMS)
+- [ ] Strandskydd (NV WMS)
+- [ ] Djur- och växtskyddsområden (NV WMS)
+- [ ] Replace OSM with Lantmäteriet Topowebb WMTS (free API key)
+- [ ] Expand GeoJSON coverage beyond Stockholms Län
+
+### Phase 4 — UX
+
+- [ ] Formatted popup values (area with thousands separator, date localisation)
+- [ ] Name search across reservat
+- [ ] Print layout with Swedish map frame
+- [ ] Mobile-responsive layout
+
+### Phase 5 — Backend (future)
+
+- [ ] QGIS Server serving a QGIS project as WMS/WFS
+- [ ] PostGIS database with full NV dataset
+- [ ] Docker Compose: QGIS Server + PostGIS
+- [ ] GeoServer as alternative to QGIS Server
+
+---
+
+## WMS services used
+
+| Service | GetCapabilities |
+|---|---|
+| Naturvårdsverket | [Link](https://geodata.naturvardsverket.se/naturvardsregistret/wms?SERVICE=WMS&REQUEST=GetCapabilities) |
+| Skogsstyrelsen (avverkning) | [Link](https://geodata.skogsstyrelsen.se/arcgis/services/Avverkningsanmalningar/MapServer/WmsServer?REQUEST=GetCapabilities) |
+
+---
+
+## Useful references
+
+- [Origo Map documentation](https://github.com/origo-map/origo/wiki)
+- [Origo v2.10 release](https://github.com/origo-map/origo/releases/tag/v2.10.0)
+- [OpenLayers API docs](https://openlayers.org/en/latest/apidoc/)
+- [Naturvårdsverket öppna data](https://www.naturvardsverket.se/om-oss/oppna-data-och-apier/)
+- [Lantmäteriet öppna geodataprodukter](https://www.lantmateriet.se/sv/geodata/vara-produkter/)
 
 ---
 
 ## Licence
 
-Code: [MIT](LICENSE)
-Geodata: see [`docs/02_data_sources.md`](docs/02_data_sources.md) for individual service licences.
+Code: [MIT](LICENSE)  
+Geodata: see Data sources section above.

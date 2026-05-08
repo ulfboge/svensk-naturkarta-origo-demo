@@ -1,5 +1,5 @@
 {
-  "title": "Naturkarta — Skyddad natur och skog",
+  "title": "Naturkarta — Skyddad natur",
 
   "projectionCode": "EPSG:3857",
   "projectionExtent": [-20026376.39, -20048966.10, 20026376.39, 20048966.10],
@@ -10,8 +10,8 @@
     }
   ],
   "extent": [-20026376.39, -20048966.10, 20026376.39, 20048966.10],
-  "center": [1810000, 8080000],
-  "zoom": 5,
+  "center": [2050000, 8265000],
+  "zoom": 9,
   "resolutions": [
     156543.03, 78271.52, 39135.76, 19567.88, 9783.94,
     4891.97,   2445.98,  1222.99,  611.50,   305.75,
@@ -20,19 +20,11 @@
   ],
   "featureinfoOptions": { "infowindow": "overlay" },
 
-  "source": {
-    "naturvardsverket": {
-      "url": "https://geodata.naturvardsverket.se/naturvardsverket/ows"
-    },
-    "skogsstyrelsen": {
-      "url": "https://geodata.skogsstyrelsen.se/arcgis/services/Avverkningsanmalningar/MapServer/WmsServer"
-    }
-  },
+  "source": {},
 
   "groups": [
     { "name": "background", "title": "Bakgrundskartor", "exclusive": true, "expanded": true },
-    { "name": "naturskydd", "title": "Skyddad natur",   "expanded": true  },
-    { "name": "skog",       "title": "Skogsdata",        "expanded": false }
+    { "name": "naturskydd", "title": "Skyddad natur",   "expanded": true  }
   ],
 
   "layers": [
@@ -61,97 +53,44 @@
 
     {
       "name": "nv_naturreservat",
-      "title": "Naturreservat",
+      "title": "Naturreservat — Stockholms län",
       "group": "naturskydd",
-      "type": "WMS",
-      "source": "naturvardsverket",
-      "id": "NV.NaturReservat",
-      "format": "image/png",
-      "sourceParams": { "TRANSPARENT": "true" },
+      "type": "GEOJSON",
+      "source": "data/naturreservat-stockholm.geojson",
       "visible": true,
       "queryable": true,
-      "opacity": 0.75,
+      "zIndex": 10,
+      "style": "naturreservat_polygon",
       "attributes": [
-        { "name": "NAMN",         "title": "Namn" },
-        { "name": "IUCNKATEGORI", "title": "IUCN-kategori" },
-        { "name": "AREAL_HA",     "title": "Areal (ha)" },
-        { "name": "BESLDAT",      "title": "Beslutsdatum" },
-        { "name": "LANSKOD",      "title": "Länsbeteckning" }
+        { "name": "NAMN",       "title": "Namn",          "prefix": ": " },
+        { "name": "SKYDDSTYP",  "title": "Skyddstyp",     "prefix": ": " },
+        { "name": "IUCNKAT",    "title": "IUCN-kategori", "prefix": ": " },
+        { "name": "AREA_HA",    "title": "Areal (ha)",    "prefix": ": " },
+        { "name": "URSBESLDAT", "title": "Beslutsdatum",  "prefix": ": " },
+        { "name": "LAN",        "title": "Län",           "prefix": ": " },
+        { "name": "KOMMUN",     "title": "Kommun",        "prefix": ": " },
+        { "name": "FORVALTARE", "title": "Förvaltare",    "prefix": ": " }
       ]
     },
 
     {
       "name": "nv_nationalparker",
-      "title": "Nationalparker",
-      "group": "naturskydd",
-      "type": "WMS",
-      "source": "naturvardsverket",
-      "id": "NV.NationalPark",
-      "format": "image/png",
-      "sourceParams": { "TRANSPARENT": "true" },
-      "visible": false,
-      "queryable": true,
-      "opacity": 0.8,
-      "attributes": [
-        { "name": "NAMN",     "title": "Namn" },
-        { "name": "AREAL_HA", "title": "Areal (ha)" },
-        { "name": "BESLDAT",  "title": "Inrättat" }
-      ]
-    },
-
-    {
-      "name": "nv_natura2000",
-      "title": "Natura 2000 (habitat)",
-      "group": "naturskydd",
-      "type": "WMS",
-      "source": "naturvardsverket",
-      "id": "NV.Natura2000Habitat",
-      "format": "image/png",
-      "sourceParams": { "TRANSPARENT": "true" },
-      "visible": false,
-      "queryable": true,
-      "opacity": 0.65,
-      "attributes": [
-        { "name": "SITENAME", "title": "Områdesnamn" },
-        { "name": "SITECODE", "title": "Områdeskod" },
-        { "name": "AREAL_HA", "title": "Areal (ha)" }
-      ]
-    },
-
-    {
-      "name": "ss_avverkningar",
-      "title": "Avverkningsanmälningar",
-      "group": "skog",
-      "type": "WMS",
-      "source": "skogsstyrelsen",
-      "id": "0",
-      "format": "image/png",
-      "sourceParams": { "TRANSPARENT": "true" },
-      "visible": false,
-      "queryable": true,
-      "opacity": 0.8,
-      "attributes": [
-        { "name": "AnmDatum",   "title": "Anmälningsdatum" },
-        { "name": "Kommun",     "title": "Kommun" },
-        { "name": "SluttAvvHA", "title": "Areal (ha)" }
-      ]
-    },
-
-    {
-      "name": "sample_skyddade",
-      "title": "Exempelobjekt (lokal GeoJSON)",
+      "title": "Nationalparker — Stockholms län",
       "group": "naturskydd",
       "type": "GEOJSON",
-      "source": "data/sample-skyddade.geojson",
+      "source": "data/nationalparker-stockholm.geojson",
       "visible": true,
       "queryable": true,
-      "style": "skyddat_omrade_style",
+      "zIndex": 9,
+      "style": "nationalpark_polygon",
       "attributes": [
-        { "name": "name",        "title": "Namn" },
-        { "name": "typ",         "title": "Skyddstyp" },
-        { "name": "areal_ha",    "title": "Areal (ha)" },
-        { "name": "inrattat",    "title": "Inrättat" },
-        { "name": "beskrivning", "title": "Beskrivning" }
+        { "name": "NAMN",       "title": "Namn",          "prefix": ": " },
+        { "name": "SKYDDSTYP",  "title": "Skyddstyp",     "prefix": ": " },
+        { "name": "IUCNKAT",    "title": "IUCN-kategori", "prefix": ": " },
+        { "name": "AREA_HA",    "title": "Areal (ha)",    "prefix": ": " },
+        { "name": "URSBESLDAT", "title": "Beslutsdatum",  "prefix": ": " },
+        { "name": "KOMMUN",     "title": "Kommun",        "prefix": ": " },
+        { "name": "FORVALTARE", "title": "Förvaltare",    "prefix": ": " }
       ]
     }
 
@@ -160,14 +99,19 @@
   "styles": {
     "karta_osm":  [[{ "image": { "src": "img/png/osm.png"  } }]],
     "karta_topo": [[{ "image": { "src": "img/png/osm.png"  } }]],
-    "skyddat_omrade_style": [
+    "naturreservat_polygon": [
       [
         {
-          "circle": {
-            "radius": 9,
-            "stroke": { "color": "rgba(255,255,255,0.9)", "width": 2 },
-            "fill":   { "color": "#2d6a4f" }
-          }
+          "stroke": { "color": "#1b7a45", "width": 2 },
+          "fill":   { "color": "rgba(52,168,83,0.25)" }
+        }
+      ]
+    ],
+    "nationalpark_polygon": [
+      [
+        {
+          "stroke": { "color": "#7b3f00", "width": 3 },
+          "fill":   { "color": "rgba(180,90,0,0.25)" }
         }
       ]
     ]
@@ -202,8 +146,8 @@
       "name": "about",
       "options": {
         "buttonText": "Om kartan",
-        "title": "Naturkarta — Skyddad natur och skog",
-        "content": "<p>Kartvisare för skyddad natur, naturreservat och skogsdata i Sverige.</p><br><p>Data: <a href='https://www.naturvardsverket.se' target='_blank'>Naturvårdsverket</a> (CC0), <a href='https://www.skogsstyrelsen.se' target='_blank'>Skogsstyrelsen</a>, <a href='https://www.openstreetmap.org' target='_blank'>OpenStreetMap</a>.</p><br><p>Byggd med <a href='https://github.com/origo-map/origo' target='_blank'>Origo Map</a> v2.10.</p>"
+        "title": "Naturkarta — Skyddad natur i Stockholms län",
+        "content": "<p>Kartan visar skyddade naturområden i Stockholms län — <strong>naturreservat</strong> och <strong>nationalparker</strong> med information om skyddstyp, areal, förvaltare och beslutsunderlag.</p><br><p><strong>Så här använder du kartan:</strong><br>Klicka på ett naturreservat (grönt) eller nationalpark (brunt) för att se detaljerad information om området.</p><br><p><strong>Datakällor:</strong><br><a href='https://www.naturvardsverket.se' target='_blank'>Naturvårdsverket</a> — Naturvårdsregistret (CC0)<br><a href='https://www.openstreetmap.org' target='_blank'>OpenStreetMap</a> — bakgrundskarta</p><br><p>Byggd med <a href='https://github.com/origo-map/origo' target='_blank'>Origo Map</a> v2.10.</p>"
       }
     }
   ]
