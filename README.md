@@ -1,5 +1,7 @@
 # Naturkarta — Skyddad natur och skog
 
+**[Öppna kartan](https://ulfboge.github.io/svensk-naturkarta-origo-demo/) →**
+
 A portfolio web GIS application demonstrating Swedish nature conservation data using [Origo Map](https://github.com/origo-map/origo) — the open-source GIS framework used by Swedish municipalities and county administrative boards (_länsstyrelser_).
 
 > The application mimics a realistic Swedish municipal/regional nature conservation GIS portal.
