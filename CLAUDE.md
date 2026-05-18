@@ -77,30 +77,40 @@ python -m http.server 3000 --directory public
 
 ---
 
-## Current state (Phase 1 — COMPLETE ✅)
+## Current state (Phase 2 — COMPLETE ✅)
 
+### Phase 1 ✅
 - [x] Origo v2.10 bundle deployed at `public/js/`, `public/css/`, `public/img/`
 - [x] `public/index.html` correctly mounts Origo
-- [x] `public/config/origo.json` — OSM + OpenTopoMap backgrounds, NV WMS layers, Skogsstyrelsen WMS, local GeoJSON sample
-- [x] `public/data/sample-skyddade.geojson` — 8 Swedish national parks/nature reserves as GeoJSON Points
 - [x] Git repository initialised
-- [x] **WMS layers fully working** — named sources fix applied and verified in browser
-  - OSM basemap renders ✅
-  - Naturvårdsverket Naturreservat WMS renders (blue-purple polygon overlays) ✅
-  - Origo UI controls all present: zoom, layer panel, scale bar, attribution, coordinates, measure ✅
-  - Zero console errors from Origo ✅
+- [x] OSM basemap renders; Origo UI controls all present; zero console errors
+
+### Phase 2 ✅
+- [x] **GeoJSON layers** — `naturreservat-stockholm.geojson` + `nationalparker-stockholm.geojson` (Stockholms län, real NV data)
+  - Attributes verified: NAMN, SKYDDSTYP, IUCNKAT, AREA_HA, URSBESLDAT, LAN, KOMMUN, FORVALTARE — all match
+  - Styles: green polygon (naturreservat), brown polygon (nationalpark)
+- [x] **Natura 2000 WMS** — SCI (Habitatdirektivet) + SPA (Fågeldirektivet) from `https://geodata.naturvardsverket.se/n2000/wms`
+  - Layer IDs: `N2000_SCI`, `N2000_SPA`
+- [x] **Naturvårdsregistret WMS** — Biotopskyddsområden + Djur- och växtskyddsområden from `https://geodata.naturvardsverket.se/naturvardsregistret/wms`
+  - Layer IDs: `Ovrigt_biotopskyddsomrade`, `Djur_och_vaxtskyddsomrade`
+- [x] **Skogsstyrelsen WMS** — Avverkningsanmälningar from ArcGIS MapServer, layer ID `0`
+- [x] **5 layer groups** in sidebar (background, naturskydd, natura2000, nv_rikstackande, skog)
+- [x] **GitHub Pages** — `.github/workflows/deploy.yml` already configured; `public/.nojekyll` added
+
+### ⚠️ Layer names to verify in browser
+The following WMS layer IDs were determined from GetCapabilities / educated guesses — toggle them on and check browser console/network tab:
+- `N2000_SCI`, `N2000_SPA` (Natura 2000) — fetch `https://geodata.naturvardsverket.se/n2000/wms?SERVICE=WMS&REQUEST=GetCapabilities` if they fail
+- `0` (Skogsstyrelsen avverkning) — standard ArcGIS MapServer first-layer ID, likely correct
 
 ---
 
-## What to do next (Phase 2)
+## What to do next (Phase 3)
 
-1. Zoom into Sweden and toggle on Nationalparker + Natura 2000 layers — verify they render
-2. Toggle on Skogsstyrelsen avverkningsanmälningar layer — verify it renders
-3. Click a Naturreservat polygon — verify the popup shows attributes (NAMN, AREAL_HA, etc.)
-4. Verify attribute names match actual WMS GetFeatureInfo response (may need adjustment)
-5. Add remaining NV layers (biotopskydd, strandskydd, etc.)
-6. Consider switching basemap to Lantmäteriet WMTS for a fully Swedish look
-7. Deploy to GitHub Pages
+1. Open the live site on GitHub Pages and verify all WMS layers render correctly
+2. Fix any layer IDs that fail (see ⚠️ above)
+3. Consider adding Lantmäteriet Topowebb WMTS as a Swedish basemap alternative
+4. Consider adding search/geocoding control (Origo has a `search` control for NV/SMHI APIs)
+5. Polish the "Om kartan" about-text and add screenshots to README for portfolio
 
 ---
 
@@ -228,9 +238,12 @@ Common errors:
 
 | Service | GetCapabilities URL |
 |---|---|
-| Naturvårdsverket | https://geodata.naturvardsverket.se/naturvardsverket/ows?SERVICE=WMS&REQUEST=GetCapabilities |
+| NV Naturvardsregistret | https://geodata.naturvardsverket.se/naturvardsregistret/wms?SERVICE=WMS&REQUEST=GetCapabilities |
+| NV Natura 2000 | https://geodata.naturvardsverket.se/n2000/wms?SERVICE=WMS&REQUEST=GetCapabilities |
 | Skogsstyrelsen (avverkning) | https://geodata.skogsstyrelsen.se/arcgis/services/Avverkningsanmalningar/MapServer/WmsServer?REQUEST=GetCapabilities |
 | Skogsstyrelsen (grunddata) | https://geodata.skogsstyrelsen.se/arcgis/services/Skogliga_grunddata/MapServer/WmsServer?REQUEST=GetCapabilities |
+
+> **Note:** The old URL `geodata.naturvardsverket.se/naturvardsverket/ows` is **dead (404)**. Use the new URLs above.
 
 ---
 

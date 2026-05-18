@@ -8,16 +8,19 @@ A portfolio web GIS application demonstrating Swedish nature conservation data u
 
 ## What it shows
 
-| Layer | Source | Type |
-|---|---|---|
-| Naturreservat (hela Sverige) | Naturvårdsverket | WMS |
-| Naturreservat — klickbar popup, Stockholms Län | Naturvårdsverket (CC0) | Local GeoJSON |
-| Nationalparker | Naturvårdsverket | WMS |
-| Natura 2000 | Naturvårdsverket INSPIRE | WMS |
-| Avverkningsanmälningar | Skogsstyrelsen | WMS |
-| Bakgrundskarta | OpenStreetMap / OpenTopoMap | Tile |
+| Lager | Källa | Typ | Klickbar |
+|---|---|---|---|
+| Naturreservat (Stockholms län) | Naturvårdsverket (CC0) | GeoJSON | ✅ |
+| Nationalparker (Stockholms län) | Naturvårdsverket (CC0) | GeoJSON | ✅ |
+| Natura 2000 SCI — Habitatdirektivet | Naturvårdsverket | WMS | — |
+| Natura 2000 SPA — Fågeldirektivet | Naturvårdsverket | WMS | — |
+| Biotopskyddsområden | Naturvårdsverket | WMS | — |
+| Djur- och växtskyddsområden | Naturvårdsverket | WMS | — |
+| Avverkningsanmälningar | Skogsstyrelsen | WMS | — |
+| OpenStreetMap / OpenTopoMap | OSM | Tile | — |
+| Topowebb (Lantmäteriet) | Lantmäteriet (CC BY) | XYZ/WMTS | — |
 
-Click any nature reserve in the Stockholm area to see a popup with name, protection type, IUCN category, area, designation date, county, municipality, and manager.
+Klicka på ett naturreservat eller en nationalpark i Stockholmsområdet för popup med: namn, skyddstyp, IUCN-kategori, areal, beslutsdatum, län, kommun och förvaltare.
 
 ---
 
@@ -64,6 +67,18 @@ python -m http.server 3000 --directory public
 ```
 
 No install step. No compilation. Open and edit.
+
+### Aktivera Lantmäteriet Topowebb (valfritt)
+
+1. Registrera ett konto på [opendata.lantmateriet.se](https://opendata.lantmateriet.se/)
+2. Skapa en applikation och kopiera din API-nyckel
+3. Ersätt `DIN_API_NYCKEL` i `public/config/origo.json` (sök på strängen):
+
+```json
+"url": "https://api.lantmateriet.se/open/topowebb-ccby/v1/wmts/token/DIN_API_NYCKEL/..."
+```
+
+Lagret *Topowebb (Lantmäteriet)* visas direkt i bakgrundskarta-gruppen efter att nyckeln är insatt.
 
 ---
 
@@ -122,12 +137,14 @@ All configuration lives in `public/config/origo.json`. The Origo WMS pattern use
 
 ## Data sources & licences
 
-| Dataset | Provider | Licence |
+| Dataset | Leverantör | Licens |
 |---|---|---|
 | Naturreservat, Nationalparker, Natura 2000 | [Naturvårdsverket](https://www.naturvardsverket.se/om-oss/oppna-data-och-apier/) | CC0 |
-| Avverkningsanmälningar | [Skogsstyrelsen](https://www.skogsstyrelsen.se/sjalvservice/karttjanster/) | CC0 |
-| Basemap tiles | [OpenStreetMap](https://www.openstreetmap.org/) contributors | ODbL |
-| Basemap tiles | [OpenTopoMap](https://opentopomap.org/) | CC-BY-SA |
+| Biotopskydd, Djur- och växtskydd | [Naturvårdsverket](https://www.naturvardsverket.se/om-oss/oppna-data-och-apier/) | CC0 |
+| Avverkningsanmälningar | [Skogsstyrelsen](https://www.skogsstyrelsen.se/sjalvservice/karttjanster/) | Öppen |
+| Topowebb | [Lantmäteriet](https://opendata.lantmateriet.se/) | CC BY |
+| Bakgrundskarta | [OpenStreetMap](https://www.openstreetmap.org/) contributors | ODbL |
+| Bakgrundskarta | [OpenTopoMap](https://opentopomap.org/) | CC-BY-SA |
 
 The GeoJSON file `naturreservat-stockholm.geojson` was fetched directly from Naturvårdsverket's WFS endpoint using an OGC XML spatial filter and converted with 5-decimal coordinate rounding (~1 m precision).
 
@@ -151,13 +168,21 @@ Web Mercator matches OSM and OpenTopoMap tile pyramids. Coordinate display is co
 
 ## Roadmap
 
-### Phase 3 — More layers
+### Phase 2 — ✅ Klart
 
-- [ ] Biotopskyddsområden (NV WMS)
+- [x] Klickbara GeoJSON-lager (naturreservat + nationalparker, Stockholms län)
+- [x] Natura 2000 WMS (SCI + SPA)
+- [x] Biotopskyddsområden och djur- och växtskyddsområden (NV WMS)
+- [x] Avverkningsanmälningar (Skogsstyrelsen WMS)
+- [x] Lantmäteriet Topowebb konfigurerad (kräver API-nyckel)
+- [x] GitHub Pages-driftsättning via GitHub Actions
+
+### Phase 3 — Nästa steg
+
+- [ ] Verifiera WMS-lager på live-siten (layer-ID-kontroll)
 - [ ] Strandskydd (NV WMS)
-- [ ] Djur- och växtskyddsområden (NV WMS)
-- [ ] Replace OSM with Lantmäteriet Topowebb WMTS (free API key)
-- [ ] Expand GeoJSON coverage beyond Stockholms Län
+- [ ] Utöka GeoJSON-täckning till fler län
+- [ ] Sökfunktion över reservatnamn
 
 ### Phase 4 — UX
 
@@ -177,10 +202,13 @@ Web Mercator matches OSM and OpenTopoMap tile pyramids. Coordinate display is co
 
 ## WMS services used
 
-| Service | GetCapabilities |
+| Tjänst | GetCapabilities |
 |---|---|
-| Naturvårdsverket | [Link](https://geodata.naturvardsverket.se/naturvardsregistret/wms?SERVICE=WMS&REQUEST=GetCapabilities) |
-| Skogsstyrelsen (avverkning) | [Link](https://geodata.skogsstyrelsen.se/arcgis/services/Avverkningsanmalningar/MapServer/WmsServer?REQUEST=GetCapabilities) |
+| NV Naturvårdsregistret | [Länk](https://geodata.naturvardsverket.se/naturvardsregistret/wms?SERVICE=WMS&REQUEST=GetCapabilities) |
+| NV Natura 2000 | [Länk](https://geodata.naturvardsverket.se/n2000/wms?SERVICE=WMS&REQUEST=GetCapabilities) |
+| Skogsstyrelsen (avverkning) | [Länk](https://geodata.skogsstyrelsen.se/arcgis/services/Avverkningsanmalningar/MapServer/WmsServer?REQUEST=GetCapabilities) |
+
+> ⚠️ Den gamla URL:en `geodata.naturvardsverket.se/naturvardsverket/ows` är **borttagen (404)**. Använd URL:erna ovan.
 
 ---
 

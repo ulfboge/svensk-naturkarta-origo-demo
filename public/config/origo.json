@@ -20,11 +20,18 @@
   ],
   "featureinfoOptions": { "infowindow": "overlay" },
 
-  "source": {},
+  "source": {
+    "nv_naturvardsregistret": { "url": "https://geodata.naturvardsverket.se/naturvardsregistret/wms" },
+    "nv_n2000":               { "url": "https://geodata.naturvardsverket.se/n2000/wms" },
+    "skogs_avverkning":       { "url": "https://geodata.skogsstyrelsen.se/arcgis/services/Avverkningsanmalningar/MapServer/WmsServer" }
+  },
 
   "groups": [
-    { "name": "background", "title": "Bakgrundskartor", "exclusive": true, "expanded": true },
-    { "name": "naturskydd", "title": "Skyddad natur",   "expanded": true  }
+    { "name": "background",       "title": "Bakgrundskartor",                    "exclusive": true, "expanded": true  },
+    { "name": "naturskydd",        "title": "Skyddad natur (Stockholms län)",      "expanded": true  },
+    { "name": "natura2000",        "title": "Natura 2000",                         "expanded": false },
+    { "name": "nv_rikstackande",   "title": "Naturvårdsverket (fler skyddstyper)", "expanded": false },
+    { "name": "skog",              "title": "Skogsbruk (Skogsstyrelsen)",          "expanded": false }
   ],
 
   "layers": [
@@ -52,8 +59,20 @@
     },
 
     {
+      "name": "lm_topowebb",
+      "title": "Topowebb (Lantmäteriet)",
+      "group": "background",
+      "type": "XYZ",
+      "url": "https://api.lantmateriet.se/open/topowebb-ccby/v1/wmts/token/DIN_API_NYCKEL/1.0.0/topowebb/default/3857/{z}/{y}/{x}.png",
+      "attribution": "© Lantmäteriet (CC BY)",
+      "style": "karta_lm",
+      "visible": false,
+      "queryable": false
+    },
+
+    {
       "name": "nv_naturreservat",
-      "title": "Naturreservat — Stockholms län",
+      "title": "Naturreservat",
       "group": "naturskydd",
       "type": "GEOJSON",
       "source": "data/naturreservat-stockholm.geojson",
@@ -75,7 +94,7 @@
 
     {
       "name": "nv_nationalparker",
-      "title": "Nationalparker — Stockholms län",
+      "title": "Nationalparker",
       "group": "naturskydd",
       "type": "GEOJSON",
       "source": "data/nationalparker-stockholm.geojson",
@@ -92,13 +111,84 @@
         { "name": "KOMMUN",     "title": "Kommun",        "prefix": ": " },
         { "name": "FORVALTARE", "title": "Förvaltare",    "prefix": ": " }
       ]
+    },
+
+    {
+      "name": "n2000_sci",
+      "title": "Natura 2000 (SCI) — Habitatdirektivet",
+      "group": "natura2000",
+      "type": "WMS",
+      "source": "nv_n2000",
+      "id": "N2000_SCI",
+      "format": "image/png",
+      "sourceParams": { "TRANSPARENT": "true" },
+      "visible": false,
+      "queryable": false,
+      "zIndex": 8
+    },
+
+    {
+      "name": "n2000_spa",
+      "title": "Natura 2000 (SPA) — Fågeldirektivet",
+      "group": "natura2000",
+      "type": "WMS",
+      "source": "nv_n2000",
+      "id": "N2000_SPA",
+      "format": "image/png",
+      "sourceParams": { "TRANSPARENT": "true" },
+      "visible": false,
+      "queryable": false,
+      "zIndex": 7
+    },
+
+    {
+      "name": "nv_biotopskydd",
+      "title": "Biotopskyddsområden",
+      "group": "nv_rikstackande",
+      "type": "WMS",
+      "source": "nv_naturvardsregistret",
+      "id": "Ovrigt_biotopskyddsomrade",
+      "format": "image/png",
+      "sourceParams": { "TRANSPARENT": "true" },
+      "visible": false,
+      "queryable": false,
+      "zIndex": 6
+    },
+
+    {
+      "name": "nv_djur_vaxt",
+      "title": "Djur- och växtskyddsområden",
+      "group": "nv_rikstackande",
+      "type": "WMS",
+      "source": "nv_naturvardsregistret",
+      "id": "Djur_och_vaxtskyddsomrade",
+      "format": "image/png",
+      "sourceParams": { "TRANSPARENT": "true" },
+      "visible": false,
+      "queryable": false,
+      "zIndex": 5
+    },
+
+    {
+      "name": "skogs_avverkning",
+      "title": "Avverkningsanmälningar",
+      "group": "skog",
+      "type": "WMS",
+      "source": "skogs_avverkning",
+      "id": "0",
+      "format": "image/png",
+      "sourceParams": { "TRANSPARENT": "true" },
+      "visible": false,
+      "queryable": false,
+      "zIndex": 4
     }
 
   ],
 
   "styles": {
-    "karta_osm":  [[{ "image": { "src": "img/png/osm.png"  } }]],
-    "karta_topo": [[{ "image": { "src": "img/png/osm.png"  } }]],
+    "karta_osm":  [[{ "image": { "src": "img/png/osm.png" } }]],
+    "karta_topo": [[{ "image": { "src": "img/png/osm.png" } }]],
+    "karta_lm":   [[{ "image": { "src": "img/png/osm.png" } }]],
     "naturreservat_polygon": [
       [
         {
@@ -147,7 +237,7 @@
       "options": {
         "buttonText": "Om kartan",
         "title": "Naturkarta — Skyddad natur i Stockholms län",
-        "content": "<p>Kartan visar skyddade naturområden i Stockholms län — <strong>naturreservat</strong> och <strong>nationalparker</strong> med information om skyddstyp, areal, förvaltare och beslutsunderlag.</p><br><p><strong>Så här använder du kartan:</strong><br>Klicka på ett naturreservat (grönt) eller nationalpark (brunt) för att se detaljerad information om området.</p><br><p><strong>Datakällor:</strong><br><a href='https://www.naturvardsverket.se' target='_blank'>Naturvårdsverket</a> — Naturvårdsregistret (CC0)<br><a href='https://www.openstreetmap.org' target='_blank'>OpenStreetMap</a> — bakgrundskarta</p><br><p>Byggd med <a href='https://github.com/origo-map/origo' target='_blank'>Origo Map</a> v2.10.</p>"
+        "content": "<p>Kartan visar skyddade naturområden i Stockholms län — <strong>naturreservat</strong> och <strong>nationalparker</strong> med information om skyddstyp, areal, förvaltare och beslutsunderlag.</p><br><p>Aktivera grupperna <em>Natura 2000</em>, <em>Naturvårdsverket (fler skyddstyper)</em> och <em>Skogsbruk</em> i lagermenyn för rikstäckande WMS-lager.</p><br><p><strong>Datakällor:</strong><br><a href='https://www.naturvardsverket.se' target='_blank'>Naturvårdsverket</a> — Naturvårdsregistret &amp; Natura 2000-databasen (CC0)<br><a href='https://www.skogsstyrelsen.se' target='_blank'>Skogsstyrelsen</a> — Avverkningsanmälningar<br><a href='https://www.lantmateriet.se' target='_blank'>Lantmäteriet</a> — Topowebb (CC BY)<br><a href='https://www.openstreetmap.org' target='_blank'>OpenStreetMap</a> — bakgrundskarta</p><br><p>Byggd med <a href='https://github.com/origo-map/origo' target='_blank'>Origo Map</a> v2.10.</p>"
       }
     }
   ]
