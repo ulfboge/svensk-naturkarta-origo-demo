@@ -10,8 +10,8 @@
     }
   ],
   "extent": [-20026376.39, -20048966.10, 20026376.39, 20048966.10],
-  "center": [2050000, 8265000],
-  "zoom": 9,
+  "center": [2000000, 8220000],
+  "zoom": 8,
   "resolutions": [
     156543.03, 78271.52, 39135.76, 19567.88, 9783.94,
     4891.97,   2445.98,  1222.99,  611.50,   305.75,
@@ -28,7 +28,7 @@
 
   "groups": [
     { "name": "background",       "title": "Bakgrundskartor",                    "exclusive": true, "expanded": true  },
-    { "name": "naturskydd",        "title": "Skyddad natur (Stockholms län)",      "expanded": true  },
+    { "name": "naturskydd",        "title": "Skyddad natur (Sthlm + Sörmland)",    "expanded": true  },
     { "name": "natura2000",        "title": "Natura 2000",                         "expanded": false },
     { "name": "nv_rikstackande",   "title": "Naturvårdsverket (fler skyddstyper)", "expanded": false },
     { "name": "skog",              "title": "Skogsbruk (Skogsstyrelsen)",          "expanded": false }
@@ -75,20 +75,20 @@
       "title": "Naturreservat",
       "group": "naturskydd",
       "type": "GEOJSON",
-      "source": "data/naturreservat-stockholm.geojson",
+      "source": "data/naturreservat-sthlm-sod.geojson",
       "visible": true,
       "queryable": true,
       "zIndex": 10,
       "style": "naturreservat_polygon",
       "attributes": [
-        { "name": "NAMN",       "title": "Namn",          "prefix": ": " },
-        { "name": "SKYDDSTYP",  "title": "Skyddstyp",     "prefix": ": " },
-        { "name": "IUCNKAT",    "title": "IUCN-kategori", "prefix": ": " },
-        { "name": "AREA_HA",    "title": "Areal (ha)",    "prefix": ": " },
-        { "name": "URSBESLDAT", "title": "Beslutsdatum",  "prefix": ": " },
-        { "name": "LAN",        "title": "Län",           "prefix": ": " },
-        { "name": "KOMMUN",     "title": "Kommun",        "prefix": ": " },
-        { "name": "FORVALTARE", "title": "Förvaltare",    "prefix": ": " }
+        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
+        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
+        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
+        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
+        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": " },
+        { "name": "LAN",               "title": "Län",           "prefix": ": " },
+        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
+        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
       ]
     },
 
@@ -97,19 +97,19 @@
       "title": "Nationalparker",
       "group": "naturskydd",
       "type": "GEOJSON",
-      "source": "data/nationalparker-stockholm.geojson",
+      "source": "data/nationalparker-sthlm-sod.geojson",
       "visible": true,
       "queryable": true,
       "zIndex": 9,
       "style": "nationalpark_polygon",
       "attributes": [
-        { "name": "NAMN",       "title": "Namn",          "prefix": ": " },
-        { "name": "SKYDDSTYP",  "title": "Skyddstyp",     "prefix": ": " },
-        { "name": "IUCNKAT",    "title": "IUCN-kategori", "prefix": ": " },
-        { "name": "AREA_HA",    "title": "Areal (ha)",    "prefix": ": " },
-        { "name": "URSBESLDAT", "title": "Beslutsdatum",  "prefix": ": " },
-        { "name": "KOMMUN",     "title": "Kommun",        "prefix": ": " },
-        { "name": "FORVALTARE", "title": "Förvaltare",    "prefix": ": " }
+        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
+        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
+        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
+        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
+        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": " },
+        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
+        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
       ]
     },
 
