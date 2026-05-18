@@ -12,13 +12,13 @@ A portfolio web GIS application demonstrating Swedish nature conservation data u
 
 | Lager | Källa | Typ | Klickbar |
 |---|---|---|---|
-| Naturreservat (Sthlm + Sörmland) | Naturvårdsverket (CC0) | GeoJSON | ✅ |
-| Nationalparker (Stockholms län) | Naturvårdsverket (CC0) | GeoJSON | ✅ |
+| Naturreservat — Stockholms län | Naturvårdsverket (CC0) | GeoJSON | ✅ |
+| Naturreservat — Södermanlands län | Naturvårdsverket (CC0) | GeoJSON | ✅ |
+| Nationalparker — Stockholms län | Naturvårdsverket (CC0) | GeoJSON | ✅ |
 | Natura 2000 SCI — Habitatdirektivet | Naturvårdsverket | WMS | — |
 | Natura 2000 SPA — Fågeldirektivet | Naturvårdsverket | WMS | — |
 | Biotopskyddsområden | Naturvårdsverket | WMS | — |
 | Djur- och växtskyddsområden | Naturvårdsverket | WMS | — |
-| Avverkningsanmälningar | Skogsstyrelsen | WMS | — |
 | OpenStreetMap / OpenTopoMap | OSM | Tile | — |
 | Topowebb (Lantmäteriet) | Lantmäteriet (CC BY) | XYZ/WMTS | — |
 

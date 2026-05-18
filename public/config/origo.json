@@ -22,16 +22,14 @@
 
   "source": {
     "nv_naturvardsregistret": { "url": "https://geodata.naturvardsverket.se/naturvardsregistret/wms" },
-    "nv_n2000":               { "url": "https://geodata.naturvardsverket.se/n2000/wms" },
-    "skogs_avverkning":       { "url": "https://geodata.skogsstyrelsen.se/arcgis/services/Avverkningsanmalningar/MapServer/WmsServer" }
+    "nv_n2000":               { "url": "https://geodata.naturvardsverket.se/n2000/wms" }
   },
 
   "groups": [
     { "name": "background",       "title": "Bakgrundskartor",                    "exclusive": true, "expanded": true  },
-    { "name": "naturskydd",        "title": "Skyddad natur (Sthlm + Sörmland)",    "expanded": true  },
+    { "name": "naturskydd",        "title": "Skyddad natur",                       "expanded": true  },
     { "name": "natura2000",        "title": "Natura 2000",                         "expanded": false },
-    { "name": "nv_rikstackande",   "title": "Naturvårdsverket (fler skyddstyper)", "expanded": false },
-    { "name": "skog",              "title": "Skogsbruk (Skogsstyrelsen)",          "expanded": false }
+    { "name": "nv_rikstackande",   "title": "Naturvårdsverket (fler skyddstyper)", "expanded": false }
   ],
 
   "layers": [
@@ -71,11 +69,11 @@
     },
 
     {
-      "name": "nv_naturreservat",
-      "title": "Naturreservat",
+      "name": "nv_naturreservat_sthlm",
+      "title": "Naturreservat — Stockholms län",
       "group": "naturskydd",
       "type": "GEOJSON",
-      "source": "data/naturreservat-sthlm-sod.geojson",
+      "source": "data/naturreservat-stockholm-v2.geojson",
       "visible": true,
       "queryable": true,
       "zIndex": 10,
@@ -86,7 +84,27 @@
         { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
         { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
         { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": " },
-        { "name": "LAN",               "title": "Län",           "prefix": ": " },
+        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
+        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
+      ]
+    },
+
+    {
+      "name": "nv_naturreservat_sod",
+      "title": "Naturreservat — Södermanlands län",
+      "group": "naturskydd",
+      "type": "GEOJSON",
+      "source": "data/naturreservat-sodermanland.geojson",
+      "visible": true,
+      "queryable": true,
+      "zIndex": 10,
+      "style": "naturreservat_polygon",
+      "attributes": [
+        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
+        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
+        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
+        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
+        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": " },
         { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
         { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
       ]
@@ -94,7 +112,7 @@
 
     {
       "name": "nv_nationalparker",
-      "title": "Nationalparker",
+      "title": "Nationalparker — Stockholms län",
       "group": "naturskydd",
       "type": "GEOJSON",
       "source": "data/nationalparker-sthlm-sod.geojson",
@@ -169,20 +187,6 @@
       "zIndex": 5
     },
 
-    {
-      "name": "skogs_avverkning",
-      "title": "Avverkningsanmälningar",
-      "group": "skog",
-      "type": "WMS",
-      "source": "skogs_avverkning",
-      "id": "0",
-      "format": "image/png",
-      "sourceParams": { "TRANSPARENT": "true" },
-      "visible": false,
-      "queryable": false,
-      "zIndex": 4
-    }
-
   ],
 
   "styles": {
@@ -236,8 +240,8 @@
       "name": "about",
       "options": {
         "buttonText": "Om kartan",
-        "title": "Naturkarta — Skyddad natur i Stockholms län",
-        "content": "<p>Kartan visar skyddade naturområden i Stockholms län — <strong>naturreservat</strong> och <strong>nationalparker</strong> med information om skyddstyp, areal, förvaltare och beslutsunderlag.</p><br><p>Aktivera grupperna <em>Natura 2000</em>, <em>Naturvårdsverket (fler skyddstyper)</em> och <em>Skogsbruk</em> i lagermenyn för rikstäckande WMS-lager.</p><br><p><strong>Datakällor:</strong><br><a href='https://www.naturvardsverket.se' target='_blank'>Naturvårdsverket</a> — Naturvårdsregistret &amp; Natura 2000-databasen (CC0)<br><a href='https://www.skogsstyrelsen.se' target='_blank'>Skogsstyrelsen</a> — Avverkningsanmälningar<br><a href='https://www.lantmateriet.se' target='_blank'>Lantmäteriet</a> — Topowebb (CC BY)<br><a href='https://www.openstreetmap.org' target='_blank'>OpenStreetMap</a> — bakgrundskarta</p><br><p>Byggd med <a href='https://github.com/origo-map/origo' target='_blank'>Origo Map</a> v2.10.</p>"
+        "title": "Naturkarta — Skyddad natur",
+        "content": "<p>Kartan visar skyddade naturområden i <strong>Stockholms</strong> och <strong>Södermanlands</strong> län — naturreservat och nationalparker med information om skyddstyp, areal, förvaltare och beslutsunderlag.</p><br><p>Varje lager kan slås av och på individuellt i lagermenyn. Aktivera <em>Natura 2000</em> och <em>Naturvårdsverket (fler skyddstyper)</em> för rikstäckande WMS-lager.</p><br><p><strong>Datakällor:</strong><br><a href='https://www.naturvardsverket.se' target='_blank'>Naturvårdsverket</a> — Naturvårdsregistret &amp; Natura 2000-databasen (CC0)<br><a href='https://www.lantmateriet.se' target='_blank'>Lantmäteriet</a> — Topowebb (CC BY)<br><a href='https://www.openstreetmap.org' target='_blank'>OpenStreetMap</a> — bakgrundskarta</p><br><p>Byggd med <a href='https://github.com/origo-map/origo' target='_blank'>Origo Map</a> v2.10.</p>"
       }
     }
   ]
