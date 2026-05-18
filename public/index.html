@@ -31,10 +31,14 @@
 </head>
 <body>
 
-<!-- Map title overlay — positioned above the map canvas -->
+<!-- Map title + county selector overlay -->
 <div id="map-title">
   <span>Skyddad natur</span>
-  <small>Stockholms län</small>
+  <div id="county-selector">
+    <button class="county-btn active" data-county="both">Båda länen</button>
+    <button class="county-btn" data-county="sthlm">Stockholms län</button>
+    <button class="county-btn" data-county="sod">Södermanlands län</button>
+  </div>
 </div>
 
 <!-- #app-wrapper MUST be completely empty — Origo fills it entirely -->
@@ -43,10 +47,64 @@
 <!-- Origo UMD bundle — registers the global Origo() function -->
 <script src="js/origo.min.js"></script>
 
-<!-- Initialise the map — same pattern as Origo's own example index.html -->
+<!-- Initialise the map -->
 <script type="text/javascript">
   var viewer = Origo('config/origo.json');
-  window.viewer = viewer; // expose for browser console: viewer.getMap()
+  window.viewer = viewer;
+
+  // County extents in EPSG:3857 [minX, minY, maxX, maxY]
+  var EXTENTS = {
+    sthlm: [1903563, 8094429, 2237522, 8489337],
+    sod:   [1714320, 8051819, 2003751, 8333247],
+    both:  [1714320, 8051819, 2237522, 8489337]
+  };
+
+  // Which layers to show/hide per selection
+  var COUNTY_LAYERS = {
+    sthlm: { show: ['nv_naturreservat_sthlm', 'nv_nationalparker'],
+              hide: ['nv_naturreservat_sod'] },
+    sod:   { show: ['nv_naturreservat_sod'],
+              hide: ['nv_naturreservat_sthlm', 'nv_nationalparker'] },
+    both:  { show: ['nv_naturreservat_sthlm', 'nv_naturreservat_sod', 'nv_nationalparker'],
+              hide: [] }
+  };
+
+  function getOLLayer(name) {
+    return viewer.getMap().getLayers().getArray()
+      .find(function(l) { return l.get('name') === name; });
+  }
+
+  function selectCounty(county) {
+    var cfg = COUNTY_LAYERS[county];
+    cfg.show.forEach(function(n) {
+      var l = getOLLayer(n); if (l) l.setVisible(true);
+    });
+    cfg.hide.forEach(function(n) {
+      var l = getOLLayer(n); if (l) l.setVisible(false);
+    });
+    viewer.getMap().getView().fit(EXTENTS[county], {
+      size: viewer.getMap().getSize(),
+      padding: [60, 60, 60, 60],
+      duration: 600
+    });
+    document.querySelectorAll('.county-btn').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.county === county);
+    });
+  }
+
+  // Wait for Origo to finish initialising before wiring up buttons
+  function initSelector() {
+    if (!viewer.getMap || !viewer.getMap()) {
+      setTimeout(initSelector, 150);
+      return;
+    }
+    document.querySelectorAll('.county-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        selectCounty(btn.dataset.county);
+      });
+    });
+  }
+  setTimeout(initSelector, 400);
 </script>
 
 </body>
