@@ -155,7 +155,7 @@ Naturvårdsverket's WFS uses GML output only — `application/json` returns an e
 
 - [x] Jakttider — tillträdesförbud/interimistiska förbudszoner (WMS) + länk till NV:s jakttider
 - [ ] Fler län
-- [ ] Lantmäteriets fastighetsdata — markägare per reservat
+- [x] Lantmäteriets fastighetsdata — Fastighetsindelning WMS-lager + MinKarta-länk i popup och statistikpanel
 - [ ] Planerings- och dispensärenden (kommunala GIS-tjänster)
 
 ---

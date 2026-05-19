@@ -54,6 +54,9 @@
     },
     "nv_n2000": {
       "url": "https://geodata.naturvardsverket.se/n2000/wms"
+    },
+    "lm_fastighetsindelning": {
+      "url": "https://api.lantmateriet.se/open/fastighetsindelning-ccby/v1/wms/token/DIN_API_NYCKEL"
     }
   },
   "groups": [
@@ -62,6 +65,11 @@
       "title": "Bakgrundskartor",
       "exclusive": true,
       "expanded": true
+    },
+    {
+      "name": "lm_fastighet",
+      "title": "Lantmäteriet (kräver API-nyckel)",
+      "expanded": false
     },
     {
       "name": "naturskydd",
@@ -116,6 +124,21 @@
       "style": "karta_lm",
       "visible": false,
       "queryable": false
+    },
+    {
+      "name": "lm_fastighetsgranser",
+      "title": "Fastighetsgränser (kräver API-nyckel)",
+      "group": "lm_fastighet",
+      "type": "WMS",
+      "source": "lm_fastighetsindelning",
+      "id": "Fastighetsindelning",
+      "format": "image/png",
+      "sourceParams": {
+        "TRANSPARENT": "true"
+      },
+      "visible": false,
+      "queryable": false,
+      "zIndex": 20
     },
     {
       "name": "nv_naturreservat_sthlm",
@@ -826,7 +849,7 @@
       "options": {
         "buttonText": "Om kartan",
         "title": "Naturkarta — Skyddad natur",
-        "content": "<p>Kartan visar <strong>1 845 naturreservat</strong> och <strong>31 nationalparker</strong> i sex svenska län — Stockholm, Södermanland, Uppsala, Östergötland, Västra Götaland och Skåne — med detaljerad information om skyddstyp, areal, IUCN-kategori, förvaltare och beslutsunderlag.</p><br><p><strong>Funktioner:</strong><br>• Länsselector — välj län för att filtrera och zooma<br>• Reservatsökning — sök direkt på reservatets namn<br>• Statistikpanel — antal reservat, total areal och nationalparker per valt län<br>• Artobservationer — hämtar live-data från GBIF per reservat och per valt län<br>• Jakttider — länk till NV:s jakttider + tillträdesförbuds- och interimistiska förbudszoner som kartlager<br>• Klickbar popup med länk till Naturvårdsverkets databas, GBIF och Artportalen<br>• Natura 2000 och fler skyddstyper som WMS-lager</p><br><p><strong>Datakällor:</strong><br><a href='https://www.naturvardsverket.se' target='_blank'>Naturvårdsverket</a> — Naturvårdsregistret &amp; Natura 2000-databasen (CC0)<br><a href='https://www.gbif.org' target='_blank'>GBIF</a> / <a href='https://www.artportalen.se' target='_blank'>Artportalen</a> — artobservationer (öppna data)<br><a href='https://www.lantmateriet.se' target='_blank'>Lantmäteriet</a> — Topowebb (CC BY)<br><a href='https://www.openstreetmap.org' target='_blank'>OpenStreetMap</a> — bakgrundskarta</p><br><p>Byggd med <a href='https://github.com/origo-map/origo' target='_blank'>Origo Map</a> v2.10 — det öppna webbGIS-ramverk som används av svenska kommuner och länsstyrelser.</p>"
+        "content": "<p>Kartan visar <strong>1 845 naturreservat</strong> och <strong>31 nationalparker</strong> i sex svenska län — Stockholm, Södermanland, Uppsala, Östergötland, Västra Götaland och Skåne — med detaljerad information om skyddstyp, areal, IUCN-kategori, förvaltare och beslutsunderlag.</p><br><p><strong>Funktioner:</strong><br>• Länsselector — välj län för att filtrera och zooma<br>• Reservatsökning — sök direkt på reservatets namn<br>• Statistikpanel — antal reservat, total areal och nationalparker per valt län<br>• Artobservationer — hämtar live-data från GBIF per reservat och per valt län<br>• Jakttider — länk till NV:s jakttider + tillträdesförbuds- och interimistiska förbudszoner som kartlager<br>• Klickbar popup med länk till Naturvårdsverkets databas, GBIF och Artportalen<br>• Natura 2000 och fler skyddstyper som WMS-lager</p><br><p><strong>Datakällor:</strong><br><a href='https://www.naturvardsverket.se' target='_blank'>Naturvårdsverket</a> — Naturvårdsregistret &amp; Natura 2000-databasen (CC0)<br><a href='https://www.gbif.org' target='_blank'>GBIF</a> / <a href='https://www.artportalen.se' target='_blank'>Artportalen</a> — artobservationer (öppna data)<br><a href='https://www.lantmateriet.se' target='_blank'>Lantmäteriet</a> — Topowebb + Fastighetsindelning CC BY (kräver API-nyckel)<br><a href='https://www.openstreetmap.org' target='_blank'>OpenStreetMap</a> — bakgrundskarta</p><br><p>Byggd med <a href='https://github.com/origo-map/origo' target='_blank'>Origo Map</a> v2.10 — det öppna webbGIS-ramverk som används av svenska kommuner och länsstyrelser.</p>"
       }
     }
   ]

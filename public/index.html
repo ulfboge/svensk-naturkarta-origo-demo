@@ -78,6 +78,17 @@
       <a id="stats-ap-link" href="https://www.artportalen.se/ViewSighting/SearchSighting" target="_blank" style="margin-left:8px">Artportalen ↗</a>
     </div>
   </div>
+  <div class="stats-section" id="stats-lm">
+    <div class="stats-section-title">Fastighetsdata (LM)</div>
+    <div class="stats-row">
+      <span class="stats-label">Fastighetsgränser</span>
+      <span class="stats-value stats-hint">aktivera lager</span>
+    </div>
+    <div class="stats-row stats-row-link">
+      <a id="stats-minkarta-link" href="https://minkarta.lantmateriet.se/" target="_blank">MinKarta ↗</a>
+      <a href="https://www.lantmateriet.se/sv/geodata/vara-produkter/" target="_blank" style="margin-left:8px">LM Geodata ↗</a>
+    </div>
+  </div>
   <div class="stats-section" id="stats-hunting">
     <div class="stats-section-title">Jakt &amp; tillträde</div>
     <div class="stats-row">
@@ -117,6 +128,19 @@
   // Artportalen länskoder
   var COUNTY_AP_CODE = {
     sthlm: 'AB', sod: 'D', upp: 'C', ost: 'E', vg: 'O', skane: 'M', all: null
+  };
+
+  // Lantmäteriet MinKarta deep link — shows fastighetsgränser at coordinates
+  function minKartaUrl(lat, lon, zoom) {
+    zoom = zoom || 14;
+    return 'https://minkarta.lantmateriet.se/?lat=' + lat + '&lon=' + lon + '&zoom=' + zoom;
+  }
+
+  // County centre coordinates (WGS84) for MinKarta links in stats panel
+  var COUNTY_CENTRE = {
+    sthlm: [59.33, 18.07], sod: [59.00, 16.75], upp: [59.86, 17.63],
+    ost:   [58.41, 15.62], vg:  [57.71, 12.94], skane: [55.99, 13.59],
+    all:   [58.50, 15.00]
   };
 
   function artportalenUrl(county) {
@@ -214,9 +238,12 @@
               .then(function(r) { return r.json(); })
               .then(function(d) {
                 var count = fmtCount(d.count || 0);
+                var centreLat = ((parseFloat(bbox.minLat) + parseFloat(bbox.maxLat)) / 2).toFixed(5);
+                var centreLon = ((parseFloat(bbox.minLon) + parseFloat(bbox.maxLon)) / 2).toFixed(5);
                 li.innerHTML = '<b>Artobservationer</b>: ' + count + ' (2020–2025)<br>'
-                  + '<a href="' + gbifMapUrl(bbox) + '" target="_blank">Visa på GBIF ↗</a>'
-                  + ' &nbsp; <a href="https://www.artportalen.se/ViewSighting/SearchSighting" target="_blank">Artportalen ↗</a>';
+                  + '<a href="' + gbifMapUrl(bbox) + '" target="_blank">GBIF ↗</a>'
+                  + ' &nbsp;<a href="https://www.artportalen.se/ViewSighting/SearchSighting" target="_blank">Artportalen ↗</a>'
+                  + ' &nbsp;<a href="' + minKartaUrl(centreLat, centreLon) + '" target="_blank">Fastighetsgränser (LM) ↗</a>';
               })
               .catch(function() {
                 li.querySelector('.artobs-loading').textContent = '—';
@@ -257,6 +284,12 @@
     document.getElementById('stats-nr-count').textContent = s.nr.toLocaleString('sv-SE') + ' st';
     document.getElementById('stats-nr-area').textContent  = s.area.toLocaleString('sv-SE') + ' ha';
     document.getElementById('stats-np-count').textContent = s.np + ' st';
+    // Update MinKarta link to county centre
+    var mkEl = document.getElementById('stats-minkarta-link');
+    if (mkEl && COUNTY_CENTRE[county]) {
+      var c = COUNTY_CENTRE[county];
+      mkEl.href = minKartaUrl(c[0], c[1], 10);
+    }
   }
 
   // County extents in EPSG:3857 [minX, minY, maxX, maxY]
