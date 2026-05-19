@@ -218,6 +218,20 @@ body {
   white-space: nowrap;
 }
 
+/* ── Artobservationer — stats panel link row ── */
+.stats-row-link { justify-content: flex-start; margin-top: 2px; }
+.stats-row-link a {
+  font-size: 10px;
+  font-weight: 600;
+  color: #52b788;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.stats-row-link a:hover { text-decoration: underline; }
+
+/* Popup artobs loading text */
+.artobs-loading { color: #95c9aa; font-style: italic; font-size: 11px; }
+
 /* ── Mobile: tighten everything below 520 px ── */
 @media (max-width: 520px) {
   #stats-panel { min-width: 140px; bottom: 36px; left: 6px; }

@@ -67,8 +67,17 @@
       <span class="stats-value" id="stats-np-count">—</span>
     </div>
   </div>
-  <!-- Framtida sektioner läggs till här:
-  <div class="stats-section" id="stats-species">Artobservationer</div>
+  <div class="stats-section" id="stats-artobs">
+    <div class="stats-section-title">Artobservationer (GBIF)</div>
+    <div class="stats-row">
+      <span class="stats-label">2020–2025</span>
+      <span class="stats-value" id="stats-gbif-count">—</span>
+    </div>
+    <div class="stats-row stats-row-link">
+      <a id="stats-gbif-link" href="https://www.gbif.org/occurrence/map?country=SE" target="_blank">Utforska på GBIF ↗</a>
+    </div>
+  </div>
+  <!-- Framtida sektioner:
   <div class="stats-section" id="stats-hunting">Jakttider</div>
   -->
 </div>
@@ -83,6 +92,118 @@
 <script type="text/javascript">
   var viewer = Origo('config/origo.json');
   window.viewer = viewer;
+
+  // ── GBIF / Artdatabanken helpers ──────────────────────────────────────────
+
+  // Exact WGS84 bboxes per county (derived from actual GeoJSON extents)
+  var COUNTY_BBOX = {
+    sthlm: { minLat: 58.766, maxLat: 60.228, minLon: 17.333, maxLon: 19.916 },
+    sod:   { minLat: 58.612, maxLat: 59.514, minLon: 15.704, maxLon: 17.789 },
+    upp:   { minLat: 59.398, maxLat: 60.705, minLon: 16.735, maxLon: 18.952 },
+    ost:   { minLat: 57.705, maxLat: 58.983, minLon: 14.543, maxLon: 17.209 },
+    vg:    { minLat: 57.146, maxLat: 59.252, minLon: 10.942, maxLon: 14.716 },
+    skane: { minLat: 55.269, maxLat: 56.557, minLon: 12.117, maxLon: 14.577 },
+    all:   { minLat: 55.269, maxLat: 60.705, minLon: 10.942, maxLon: 19.916 }
+  };
+
+  // Convert EPSG:3857 extent → WGS84 bbox object
+  function extentToWGS84(ext) {
+    var R = 20037508.34;
+    function lon(x) { return x * 180 / R; }
+    function lat(y) { return Math.atan(Math.exp(y * Math.PI / R)) * 360 / Math.PI - 90; }
+    return {
+      minLat: lat(ext[1]).toFixed(4), maxLat: lat(ext[3]).toFixed(4),
+      minLon: lon(ext[0]).toFixed(4), maxLon: lon(ext[2]).toFixed(4)
+    };
+  }
+
+  function gbifUrl(bbox) {
+    return 'https://api.gbif.org/v1/occurrence/search?country=SE'
+      + '&decimalLatitude='  + bbox.minLat + ',' + bbox.maxLat
+      + '&decimalLongitude=' + bbox.minLon + ',' + bbox.maxLon
+      + '&year=2020,2025&limit=0';
+  }
+
+  function gbifMapUrl(bbox) {
+    return 'https://www.gbif.org/occurrence/map?country=SE'
+      + '&decimalLatitude='  + bbox.minLat + ',' + bbox.maxLat
+      + '&decimalLongitude=' + bbox.minLon + ',' + bbox.maxLon;
+  }
+
+  function fmtCount(n) {
+    if (n >= 1000000) return (n / 1000000).toFixed(1).replace('.', ',') + ' milj.';
+    return n.toLocaleString('sv-SE') + ' st';
+  }
+
+  // ── County stats: artobservationer ───────────────────────────────────────
+
+  function updateArtobsStats(county) {
+    var countEl = document.getElementById('stats-gbif-count');
+    var linkEl  = document.getElementById('stats-gbif-link');
+    var bbox    = COUNTY_BBOX[county];
+    if (!bbox) return;
+
+    countEl.textContent = 'hämtar…';
+    linkEl.href = gbifMapUrl(bbox);
+
+    fetch(gbifUrl(bbox))
+      .then(function(r) { return r.json(); })
+      .then(function(d) { countEl.textContent = fmtCount(d.count || 0); })
+      .catch(function()  { countEl.textContent = '—'; });
+  }
+
+  // ── Popup: artobservationer per klickat reservat ──────────────────────────
+
+  var lastClickBbox = null;
+
+  function initArtobs() {
+    var map = viewer.api().getMap();
+
+    // Capture bbox of clicked NR/NP feature
+    map.on('singleclick', function(evt) {
+      lastClickBbox = null;
+      map.forEachFeatureAtPixel(evt.pixel, function(f, layer) {
+        if (!layer) return;
+        var n = layer.get('name') || '';
+        if (n.indexOf('nv_naturreservat') === -1 && n.indexOf('nv_nationalparker') === -1) return;
+        lastClickBbox = extentToWGS84(f.getGeometry().getExtent());
+        return true;
+      });
+    });
+
+    // Inject Artobs row into popup when it opens
+    new MutationObserver(function(muts) {
+      muts.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType !== 1) return;
+          var targets = [];
+          if (node.classList && node.classList.contains('o-identify-content')) {
+            targets = [node];
+          } else if (node.querySelectorAll) {
+            targets = Array.from(node.querySelectorAll('.o-identify-content'));
+          }
+          targets.forEach(function(el) {
+            if (el.dataset.artobs || !lastClickBbox) return;
+            el.dataset.artobs = '1';
+            var li = document.createElement('li');
+            li.innerHTML = '<b>Artobservationer</b>: <span class="artobs-loading">hämtar…</span>';
+            el.appendChild(li);
+            var bbox = lastClickBbox;
+            fetch(gbifUrl(bbox))
+              .then(function(r) { return r.json(); })
+              .then(function(d) {
+                var count = fmtCount(d.count || 0);
+                li.innerHTML = '<b>Artobservationer</b>: ' + count + ' (2020–2025) '
+                  + '<a href="' + gbifMapUrl(bbox) + '" target="_blank" title="Visa på GBIF">↗</a>';
+              })
+              .catch(function() {
+                li.querySelector('.artobs-loading').textContent = '—';
+              });
+          });
+        });
+      });
+    }).observe(document.body, { childList: true, subtree: true });
+  }
 
   // County display names for stats panel
   var COUNTY_NAMES = {
@@ -189,6 +310,7 @@
       b.classList.toggle('active', b.dataset.county === county);
     });
     updateStats(county);
+    updateArtobsStats(county);
     rebuildSearch(county);
   }
 
@@ -202,6 +324,8 @@
     });
     initSearch();
     updateStats('all');
+    updateArtobsStats('all');
+    initArtobs();
   }
   setTimeout(initSelector, 600);
 
