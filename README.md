@@ -1,10 +1,20 @@
-# Naturkarta — Skyddad natur och skog
+# Naturkarta — Skyddad natur
 
-**[Öppna kartan](https://ulfboge.github.io/svensk-naturkarta-origo-demo/) →**
+**[Öppna kartan →](https://ulfboge.github.io/svensk-naturkarta-origo-demo/)**
 
-A portfolio web GIS application demonstrating Swedish nature conservation data using [Origo Map](https://github.com/origo-map/origo) — the open-source GIS framework used by Swedish municipalities and county administrative boards (_länsstyrelser_).
+A portfolio web GIS application showing Swedish nature conservation data using [Origo Map](https://github.com/origo-map/origo) — the open-source GIS framework used by Swedish municipalities and county administrative boards (_länsstyrelser_).
 
 > The application mimics a realistic Swedish municipal/regional nature conservation GIS portal.
+
+---
+
+## Screenshots
+
+![Karta med lagerpanel öppen](docs/screenshot-overview.png)
+*Naturreservat och nationalparker i Stockholms och Södermanlands län. Lagerpanel med undermapp och county-selector.*
+
+![Popup på ett naturreservat](docs/screenshot-popup.png)
+*Klickbar popup med namn, skyddstyp, IUCN-kategori, areal, beslutsdatum, kommun och förvaltare.*
 
 ---
 
@@ -14,7 +24,7 @@ A portfolio web GIS application demonstrating Swedish nature conservation data u
 |---|---|---|---|
 | Naturreservat — Stockholms län | Naturvårdsverket (CC0) | GeoJSON | ✅ |
 | Naturreservat — Södermanlands län | Naturvårdsverket (CC0) | GeoJSON | ✅ |
-| Nationalparker — Stockholms län | Naturvårdsverket (CC0) | GeoJSON | ✅ |
+| Nationalparker — Stockholms/Södermanlands | Naturvårdsverket (CC0) | GeoJSON | ✅ |
 | Natura 2000 SCI — Habitatdirektivet | Naturvårdsverket | WMS | — |
 | Natura 2000 SPA — Fågeldirektivet | Naturvårdsverket | WMS | — |
 | Biotopskyddsområden | Naturvårdsverket | WMS | — |
@@ -22,7 +32,7 @@ A portfolio web GIS application demonstrating Swedish nature conservation data u
 | OpenStreetMap / OpenTopoMap | OSM | Tile | — |
 | Topowebb (Lantmäteriet) | Lantmäteriet (CC BY) | XYZ/WMTS | — |
 
-Klicka på ett naturreservat eller en nationalpark i Stockholmsområdet för popup med: namn, skyddstyp, IUCN-kategori, areal, beslutsdatum, län, kommun och förvaltare.
+**County selector** — knappar i kartans överdel filtrerar GeoJSON-lagren per län (Stockholms / Södermanlands / Båda) och zoomar kartan till valt läns utbredning.
 
 ---
 
@@ -50,11 +60,12 @@ public/
   config/
     origo.json    ← THE file to edit: layers, styles, controls
   data/
-    naturreservat-stockholm.geojson   383 nature reserves, Stockholms Län
-    sample-skyddade.geojson           8 handpicked national parks (points)
+    naturreservat-stockholm-v2.geojson   383 naturreservat, Stockholms län
+    naturreservat-sodermanland.geojson   196 naturreservat, Södermanlands län
+    nationalparker-sthlm-sod.geojson     3 nationalparker
   src/
     style.css     Custom nature-green theme overrides
-  index.html      Loads origo.min.js and calls Origo('config/origo.json')
+  index.html      Loads origo.min.js, calls Origo('config/origo.json'), county selector JS
 ```
 
 ---
@@ -62,7 +73,7 @@ public/
 ## How to run
 
 ```powershell
-git clone https://github.com/YOUR_USERNAME/svensk-naturkarta-origo-demo
+git clone https://github.com/ulfboge/svensk-naturkarta-origo-demo
 cd svensk-naturkarta-origo-demo
 python -m http.server 3000 --directory public
 # Open http://localhost:3000
@@ -74,13 +85,11 @@ No install step. No compilation. Open and edit.
 
 1. Registrera ett konto på [opendata.lantmateriet.se](https://opendata.lantmateriet.se/)
 2. Skapa en applikation och kopiera din API-nyckel
-3. Ersätt `DIN_API_NYCKEL` i `public/config/origo.json` (sök på strängen):
+3. Ersätt `DIN_API_NYCKEL` i `public/config/origo.json`:
 
 ```json
 "url": "https://api.lantmateriet.se/open/topowebb-ccby/v1/wmts/token/DIN_API_NYCKEL/..."
 ```
-
-Lagret *Topowebb (Lantmäteriet)* visas direkt i bakgrundskarta-gruppen efter att nyckeln är insatt.
 
 ---
 
@@ -96,22 +105,21 @@ All configuration lives in `public/config/origo.json`. The Origo WMS pattern use
 },
 "layers": [
   {
-    "name": "nv_naturreservat",
-    "title": "Naturreservat",
-    "group": "naturskydd",
+    "name": "nv_biotopskydd",
+    "title": "Biotopskyddsområden",
+    "group": "nv_rikstackande",
     "type": "WMS",
     "source": "naturvardsverket",
-    "id": "Naturreservat",
+    "id": "Ovrigt_biotopskyddsomrade",
     "format": "image/png",
     "sourceParams": { "TRANSPARENT": "true" },
-    "visible": true,
-    "queryable": false,
-    "opacity": 0.75
+    "visible": false,
+    "queryable": false
   }
 ]
 ```
 
-`"id"` becomes the `LAYERS=` WMS parameter. `"sourceParams"` maps to additional WMS query parameters. The layer's own `"url"` property is ignored by Origo — always use a named source.
+`"id"` becomes the `LAYERS=` WMS parameter. The layer's own `"url"` property is ignored by Origo — always use a named source.
 
 ## How to add a clickable GeoJSON layer
 
@@ -127,13 +135,11 @@ All configuration lives in `public/config/origo.json`. The Origo WMS pattern use
   "zIndex": 10,
   "style": "my_style",
   "attributes": [
-    { "name": "NAMN",    "title": "Namn",     "prefix": ": " },
+    { "name": "NAMN",    "title": "Namn",       "prefix": ": " },
     { "name": "AREA_HA", "title": "Areal (ha)", "prefix": ": " }
   ]
 }
 ```
-
-`"zIndex": 10` ensures the vector layer renders on top of tile basemaps. `"prefix": ": "` adds the separator between label and value in the popup.
 
 ---
 
@@ -143,62 +149,49 @@ All configuration lives in `public/config/origo.json`. The Origo WMS pattern use
 |---|---|---|
 | Naturreservat, Nationalparker, Natura 2000 | [Naturvårdsverket](https://www.naturvardsverket.se/om-oss/oppna-data-och-apier/) | CC0 |
 | Biotopskydd, Djur- och växtskydd | [Naturvårdsverket](https://www.naturvardsverket.se/om-oss/oppna-data-och-apier/) | CC0 |
-| Avverkningsanmälningar | [Skogsstyrelsen](https://www.skogsstyrelsen.se/sjalvservice/karttjanster/) | Öppen |
 | Topowebb | [Lantmäteriet](https://opendata.lantmateriet.se/) | CC BY |
 | Bakgrundskarta | [OpenStreetMap](https://www.openstreetmap.org/) contributors | ODbL |
 | Bakgrundskarta | [OpenTopoMap](https://opentopomap.org/) | CC-BY-SA |
 
-The GeoJSON file `naturreservat-stockholm.geojson` was fetched directly from Naturvårdsverket's WFS endpoint using an OGC XML spatial filter and converted with 5-decimal coordinate rounding (~1 m precision).
+GeoJSON-filerna hämtades från Naturvårdsverkets WFS-tjänst med OGC XML spatial filter och koordinater rundade till 5 decimaler (~1 m precision).
 
 ---
 
 ## Architecture decisions
 
 **Why Origo Map?**
-Origo is the de facto standard framework for Swedish municipal web GIS. It is used by hundreds of Swedish _kommuner_ and _länsstyrelser_. Knowing Origo is a directly marketable skill. It is built on OpenLayers 9, so knowledge transfers to both ecosystems.
+Origo is the de facto standard framework for Swedish municipal web GIS. It is used by hundreds of Swedish _kommuner_ and _länsstyrelser_. Knowing Origo is a directly marketable skill — built on OpenLayers 9, so knowledge transfers to both ecosystems.
 
 **Why no build step / no npm?**
-Origo is distributed as a pre-built UMD bundle. Adding Vite or webpack adds complexity with no functional gain for a configuration-driven app. The Python dev server mirrors how Swedish municipalities typically serve Origo in production environments.
+Origo is distributed as a pre-built UMD bundle. The Python dev server mirrors how Swedish municipalities typically serve Origo in production environments.
 
 **Why static GeoJSON instead of live WFS?**
-Naturvårdsverket's WFS is an ESRI ArcGIS Server endpoint. Origo's WFS client hardcodes `outputFormat=application/json`, which the server rejects — it only accepts GML 3.2 output formats. Pre-downloading as static GeoJSON is the pragmatic solution: it loads faster, works offline, and avoids CORS issues.
+Naturvårdsverket's WFS only accepts GML output formats — `application/json` returns an ExceptionReport. Pre-downloading as static GeoJSON loads faster, works offline, and avoids CORS issues.
 
 **Why EPSG:3857?**
-Web Mercator matches OSM and OpenTopoMap tile pyramids. Coordinate display is converted to SWEREF99 TM (Swedish national grid) and WGS84 in the position control.
+Web Mercator matches OSM and OpenTopoMap tile pyramids. Coordinate display is converted to SWEREF99 TM and WGS84 in the position control.
 
 ---
 
 ## Roadmap
 
-### Phase 2 — ✅ Klart
+### ✅ Klart
 
-- [x] Klickbara GeoJSON-lager (naturreservat + nationalparker, Stockholms län)
-- [x] Natura 2000 WMS (SCI + SPA)
+- [x] Origo Map v2.10 deployed as static site on GitHub Pages
+- [x] OSM, OpenTopoMap och Lantmäteriet Topowebb som bakgrundskartor
+- [x] Klickbara GeoJSON-lager — naturreservat (Stockholm + Södermanland) och nationalparker
+- [x] Natura 2000 WMS (SCI Habitatdirektivet + SPA Fågeldirektivet)
 - [x] Biotopskyddsområden och djur- och växtskyddsområden (NV WMS)
-- [x] Avverkningsanmälningar (Skogsstyrelsen WMS)
-- [x] Lantmäteriet Topowebb konfigurerad (kräver API-nyckel)
-- [x] GitHub Pages-driftsättning via GitHub Actions
+- [x] County selector — filtrera per Stockholms/Södermanlands/Båda länen
+- [x] Undermapp "Naturreservat" i lagerpanelen under Skyddad natur
 
-### Phase 3 — Nästa steg
+### Nästa steg
 
-- [ ] Verifiera WMS-lager på live-siten (layer-ID-kontroll)
+- [ ] Formaterad popup (tusenseparator för areal, datumformatering)
 - [ ] Strandskydd (NV WMS)
-- [ ] Utöka GeoJSON-täckning till fler län
+- [ ] Fler län (Uppsala, Östergötland)
 - [ ] Sökfunktion över reservatnamn
-
-### Phase 4 — UX
-
-- [ ] Formatted popup values (area with thousands separator, date localisation)
-- [ ] Name search across reservat
-- [ ] Print layout with Swedish map frame
-- [ ] Mobile-responsive layout
-
-### Phase 5 — Backend (future)
-
-- [ ] QGIS Server serving a QGIS project as WMS/WFS
-- [ ] PostGIS database with full NV dataset
-- [ ] Docker Compose: QGIS Server + PostGIS
-- [ ] GeoServer as alternative to QGIS Server
+- [ ] Mobilanpassning av county selector
 
 ---
 
@@ -208,9 +201,6 @@ Web Mercator matches OSM and OpenTopoMap tile pyramids. Coordinate display is co
 |---|---|
 | NV Naturvårdsregistret | [Länk](https://geodata.naturvardsverket.se/naturvardsregistret/wms?SERVICE=WMS&REQUEST=GetCapabilities) |
 | NV Natura 2000 | [Länk](https://geodata.naturvardsverket.se/n2000/wms?SERVICE=WMS&REQUEST=GetCapabilities) |
-| Skogsstyrelsen (avverkning) | [Länk](https://geodata.skogsstyrelsen.se/arcgis/services/Avverkningsanmalningar/MapServer/WmsServer?REQUEST=GetCapabilities) |
-
-> ⚠️ Den gamla URL:en `geodata.naturvardsverket.se/naturvardsverket/ows` är **borttagen (404)**. Använd URL:erna ovan.
 
 ---
 
