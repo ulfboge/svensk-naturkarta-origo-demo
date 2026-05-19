@@ -35,9 +35,11 @@
 <div id="map-title">
   <span>Skyddad natur</span>
   <div id="county-selector">
-    <button class="county-btn active" data-county="both">Båda länen</button>
-    <button class="county-btn" data-county="sthlm">Stockholms län</button>
-    <button class="county-btn" data-county="sod">Södermanlands län</button>
+    <button class="county-btn active" data-county="all">Alla</button>
+    <button class="county-btn" data-county="sthlm">Stockholm</button>
+    <button class="county-btn" data-county="sod">Södermanland</button>
+    <button class="county-btn" data-county="upp">Uppsala</button>
+    <button class="county-btn" data-county="ost">Östergötland</button>
   </div>
 </div>
 
@@ -56,17 +58,26 @@
   var EXTENTS = {
     sthlm: [1903563, 8094429, 2237522, 8489337],
     sod:   [1714320, 8051819, 2003751, 8333247],
-    both:  [1714320, 8051819, 2237522, 8489337]
+    upp:   [1831000, 8350000, 2226000, 8726000],
+    ost:   [1629000, 7920000, 2003000, 8228000],
+    all:   [1629000, 7920000, 2237522, 8726000]
   };
+
+  var ALL_LAYERS = ['nv_naturreservat_sthlm', 'nv_naturreservat_sod',
+                    'nv_naturreservat_uppsala', 'nv_naturreservat_ostergotland',
+                    'nv_nationalparker'];
 
   // Which layers to show/hide per selection
   var COUNTY_LAYERS = {
     sthlm: { show: ['nv_naturreservat_sthlm', 'nv_nationalparker'],
-              hide: ['nv_naturreservat_sod'] },
+              hide: ['nv_naturreservat_sod', 'nv_naturreservat_uppsala', 'nv_naturreservat_ostergotland'] },
     sod:   { show: ['nv_naturreservat_sod'],
-              hide: ['nv_naturreservat_sthlm', 'nv_nationalparker'] },
-    both:  { show: ['nv_naturreservat_sthlm', 'nv_naturreservat_sod', 'nv_nationalparker'],
-              hide: [] }
+              hide: ['nv_naturreservat_sthlm', 'nv_nationalparker', 'nv_naturreservat_uppsala', 'nv_naturreservat_ostergotland'] },
+    upp:   { show: ['nv_naturreservat_uppsala'],
+              hide: ['nv_naturreservat_sthlm', 'nv_naturreservat_sod', 'nv_naturreservat_ostergotland', 'nv_nationalparker'] },
+    ost:   { show: ['nv_naturreservat_ostergotland'],
+              hide: ['nv_naturreservat_sthlm', 'nv_naturreservat_sod', 'nv_naturreservat_uppsala', 'nv_nationalparker'] },
+    all:   { show: ALL_LAYERS, hide: [] }
   };
 
   function findOLLayer(name) {
@@ -109,7 +120,7 @@
   function initSelector() {
     var map = viewer.api && viewer.api().getMap && viewer.api().getMap();
     if (!map) { setTimeout(initSelector, 200); return; }
-    if (!findOLLayer('nv_naturreservat_sthlm')) { setTimeout(initSelector, 200); return; }
+    if (!findOLLayer('nv_naturreservat_sthlm') && !findOLLayer('nv_naturreservat_sod')) { setTimeout(initSelector, 200); return; }
     document.querySelectorAll('.county-btn').forEach(function(btn) {
       btn.addEventListener('click', function() { selectCounty(btn.dataset.county); });
     });

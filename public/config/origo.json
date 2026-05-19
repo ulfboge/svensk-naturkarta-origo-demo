@@ -114,6 +114,50 @@
     },
 
     {
+      "name": "nv_naturreservat_uppsala",
+      "title": "Naturreservat — Uppsala län",
+      "group": "naturreservat_group",
+      "type": "GEOJSON",
+      "source": "data/naturreservat-uppsala.geojson",
+      "visible": false,
+      "queryable": true,
+      "zIndex": 10,
+      "style": "naturreservat_polygon",
+      "attributes": [
+        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
+        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
+        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
+        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
+        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
+          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
+        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
+        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
+      ]
+    },
+
+    {
+      "name": "nv_naturreservat_ostergotland",
+      "title": "Naturreservat — Östergötlands län",
+      "group": "naturreservat_group",
+      "type": "GEOJSON",
+      "source": "data/naturreservat-ostergotland.geojson",
+      "visible": false,
+      "queryable": true,
+      "zIndex": 10,
+      "style": "naturreservat_polygon",
+      "attributes": [
+        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
+        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
+        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
+        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
+        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
+          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
+        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
+        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
+      ]
+    },
+
+    {
       "name": "nv_nationalparker",
       "title": "Nationalparker — Stockholms län",
       "group": "naturskydd",
