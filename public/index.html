@@ -95,57 +95,25 @@
     all:   'Alla sex länen'
   };
 
-  // Which NR layers to count per county selection
-  var COUNTY_NR_LAYERS = {
-    sthlm: ['nv_naturreservat_sthlm'],
-    sod:   ['nv_naturreservat_sod'],
-    upp:   ['nv_naturreservat_uppsala'],
-    ost:   ['nv_naturreservat_ostergotland'],
-    vg:    ['nv_naturreservat_vastragotaland'],
-    skane: ['nv_naturreservat_skane'],
-    all:   ['nv_naturreservat_sthlm','nv_naturreservat_sod',
-             'nv_naturreservat_uppsala','nv_naturreservat_ostergotland',
-             'nv_naturreservat_vastragotaland','nv_naturreservat_skane']
-  };
-
-  // Substring to match LAN field in nationalparker layer
-  var COUNTY_NP_MATCH = {
-    sthlm: 'Stockholms',
-    sod:   'Södermanlands',
-    upp:   'Uppsala',
-    ost:   'Östergötlands',
-    vg:    'Västra Götalands',
-    skane: 'Skåne',
-    all:   ''
+  // Pre-calculated stats — avoids Origo's lazy-loading issue (hidden layers have no features yet)
+  // Counts and areas calculated from GeoJSON files at build time.
+  var COUNTY_STATS = {
+    sthlm: { nr:  383, area:  189182, np:  3 },
+    sod:   { nr:  196, area:   52371, np:  0 },
+    upp:   { nr:  201, area:  109518, np:  1 },
+    ost:   { nr:  329, area:   67253, np:  0 },
+    vg:    { nr:  545, area:  162741, np:  4 },
+    skane: { nr:  391, area:  161528, np:  3 },
+    all:   { nr: 2045, area:  742593, np: 31 }
   };
 
   function updateStats(county) {
-    var nrCount = 0, totalArea = 0;
-    (COUNTY_NR_LAYERS[county] || []).forEach(function(name) {
-      var l = findOLLayer(name);
-      if (!l || !l.getSource) return;
-      l.getSource().getFeatures().forEach(function(f) {
-        nrCount++;
-        var a = parseFloat(f.get('AREA_HA'));
-        if (!isNaN(a)) totalArea += a;
-      });
-    });
-
-    var npMatch = COUNTY_NP_MATCH[county];
-    var npCount = 0;
-    var npLayer = findOLLayer('nv_nationalparker');
-    if (npLayer && npLayer.getSource) {
-      npLayer.getSource().getFeatures().forEach(function(f) {
-        var lan = f.get('LAN') || '';
-        if (npMatch === '' || lan.indexOf(npMatch) !== -1) npCount++;
-      });
-    }
-
+    var s = COUNTY_STATS[county];
+    if (!s) return;
     document.getElementById('stats-county').textContent   = COUNTY_NAMES[county] || county;
-    document.getElementById('stats-nr-count').textContent = nrCount.toLocaleString('sv-SE') + ' st';
-    document.getElementById('stats-nr-area').textContent  =
-      Math.round(totalArea).toLocaleString('sv-SE') + ' ha';
-    document.getElementById('stats-np-count').textContent = npCount + ' st';
+    document.getElementById('stats-nr-count').textContent = s.nr.toLocaleString('sv-SE') + ' st';
+    document.getElementById('stats-nr-area').textContent  = s.area.toLocaleString('sv-SE') + ' ha';
+    document.getElementById('stats-np-count').textContent = s.np + ' st';
   }
 
   // County extents in EPSG:3857 [minX, minY, maxX, maxY]
