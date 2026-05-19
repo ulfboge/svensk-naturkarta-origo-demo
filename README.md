@@ -13,7 +13,7 @@ A portfolio web GIS application showing Swedish nature conservation data using [
 ![Karta med lagerpanel öppen](docs/screenshot-overview.png)
 *Naturreservat och nationalparker i Stockholms och Södermanlands län. Lagerpanel med undermapp och county-selector.*
 
-![Popup på ett naturreservat](docs/screenshot-popup.png)
+![Popup på ett naturreservat](docs/screenshot-pop-up.png)
 *Klickbar popup med namn, skyddstyp, IUCN-kategori, areal, beslutsdatum, kommun och förvaltare.*
 
 ---
