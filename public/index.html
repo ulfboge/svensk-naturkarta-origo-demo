@@ -47,6 +47,30 @@
   </div>
 </div>
 
+<!-- Statistics panel — bottom-right, extensible with future data sources -->
+<div id="stats-panel">
+  <div class="stats-header" id="stats-county">Alla fyra länen</div>
+  <div class="stats-section" id="stats-nature">
+    <div class="stats-section-title">Skyddad natur</div>
+    <div class="stats-row">
+      <span class="stats-label">Naturreservat</span>
+      <span class="stats-value" id="stats-nr-count">—</span>
+    </div>
+    <div class="stats-row">
+      <span class="stats-label">Total areal</span>
+      <span class="stats-value" id="stats-nr-area">—</span>
+    </div>
+    <div class="stats-row">
+      <span class="stats-label">Nationalparker</span>
+      <span class="stats-value" id="stats-np-count">—</span>
+    </div>
+  </div>
+  <!-- Framtida sektioner läggs till här:
+  <div class="stats-section" id="stats-species">Artobservationer</div>
+  <div class="stats-section" id="stats-hunting">Jakttider</div>
+  -->
+</div>
+
 <!-- #app-wrapper MUST be completely empty — Origo fills it entirely -->
 <div id="app-wrapper"></div>
 
@@ -57,6 +81,63 @@
 <script type="text/javascript">
   var viewer = Origo('config/origo.json');
   window.viewer = viewer;
+
+  // County display names for stats panel
+  var COUNTY_NAMES = {
+    sthlm: 'Stockholms län',
+    sod:   'Södermanlands län',
+    upp:   'Uppsala län',
+    ost:   'Östergötlands län',
+    all:   'Alla fyra länen'
+  };
+
+  // Which NR layers to count per county selection
+  var COUNTY_NR_LAYERS = {
+    sthlm: ['nv_naturreservat_sthlm'],
+    sod:   ['nv_naturreservat_sod'],
+    upp:   ['nv_naturreservat_uppsala'],
+    ost:   ['nv_naturreservat_ostergotland'],
+    all:   ['nv_naturreservat_sthlm','nv_naturreservat_sod',
+             'nv_naturreservat_uppsala','nv_naturreservat_ostergotland']
+  };
+
+  // Substring to match LAN field in nationalparker layer
+  var COUNTY_NP_MATCH = {
+    sthlm: 'Stockholms',
+    sod:   'Södermanlands',
+    upp:   'Uppsala',
+    ost:   'Östergötlands',
+    all:   ''
+  };
+
+  function updateStats(county) {
+    var nrCount = 0, totalArea = 0;
+    (COUNTY_NR_LAYERS[county] || []).forEach(function(name) {
+      var l = findOLLayer(name);
+      if (!l || !l.getSource) return;
+      l.getSource().getFeatures().forEach(function(f) {
+        nrCount++;
+        var a = parseFloat(f.get('AREA_HA'));
+        if (!isNaN(a)) totalArea += a;
+      });
+    });
+
+    var npMatch = COUNTY_NP_MATCH[county];
+    var npCount = 0;
+    var npLayer = findOLLayer('nv_nationalparker');
+    if (npLayer && npLayer.getSource) {
+      npLayer.getSource().getFeatures().forEach(function(f) {
+        var lan = f.get('LAN') || '';
+        if (npMatch === '' || lan.indexOf(npMatch) !== -1) npCount++;
+      });
+    }
+
+    document.getElementById('stats-county').textContent   = COUNTY_NAMES[county] || county;
+    document.getElementById('stats-nr-count').textContent = nrCount.toLocaleString('sv-SE') + ' st';
+    document.getElementById('stats-nr-area').textContent  =
+      Math.round(totalArea).toLocaleString('sv-SE') + ' ha';
+    document.getElementById('stats-np-count').textContent = npCount + ' st';
+  }
 
   // County extents in EPSG:3857 [minX, minY, maxX, maxY]
   var EXTENTS = {
@@ -118,6 +199,7 @@
     document.querySelectorAll('.county-btn').forEach(function(b) {
       b.classList.toggle('active', b.dataset.county === county);
     });
+    updateStats(county);
   }
 
   // Wait until Origo is ready AND the GeoJSON layers exist in the map
@@ -129,6 +211,7 @@
       btn.addEventListener('click', function() { selectCounty(btn.dataset.county); });
     });
     initSearch();
+    updateStats('all');
   }
   setTimeout(initSelector, 600);
 
