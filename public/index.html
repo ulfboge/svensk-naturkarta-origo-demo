@@ -69,24 +69,25 @@
               hide: [] }
   };
 
-  // Recursive search — finds a layer even if Origo wraps groups in OL LayerGroup objects
   function findOLLayer(name) {
-    function search(coll) {
-      var arr = coll.getArray();
+    var map = viewer.api().getMap();
+    if (!map) return null;
+    function search(group) {
+      var arr = group.getLayers().getArray();
       for (var i = 0; i < arr.length; i++) {
         var l = arr[i];
-        if (l.get && l.get('name') === name) return l;
+        if (l.get('name') === name) return l;
         if (typeof l.getLayers === 'function') {
-          var hit = search(l.getLayers());
-          if (hit) return hit;
+          var hit = search(l); if (hit) return hit;
         }
       }
       return null;
     }
-    return search(viewer.getMap().getLayers());
+    return search(map.getLayerGroup());
   }
 
   function selectCounty(county) {
+    var map = viewer.api().getMap();
     var cfg = COUNTY_LAYERS[county];
     cfg.show.forEach(function(n) {
       var l = findOLLayer(n); if (l) l.setVisible(true);
@@ -94,8 +95,8 @@
     cfg.hide.forEach(function(n) {
       var l = findOLLayer(n); if (l) l.setVisible(false);
     });
-    viewer.getMap().getView().fit(EXTENTS[county], {
-      size: viewer.getMap().getSize(),
+    map.getView().fit(EXTENTS[county], {
+      size: map.getSize(),
       padding: [60, 60, 60, 60],
       duration: 600
     });
@@ -106,18 +107,11 @@
 
   // Wait until Origo is ready AND the GeoJSON layers exist in the map
   function initSelector() {
-    if (!viewer.getMap || !viewer.getMap()) {
-      setTimeout(initSelector, 200);
-      return;
-    }
-    if (!findOLLayer('nv_naturreservat_sthlm')) {
-      setTimeout(initSelector, 200);
-      return;
-    }
+    var map = viewer.api && viewer.api().getMap && viewer.api().getMap();
+    if (!map) { setTimeout(initSelector, 200); return; }
+    if (!findOLLayer('nv_naturreservat_sthlm')) { setTimeout(initSelector, 200); return; }
     document.querySelectorAll('.county-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        selectCounty(btn.dataset.county);
-      });
+      btn.addEventListener('click', function() { selectCounty(btn.dataset.county); });
     });
   }
   setTimeout(initSelector, 600);
