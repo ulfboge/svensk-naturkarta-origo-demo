@@ -69,27 +69,31 @@
               hide: [] }
   };
 
-  function setLayerVisible(name, visible) {
-    // Sync both the OL layer and Origo's internal state (keeps checkbox in sync)
-    var l = viewer.getMap().getLayers().getArray()
-      .find(function(l) { return l.get('name') === name; });
-    if (l) {
-      l.setVisible(visible);
-      // Origo stores visibility on the layer options object too
-      if (l.getProperties && l.getProperties().layerOptions) {
-        l.getProperties().layerOptions.visible = visible;
+  // Recursive search — finds a layer even if Origo wraps groups in OL LayerGroup objects
+  function findOLLayer(name) {
+    function search(coll) {
+      var arr = coll.getArray();
+      for (var i = 0; i < arr.length; i++) {
+        var l = arr[i];
+        if (l.get && l.get('name') === name) return l;
+        if (typeof l.getLayers === 'function') {
+          var hit = search(l.getLayers());
+          if (hit) return hit;
+        }
       }
+      return null;
     }
-    // Also try Origo's own setLayerVisible if it exists
-    if (viewer.setLayerVisible) {
-      viewer.setLayerVisible(name, visible);
-    }
+    return search(viewer.getMap().getLayers());
   }
 
   function selectCounty(county) {
     var cfg = COUNTY_LAYERS[county];
-    cfg.show.forEach(function(n) { setLayerVisible(n, true); });
-    cfg.hide.forEach(function(n) { setLayerVisible(n, false); });
+    cfg.show.forEach(function(n) {
+      var l = findOLLayer(n); if (l) l.setVisible(true);
+    });
+    cfg.hide.forEach(function(n) {
+      var l = findOLLayer(n); if (l) l.setVisible(false);
+    });
     viewer.getMap().getView().fit(EXTENTS[county], {
       size: viewer.getMap().getSize(),
       padding: [60, 60, 60, 60],
@@ -100,10 +104,14 @@
     });
   }
 
-  // Wait for Origo to finish initialising before wiring up buttons
+  // Wait until Origo is ready AND the GeoJSON layers exist in the map
   function initSelector() {
     if (!viewer.getMap || !viewer.getMap()) {
-      setTimeout(initSelector, 150);
+      setTimeout(initSelector, 200);
+      return;
+    }
+    if (!findOLLayer('nv_naturreservat_sthlm')) {
+      setTimeout(initSelector, 200);
       return;
     }
     document.querySelectorAll('.county-btn').forEach(function(btn) {
@@ -112,7 +120,7 @@
       });
     });
   }
-  setTimeout(initSelector, 400);
+  setTimeout(initSelector, 600);
 </script>
 
 </body>
