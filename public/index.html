@@ -115,6 +115,28 @@
     });
   }
   setTimeout(initSelector, 600);
+
+  // Format AREA_HA with Swedish thousands separator when Origo renders a popup
+  (function () {
+    function fmtLi(li) {
+      var b = li.querySelector('b');
+      if (!b || b.textContent.trim() !== 'Areal (ha)') return;
+      li.childNodes.forEach(function (n) {
+        if (n.nodeType !== 3) return;
+        var num = parseFloat(n.textContent.replace(/[^\d.]/g, ''));
+        if (!isNaN(num)) n.textContent = ': ' + Math.round(num).toLocaleString('sv-SE') + ' ha';
+      });
+    }
+    function scan(node) {
+      if (node.matches && node.matches('li')) fmtLi(node);
+      if (node.querySelectorAll) node.querySelectorAll('li').forEach(fmtLi);
+    }
+    new MutationObserver(function (muts) {
+      muts.forEach(function (m) {
+        m.addedNodes.forEach(function (n) { if (n.nodeType === 1) scan(n); });
+      });
+    }).observe(document.body, { childList: true, subtree: true });
+  }());
 </script>
 
 </body>

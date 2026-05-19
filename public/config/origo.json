@@ -84,7 +84,8 @@
         { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
         { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
         { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
-        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": " },
+        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
+          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
         { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
         { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
       ]
@@ -105,7 +106,8 @@
         { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
         { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
         { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
-        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": " },
+        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
+          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
         { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
         { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
       ]
@@ -126,7 +128,8 @@
         { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
         { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
         { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
-        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": " },
+        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
+          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
         { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
         { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
       ]
