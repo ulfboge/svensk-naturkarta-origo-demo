@@ -1,40 +1,91 @@
 {
   "title": "Naturkarta — Skyddad natur",
-
   "projectionCode": "EPSG:3857",
-  "projectionExtent": [-20026376.39, -20048966.10, 20026376.39, 20048966.10],
+  "projectionExtent": [
+    -20026376.39,
+    -20048966.1,
+    20026376.39,
+    20048966.1
+  ],
   "proj4Defs": [
     {
       "code": "EPSG:3006",
       "projection": "+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
     }
   ],
-  "extent": [-20026376.39, -20048966.10, 20026376.39, 20048966.10],
-  "center": [2000000, 8220000],
+  "extent": [
+    -20026376.39,
+    -20048966.1,
+    20026376.39,
+    20048966.1
+  ],
+  "center": [
+    2000000,
+    8220000
+  ],
   "zoom": 8,
   "resolutions": [
-    156543.03, 78271.52, 39135.76, 19567.88, 9783.94,
-    4891.97,   2445.98,  1222.99,  611.50,   305.75,
-    152.87,    76.437,   38.219,   19.109,   9.5546,
-    4.7773,    2.3887,   1.1943,   0.5972
+    156543.03,
+    78271.52,
+    39135.76,
+    19567.88,
+    9783.94,
+    4891.97,
+    2445.98,
+    1222.99,
+    611.5,
+    305.75,
+    152.87,
+    76.437,
+    38.219,
+    19.109,
+    9.5546,
+    4.7773,
+    2.3887,
+    1.1943,
+    0.5972
   ],
-  "featureinfoOptions": { "infowindow": "overlay" },
-
-  "source": {
-    "nv_naturvardsregistret": { "url": "https://geodata.naturvardsverket.se/naturvardsregistret/wms" },
-    "nv_n2000":               { "url": "https://geodata.naturvardsverket.se/n2000/wms" }
+  "featureinfoOptions": {
+    "infowindow": "overlay"
   },
-
+  "source": {
+    "nv_naturvardsregistret": {
+      "url": "https://geodata.naturvardsverket.se/naturvardsregistret/wms"
+    },
+    "nv_n2000": {
+      "url": "https://geodata.naturvardsverket.se/n2000/wms"
+    }
+  },
   "groups": [
-    { "name": "background",          "title": "Bakgrundskartor",                    "exclusive": true, "expanded": true  },
-    { "name": "naturskydd",          "title": "Skyddad natur",                       "expanded": true  },
-    { "name": "naturreservat_group", "title": "Naturreservat", "parent": "naturskydd", "expanded": true },
-    { "name": "natura2000",          "title": "Natura 2000",                         "expanded": false },
-    { "name": "nv_rikstackande",     "title": "Naturvårdsverket (fler skyddstyper)", "expanded": false }
+    {
+      "name": "background",
+      "title": "Bakgrundskartor",
+      "exclusive": true,
+      "expanded": true
+    },
+    {
+      "name": "naturskydd",
+      "title": "Skyddad natur",
+      "expanded": true
+    },
+    {
+      "name": "naturreservat_group",
+      "title": "Naturreservat",
+      "parent": "naturskydd",
+      "expanded": true
+    },
+    {
+      "name": "natura2000",
+      "title": "Natura 2000",
+      "expanded": false
+    },
+    {
+      "name": "nv_rikstackande",
+      "title": "Naturvårdsverket (fler skyddstyper)",
+      "expanded": false
+    }
   ],
-
   "layers": [
-
     {
       "name": "osm",
       "title": "OpenStreetMap",
@@ -44,7 +95,6 @@
       "visible": true,
       "queryable": false
     },
-
     {
       "name": "osm_topo",
       "title": "OpenTopoMap",
@@ -56,7 +106,6 @@
       "visible": false,
       "queryable": false
     },
-
     {
       "name": "lm_topowebb",
       "title": "Topowebb (Lantmäteriet)",
@@ -68,7 +117,6 @@
       "visible": false,
       "queryable": false
     },
-
     {
       "name": "nv_naturreservat_sthlm",
       "title": "Naturreservat — Stockholms län",
@@ -80,17 +128,59 @@
       "zIndex": 10,
       "style": "naturreservat_polygon",
       "attributes": [
-        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
-        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
-        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
-        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
-        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
-          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
-        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
-        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
-      ]
+        {
+          "name": "NAMN",
+          "title": "Namn",
+          "prefix": ": "
+        },
+        {
+          "name": "SKYDDSTYP",
+          "title": "Skyddstyp",
+          "prefix": ": "
+        },
+        {
+          "name": "IUCNKATEGORI",
+          "title": "IUCN-kategori",
+          "prefix": ": "
+        },
+        {
+          "name": "AREA_HA",
+          "title": "Areal (ha)",
+          "prefix": ": "
+        },
+        {
+          "name": "URSPR_BESLUTSDATUM",
+          "title": "Beslutsdatum",
+          "prefix": ": ",
+          "formatDatetime": {
+            "locale": "sv-SE",
+            "options": {
+              "year": "numeric",
+              "month": "long",
+              "day": "numeric"
+            }
+          }
+        },
+        {
+          "name": "KOMMUN",
+          "title": "Kommun",
+          "prefix": ": "
+        },
+        {
+          "name": "FORVALTARE",
+          "title": "Förvaltare",
+          "prefix": ": "
+        },
+        {
+          "name": "NVRID",
+          "title": "Visa på Naturvårdsverket",
+          "type": "url",
+          "url": "NVRID",
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+        }
+      ],
+      "featureinfoTitle": "NAMN"
     },
-
     {
       "name": "nv_naturreservat_sod",
       "title": "Naturreservat — Södermanlands län",
@@ -102,17 +192,59 @@
       "zIndex": 10,
       "style": "naturreservat_polygon",
       "attributes": [
-        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
-        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
-        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
-        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
-        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
-          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
-        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
-        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
-      ]
+        {
+          "name": "NAMN",
+          "title": "Namn",
+          "prefix": ": "
+        },
+        {
+          "name": "SKYDDSTYP",
+          "title": "Skyddstyp",
+          "prefix": ": "
+        },
+        {
+          "name": "IUCNKATEGORI",
+          "title": "IUCN-kategori",
+          "prefix": ": "
+        },
+        {
+          "name": "AREA_HA",
+          "title": "Areal (ha)",
+          "prefix": ": "
+        },
+        {
+          "name": "URSPR_BESLUTSDATUM",
+          "title": "Beslutsdatum",
+          "prefix": ": ",
+          "formatDatetime": {
+            "locale": "sv-SE",
+            "options": {
+              "year": "numeric",
+              "month": "long",
+              "day": "numeric"
+            }
+          }
+        },
+        {
+          "name": "KOMMUN",
+          "title": "Kommun",
+          "prefix": ": "
+        },
+        {
+          "name": "FORVALTARE",
+          "title": "Förvaltare",
+          "prefix": ": "
+        },
+        {
+          "name": "NVRID",
+          "title": "Visa på Naturvårdsverket",
+          "type": "url",
+          "url": "NVRID",
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+        }
+      ],
+      "featureinfoTitle": "NAMN"
     },
-
     {
       "name": "nv_naturreservat_uppsala",
       "title": "Naturreservat — Uppsala län",
@@ -124,17 +256,59 @@
       "zIndex": 10,
       "style": "naturreservat_polygon",
       "attributes": [
-        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
-        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
-        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
-        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
-        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
-          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
-        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
-        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
-      ]
+        {
+          "name": "NAMN",
+          "title": "Namn",
+          "prefix": ": "
+        },
+        {
+          "name": "SKYDDSTYP",
+          "title": "Skyddstyp",
+          "prefix": ": "
+        },
+        {
+          "name": "IUCNKATEGORI",
+          "title": "IUCN-kategori",
+          "prefix": ": "
+        },
+        {
+          "name": "AREA_HA",
+          "title": "Areal (ha)",
+          "prefix": ": "
+        },
+        {
+          "name": "URSPR_BESLUTSDATUM",
+          "title": "Beslutsdatum",
+          "prefix": ": ",
+          "formatDatetime": {
+            "locale": "sv-SE",
+            "options": {
+              "year": "numeric",
+              "month": "long",
+              "day": "numeric"
+            }
+          }
+        },
+        {
+          "name": "KOMMUN",
+          "title": "Kommun",
+          "prefix": ": "
+        },
+        {
+          "name": "FORVALTARE",
+          "title": "Förvaltare",
+          "prefix": ": "
+        },
+        {
+          "name": "NVRID",
+          "title": "Visa på Naturvårdsverket",
+          "type": "url",
+          "url": "NVRID",
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+        }
+      ],
+      "featureinfoTitle": "NAMN"
     },
-
     {
       "name": "nv_naturreservat_ostergotland",
       "title": "Naturreservat — Östergötlands län",
@@ -146,17 +320,59 @@
       "zIndex": 10,
       "style": "naturreservat_polygon",
       "attributes": [
-        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
-        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
-        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
-        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
-        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
-          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
-        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
-        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
-      ]
+        {
+          "name": "NAMN",
+          "title": "Namn",
+          "prefix": ": "
+        },
+        {
+          "name": "SKYDDSTYP",
+          "title": "Skyddstyp",
+          "prefix": ": "
+        },
+        {
+          "name": "IUCNKATEGORI",
+          "title": "IUCN-kategori",
+          "prefix": ": "
+        },
+        {
+          "name": "AREA_HA",
+          "title": "Areal (ha)",
+          "prefix": ": "
+        },
+        {
+          "name": "URSPR_BESLUTSDATUM",
+          "title": "Beslutsdatum",
+          "prefix": ": ",
+          "formatDatetime": {
+            "locale": "sv-SE",
+            "options": {
+              "year": "numeric",
+              "month": "long",
+              "day": "numeric"
+            }
+          }
+        },
+        {
+          "name": "KOMMUN",
+          "title": "Kommun",
+          "prefix": ": "
+        },
+        {
+          "name": "FORVALTARE",
+          "title": "Förvaltare",
+          "prefix": ": "
+        },
+        {
+          "name": "NVRID",
+          "title": "Visa på Naturvårdsverket",
+          "type": "url",
+          "url": "NVRID",
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+        }
+      ],
+      "featureinfoTitle": "NAMN"
     },
-
     {
       "name": "nv_naturreservat_vastragotaland",
       "title": "Naturreservat — Västra Götalands län",
@@ -168,17 +384,59 @@
       "zIndex": 10,
       "style": "naturreservat_polygon",
       "attributes": [
-        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
-        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
-        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
-        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
-        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
-          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
-        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
-        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
-      ]
+        {
+          "name": "NAMN",
+          "title": "Namn",
+          "prefix": ": "
+        },
+        {
+          "name": "SKYDDSTYP",
+          "title": "Skyddstyp",
+          "prefix": ": "
+        },
+        {
+          "name": "IUCNKATEGORI",
+          "title": "IUCN-kategori",
+          "prefix": ": "
+        },
+        {
+          "name": "AREA_HA",
+          "title": "Areal (ha)",
+          "prefix": ": "
+        },
+        {
+          "name": "URSPR_BESLUTSDATUM",
+          "title": "Beslutsdatum",
+          "prefix": ": ",
+          "formatDatetime": {
+            "locale": "sv-SE",
+            "options": {
+              "year": "numeric",
+              "month": "long",
+              "day": "numeric"
+            }
+          }
+        },
+        {
+          "name": "KOMMUN",
+          "title": "Kommun",
+          "prefix": ": "
+        },
+        {
+          "name": "FORVALTARE",
+          "title": "Förvaltare",
+          "prefix": ": "
+        },
+        {
+          "name": "NVRID",
+          "title": "Visa på Naturvårdsverket",
+          "type": "url",
+          "url": "NVRID",
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+        }
+      ],
+      "featureinfoTitle": "NAMN"
     },
-
     {
       "name": "nv_naturreservat_skane",
       "title": "Naturreservat — Skåne län",
@@ -190,17 +448,59 @@
       "zIndex": 10,
       "style": "naturreservat_polygon",
       "attributes": [
-        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
-        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
-        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
-        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
-        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
-          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
-        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
-        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
-      ]
+        {
+          "name": "NAMN",
+          "title": "Namn",
+          "prefix": ": "
+        },
+        {
+          "name": "SKYDDSTYP",
+          "title": "Skyddstyp",
+          "prefix": ": "
+        },
+        {
+          "name": "IUCNKATEGORI",
+          "title": "IUCN-kategori",
+          "prefix": ": "
+        },
+        {
+          "name": "AREA_HA",
+          "title": "Areal (ha)",
+          "prefix": ": "
+        },
+        {
+          "name": "URSPR_BESLUTSDATUM",
+          "title": "Beslutsdatum",
+          "prefix": ": ",
+          "formatDatetime": {
+            "locale": "sv-SE",
+            "options": {
+              "year": "numeric",
+              "month": "long",
+              "day": "numeric"
+            }
+          }
+        },
+        {
+          "name": "KOMMUN",
+          "title": "Kommun",
+          "prefix": ": "
+        },
+        {
+          "name": "FORVALTARE",
+          "title": "Förvaltare",
+          "prefix": ": "
+        },
+        {
+          "name": "NVRID",
+          "title": "Visa på Naturvårdsverket",
+          "type": "url",
+          "url": "NVRID",
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+        }
+      ],
+      "featureinfoTitle": "NAMN"
     },
-
     {
       "name": "nv_nationalparker",
       "title": "Nationalparker",
@@ -212,17 +512,59 @@
       "zIndex": 9,
       "style": "nationalpark_polygon",
       "attributes": [
-        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
-        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
-        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
-        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
-        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
-          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
-        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
-        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
-      ]
+        {
+          "name": "NAMN",
+          "title": "Namn",
+          "prefix": ": "
+        },
+        {
+          "name": "SKYDDSTYP",
+          "title": "Skyddstyp",
+          "prefix": ": "
+        },
+        {
+          "name": "IUCNKATEGORI",
+          "title": "IUCN-kategori",
+          "prefix": ": "
+        },
+        {
+          "name": "AREA_HA",
+          "title": "Areal (ha)",
+          "prefix": ": "
+        },
+        {
+          "name": "URSPR_BESLUTSDATUM",
+          "title": "Beslutsdatum",
+          "prefix": ": ",
+          "formatDatetime": {
+            "locale": "sv-SE",
+            "options": {
+              "year": "numeric",
+              "month": "long",
+              "day": "numeric"
+            }
+          }
+        },
+        {
+          "name": "KOMMUN",
+          "title": "Kommun",
+          "prefix": ": "
+        },
+        {
+          "name": "FORVALTARE",
+          "title": "Förvaltare",
+          "prefix": ": "
+        },
+        {
+          "name": "NVRID",
+          "title": "Visa på Naturvårdsverket",
+          "type": "url",
+          "url": "NVRID",
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+        }
+      ],
+      "featureinfoTitle": "NAMN"
     },
-
     {
       "name": "n2000_sci",
       "title": "Natura 2000 (SCI) — Habitatdirektivet",
@@ -231,12 +573,13 @@
       "source": "nv_n2000",
       "id": "Habitatdirektivet",
       "format": "image/png",
-      "sourceParams": { "TRANSPARENT": "true" },
+      "sourceParams": {
+        "TRANSPARENT": "true"
+      },
       "visible": false,
       "queryable": false,
       "zIndex": 8
     },
-
     {
       "name": "n2000_spa",
       "title": "Natura 2000 (SPA) — Fågeldirektivet",
@@ -245,12 +588,13 @@
       "source": "nv_n2000",
       "id": "Fageldirektivet",
       "format": "image/png",
-      "sourceParams": { "TRANSPARENT": "true" },
+      "sourceParams": {
+        "TRANSPARENT": "true"
+      },
       "visible": false,
       "queryable": false,
       "zIndex": 7
     },
-
     {
       "name": "nv_biotopskydd",
       "title": "Biotopskyddsområden",
@@ -259,12 +603,13 @@
       "source": "nv_naturvardsregistret",
       "id": "Ovrigt_biotopskyddsomrade",
       "format": "image/png",
-      "sourceParams": { "TRANSPARENT": "true" },
+      "sourceParams": {
+        "TRANSPARENT": "true"
+      },
       "visible": false,
       "queryable": false,
       "zIndex": 6
     },
-
     {
       "name": "nv_djur_vaxt",
       "title": "Djur- och växtskyddsområden",
@@ -273,12 +618,13 @@
       "source": "nv_naturvardsregistret",
       "id": "Djur_och_vaxtskyddsomrade",
       "format": "image/png",
-      "sourceParams": { "TRANSPARENT": "true" },
+      "sourceParams": {
+        "TRANSPARENT": "true"
+      },
       "visible": false,
       "queryable": false,
       "zIndex": 5
     },
-
     {
       "name": "nv_vattenskydd",
       "title": "Vattenskyddsområden",
@@ -287,12 +633,13 @@
       "source": "nv_naturvardsregistret",
       "id": "Vattenskyddsomrade",
       "format": "image/png",
-      "sourceParams": { "TRANSPARENT": "true" },
+      "sourceParams": {
+        "TRANSPARENT": "true"
+      },
       "visible": false,
       "queryable": false,
       "zIndex": 4
     },
-
     {
       "name": "nv_naturminne_yta",
       "title": "Naturminnen (ytor)",
@@ -301,12 +648,13 @@
       "source": "nv_naturvardsregistret",
       "id": "Naturminne_polygon",
       "format": "image/png",
-      "sourceParams": { "TRANSPARENT": "true" },
+      "sourceParams": {
+        "TRANSPARENT": "true"
+      },
       "visible": false,
       "queryable": false,
       "zIndex": 3
     },
-
     {
       "name": "nv_naturminne_punkt",
       "title": "Naturminnen (punkter)",
@@ -315,12 +663,13 @@
       "source": "nv_naturvardsregistret",
       "id": "Naturminne_punkt",
       "format": "image/png",
-      "sourceParams": { "TRANSPARENT": "true" },
+      "sourceParams": {
+        "TRANSPARENT": "true"
+      },
       "visible": false,
       "queryable": false,
       "zIndex": 3
     },
-
     {
       "name": "nv_naturreservat_kommunalt",
       "title": "Kommunala naturreservat",
@@ -329,46 +678,93 @@
       "source": "nv_naturvardsregistret",
       "id": "Naturreservat_kommunalt",
       "format": "image/png",
-      "sourceParams": { "TRANSPARENT": "true" },
+      "sourceParams": {
+        "TRANSPARENT": "true"
+      },
       "visible": false,
       "queryable": false,
       "zIndex": 2
     }
-
   ],
-
   "styles": {
-    "karta_osm":  [[{ "image": { "src": "img/png/osm.png" } }]],
-    "karta_topo": [[{ "image": { "src": "img/png/osm.png" } }]],
-    "karta_lm":   [[{ "image": { "src": "img/png/osm.png" } }]],
+    "karta_osm": [
+      [
+        {
+          "image": {
+            "src": "img/png/osm.png"
+          }
+        }
+      ]
+    ],
+    "karta_topo": [
+      [
+        {
+          "image": {
+            "src": "img/png/osm.png"
+          }
+        }
+      ]
+    ],
+    "karta_lm": [
+      [
+        {
+          "image": {
+            "src": "img/png/osm.png"
+          }
+        }
+      ]
+    ],
     "naturreservat_polygon": [
       [
         {
-          "stroke": { "color": "#1b7a45", "width": 2 },
-          "fill":   { "color": "rgba(52,168,83,0.25)" }
+          "stroke": {
+            "color": "#1b7a45",
+            "width": 2
+          },
+          "fill": {
+            "color": "rgba(52,168,83,0.25)"
+          }
         }
       ]
     ],
     "nationalpark_polygon": [
       [
         {
-          "stroke": { "color": "#7b3f00", "width": 3 },
-          "fill":   { "color": "rgba(180,90,0,0.25)" }
+          "stroke": {
+            "color": "#7b3f00",
+            "width": 3
+          },
+          "fill": {
+            "color": "rgba(180,90,0,0.25)"
+          }
         }
       ]
     ]
   },
-
   "controls": [
-    { "name": "zoom" },
-    { "name": "rotate" },
-    { "name": "scaleline" },
-    { "name": "attribution" },
-    { "name": "fullscreen" },
-    { "name": "progressbar" },
+    {
+      "name": "zoom"
+    },
+    {
+      "name": "rotate"
+    },
+    {
+      "name": "scaleline"
+    },
+    {
+      "name": "attribution"
+    },
+    {
+      "name": "fullscreen"
+    },
+    {
+      "name": "progressbar"
+    },
     {
       "name": "legend",
-      "options": { "useGroupIndication": true }
+      "options": {
+        "useGroupIndication": true
+      }
     },
     {
       "name": "position",
@@ -380,10 +776,21 @@
         }
       }
     },
-    { "name": "mapmenu", "options": { "isActive": false } },
-    { "name": "sharemap" },
-    { "name": "measure" },
-    { "name": "print" },
+    {
+      "name": "mapmenu",
+      "options": {
+        "isActive": false
+      }
+    },
+    {
+      "name": "sharemap"
+    },
+    {
+      "name": "measure"
+    },
+    {
+      "name": "print"
+    },
     {
       "name": "about",
       "options": {

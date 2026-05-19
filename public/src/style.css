@@ -121,6 +121,47 @@ body {
   background: #f0fdf4;
 }
 
+/* ── Featureinfo popup polish ── */
+
+/* Attribute rows */
+.o-identify-content li {
+  list-style: none;
+  padding: 3px 0;
+  font-size: 12px;
+  line-height: 1.5;
+  border-bottom: 1px solid #f0fdf4;
+}
+.o-identify-content li:last-child { border-bottom: none; }
+
+/* Label (bold part) */
+.o-identify-content li b {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #2d6a4f;
+}
+
+/* NV link — styled as a pill button */
+.o-identify-content a {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1.5px solid #52b788;
+  background: transparent;
+  color: #2d6a4f;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: background 0.15s, color 0.15s;
+}
+.o-identify-content a:hover {
+  background: #2d6a4f;
+  color: #fff;
+}
+
 /* ── Statistics panel — bottom-right, extensible ── */
 #stats-panel {
   position: fixed;
