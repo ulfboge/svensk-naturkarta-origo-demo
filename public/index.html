@@ -74,7 +74,8 @@
       <span class="stats-value" id="stats-gbif-count">—</span>
     </div>
     <div class="stats-row stats-row-link">
-      <a id="stats-gbif-link" href="https://www.gbif.org/occurrence/map?country=SE" target="_blank">Utforska på GBIF ↗</a>
+      <a id="stats-gbif-link" href="https://www.gbif.org/occurrence/map?country=SE" target="_blank">GBIF ↗</a>
+      <a id="stats-ap-link" href="https://www.artportalen.se/ViewSighting/SearchSighting" target="_blank" style="margin-left:8px">Artportalen ↗</a>
     </div>
   </div>
   <!-- Framtida sektioner:
@@ -105,6 +106,17 @@
     skane: { minLat: 55.269, maxLat: 56.557, minLon: 12.117, maxLon: 14.577 },
     all:   { minLat: 55.269, maxLat: 60.705, minLon: 10.942, maxLon: 19.916 }
   };
+
+  // Artportalen länskoder
+  var COUNTY_AP_CODE = {
+    sthlm: 'AB', sod: 'D', upp: 'C', ost: 'E', vg: 'O', skane: 'M', all: null
+  };
+
+  function artportalenUrl(county) {
+    var code = COUNTY_AP_CODE[county];
+    var base = 'https://www.artportalen.se/ViewSighting/SearchSighting';
+    return code ? base + '?countyId=' + code : base;
+  }
 
   // Convert EPSG:3857 extent → WGS84 bbox object
   function extentToWGS84(ext) {
@@ -139,12 +151,14 @@
 
   function updateArtobsStats(county) {
     var countEl = document.getElementById('stats-gbif-count');
-    var linkEl  = document.getElementById('stats-gbif-link');
+    var gbifEl  = document.getElementById('stats-gbif-link');
+    var apEl    = document.getElementById('stats-ap-link');
     var bbox    = COUNTY_BBOX[county];
     if (!bbox) return;
 
     countEl.textContent = 'hämtar…';
-    linkEl.href = gbifMapUrl(bbox);
+    gbifEl.href = gbifMapUrl(bbox);
+    if (apEl) apEl.href = artportalenUrl(county);
 
     fetch(gbifUrl(bbox))
       .then(function(r) { return r.json(); })
@@ -193,8 +207,9 @@
               .then(function(r) { return r.json(); })
               .then(function(d) {
                 var count = fmtCount(d.count || 0);
-                li.innerHTML = '<b>Artobservationer</b>: ' + count + ' (2020–2025) '
-                  + '<a href="' + gbifMapUrl(bbox) + '" target="_blank" title="Visa på GBIF">↗</a>';
+                li.innerHTML = '<b>Artobservationer</b>: ' + count + ' (2020–2025)<br>'
+                  + '<a href="' + gbifMapUrl(bbox) + '" target="_blank">Visa på GBIF ↗</a>'
+                  + ' &nbsp; <a href="https://www.artportalen.se/ViewSighting/SearchSighting" target="_blank">Artportalen ↗</a>';
               })
               .catch(function() {
                 li.querySelector('.artobs-loading').textContent = '—';

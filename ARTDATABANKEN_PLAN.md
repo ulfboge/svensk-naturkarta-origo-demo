@@ -85,7 +85,7 @@ var COUNTY_BBOX = {
 
 ---
 
-## Steg 5 — Länk till Artportalen-sökning [ ]
+## Steg 5 — Länk till Artportalen-sökning [✅ KLAR]
 Artportalen har djuplänkar:
 ```
 https://www.artportalen.se/ViewSighting/SearchSighting
@@ -95,7 +95,7 @@ Lägg till direktlänk i popup och stats-panel.
 
 ---
 
-## Steg 6 — README och Om kartan [ ]
+## Steg 6 — README och Om kartan [✅ KLAR]
 - Uppdatera "Funktioner"-listan i Om kartan
 - Uppdatera README roadmap (flytta Artdatabanken till "Klart")
 - Ny screenshot av popup med artobservationer

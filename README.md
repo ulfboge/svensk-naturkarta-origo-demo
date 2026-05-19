@@ -51,9 +51,10 @@ A portfolio web GIS application showing Swedish nature conservation data across 
 ## Key features
 
 - **County selector** — 6 knappar filtrerar GeoJSON-lagren per län och zoomar kartan
-- **Reservatsökning** — sök på namn bland alla 1 845 reservat; kartan zoomar direkt till träffen
-- **Statistikpanel** — visar antal reservat, total areal (ha) och antal nationalparker för valt län; utformad för att byggas ut med Artdatabanken, jakttider m.m.
-- **Klickbar popup** — namn, skyddstyp, IUCN-kategori, areal, beslutsdatum, förvaltare + direktlänk till Naturvårdsverkets databas per reservat
+- **Reservatsökning** — sök på namn bland alla 1 845 reservat, filtrerat per valt län
+- **Statistikpanel** — antal reservat, total areal, nationalparker + live-hämtning av artobservationer från GBIF per valt län
+- **Artobservationer i popup** — klicka ett reservat för att se antal observationer (GBIF 2020–2025) med länk till GBIF och Artportalen
+- **Klickbar popup** — namn, skyddstyp, IUCN-kategori, areal, beslutsdatum, förvaltare + direktlänk till Naturvårdsverkets databas
 - **Tre bakgrundskartor** — OSM, OpenTopoMap, Lantmäteriet Topowebb (kräver API-nyckel)
 
 ---
@@ -112,6 +113,7 @@ Ersätt `DIN_API_NYCKEL` i `public/config/origo.json` med din nyckel från [open
 | Dataset | Leverantör | Licens |
 |---|---|---|
 | Naturreservat, Nationalparker, Natura 2000 | [Naturvårdsverket](https://www.naturvardsverket.se/om-oss/oppna-data-och-apier/) | CC0 |
+| Artobservationer | [GBIF](https://www.gbif.org) / [Artportalen](https://www.artportalen.se) | CC BY |
 | Biotopskydd, Djur- och växtskydd m.fl. | [Naturvårdsverket](https://www.naturvardsverket.se/om-oss/oppna-data-och-apier/) | CC0 |
 | Topowebb | [Lantmäteriet](https://opendata.lantmateriet.se/) | CC BY |
 | Bakgrundskarta | [OpenStreetMap](https://www.openstreetmap.org/) contributors | ODbL |
@@ -145,9 +147,10 @@ Naturvårdsverket's WFS uses GML output only — `application/json` returns an e
 - [x] Popup-polish (featureinfoTitle, NV-länk, stilade attributrader)
 - [x] Mobilanpassning
 
+- [x] Artdatabanken/GBIF — live artobservationer per reservat (popup) och per län (statistikpanel)
+
 ### Kommande
 
-- [ ] Artdatabanken API — artobservationer per reservat i statistikpanelen
 - [ ] Jakttider/jaktrestriktioner (Naturvårdsverket)
 - [ ] Fler län
 - [ ] Lantmäteriets fastighetsdata — markägare per reservat
