@@ -138,25 +138,31 @@ Naturvårdsverket's WFS uses GML output only — `application/json` returns an e
 
 ## Roadmap
 
-### ✅ Klart
+### ✅ Klart (fas 1–3)
 
 - [x] Origo Map v2.10 deployed on GitHub Pages
-- [x] 1 845 naturreservat i 6 län (GeoJSON, klickbara, sökbara)
-- [x] 31 nationalparker (rikstäckande)
-- [x] 9 WMS-lager (Natura 2000, biotopskydd, vattenskydd, naturminnen, tillträdesförbud m.fl.)
-- [x] County selector med länsbegränsad zoom
-- [x] Reservatsökning (namn-autocomplete)
-- [x] Statistikpanel (count, areal, NP per valt län)
-- [x] Popup-polish (featureinfoTitle, NV-länk, stilade attributrader)
-- [x] Mobilanpassning
+- [x] 1 845 naturreservat i 6 län — Stockholm, Södermanland, Uppsala, Östergötland, Västra Götaland, Skåne
+- [x] 31 nationalparker (rikstäckande från NP_polygon.shp)
+- [x] 11 WMS-lager: Natura 2000, biotopskydd, vattenskydd, naturminnen, tillträdesförbud, riksintressen m.fl.
+- [x] County selector — 6 knappar + zoom + filtrerad söklista + statistikpanel
+- [x] Reservatsökning — namn-autocomplete, filtrerat per valt län, `featuresloadend`-lyssning
+- [x] Statistikpanel — skyddad natur, GBIF-artobs, planering, jakt, fastighetsdata
+- [x] Popup — featureinfoTitle, formaterad areal/datum, NV-länk, GBIF-count, Artportalen, MinKarta, riksintressen
+- [x] Artdatabanken/GBIF — live-API per reservat och per valt län
+- [x] Jakttider — Tilltradesforbud/Interimistiskt_forbud WMS + NV jakttider-länk
+- [x] Fastighetsdata — MinKarta-länk i popup/stats (Fastighetsindelning WMS är avgiftsbelagd)
+- [x] Planering — riksintressen (Boverket WMS), Beslutsstatus, Naturvardsomrade (NV WMS)
+- [x] Mobilanpassning, popup-polish, README med screenshots
 
-- [x] Artdatabanken/GBIF — live artobservationer per reservat (popup) och per län (statistikpanel)
+### Möjliga nästa steg
 
-### Kommande
-
-- [x] Jakttider — tillträdesförbud/interimistiska förbudszoner (WMS) + länk till NV:s jakttider
-- [ ] Fler län
-- [x] Planering — riksintressen (Boverket WMS), skyddsbeslutsstatus + naturvårdsområden (NV WMS), länk till Boverkets riksintressekarta
+- [ ] Nya screenshots — hela funktionsuppsättningen syns inte i nuvarande bilder
+- [ ] Fler län — all data finns i NR_polygon.shp (5 993 reservat totalt, 6 extraherade)
+- [ ] Artportalen djuplänk per reservat med NVRID-filter
+- [ ] SMHI-väderdata — koppla väder/klimat per reservat via SMHI öppna API
+- [ ] Höjddata — Lantmäteriet Höjdmodell NH (kräver API-nyckel)
+- [ ] QGIS Server-backend — ersätt statisk GeoJSON med live WFS (fas 4 i ursprungsplan)
+- [ ] Prestandaoptimering — lazy-load GeoJSON per county vid aktivering
 
 ---
 

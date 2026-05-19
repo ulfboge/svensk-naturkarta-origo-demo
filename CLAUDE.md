@@ -77,40 +77,54 @@ python -m http.server 3000 --directory public
 
 ---
 
-## Current state (Phase 2 — COMPLETE ✅)
+## Current state (Phase 3 — COMPLETE ✅, 2026-05-19)
 
-### Phase 1 ✅
-- [x] Origo v2.10 bundle deployed at `public/js/`, `public/css/`, `public/img/`
-- [x] `public/index.html` correctly mounts Origo
-- [x] Git repository initialised
-- [x] OSM basemap renders; Origo UI controls all present; zero console errors
+### Fase 1–2 ✅ (se git-historik för detaljer)
 
-### Phase 2 ✅
-- [x] **GeoJSON layers** — `naturreservat-stockholm.geojson` + `nationalparker-stockholm.geojson` (Stockholms län, real NV data)
-  - Attributes verified: NAMN, SKYDDSTYP, IUCNKAT, AREA_HA, URSBESLDAT, LAN, KOMMUN, FORVALTARE — all match
-  - Styles: green polygon (naturreservat), brown polygon (nationalpark)
-- [x] **Natura 2000 WMS** — SCI (Habitatdirektivet) + SPA (Fågeldirektivet) from `https://geodata.naturvardsverket.se/n2000/wms`
-  - Layer IDs: `N2000_SCI`, `N2000_SPA`
-- [x] **Naturvårdsregistret WMS** — Biotopskyddsområden + Djur- och växtskyddsområden from `https://geodata.naturvardsverket.se/naturvardsregistret/wms`
-  - Layer IDs: `Ovrigt_biotopskyddsomrade`, `Djur_och_vaxtskyddsomrade`
-- [x] **Skogsstyrelsen WMS** — Avverkningsanmälningar from ArcGIS MapServer, layer ID `0`
-- [x] **5 layer groups** in sidebar (background, naturskydd, natura2000, nv_rikstackande, skog)
-- [x] **GitHub Pages** — `.github/workflows/deploy.yml` already configured; `public/.nojekyll` added
+### Phase 3 ✅ — komplett portfolioapplikation
 
-### ⚠️ Layer names to verify in browser
-The following WMS layer IDs were determined from GetCapabilities / educated guesses — toggle them on and check browser console/network tab:
-- `N2000_SCI`, `N2000_SPA` (Natura 2000) — fetch `https://geodata.naturvardsverket.se/n2000/wms?SERVICE=WMS&REQUEST=GetCapabilities` if they fail
-- `0` (Skogsstyrelsen avverkning) — standard ArcGIS MapServer first-layer ID, likely correct
+**GeoJSON-data (lokal NV-data, extraherat med fiona/pyproj från EPSG:3006→WGS84):**
+- 1 845 naturreservat i 6 län: Stockholm (383), Södermanland (196), Uppsala (201), Östergötland (329), Västra Götaland (545), Skåne (391)
+- 31 nationalparker rikstäckande (`nationalparker-alla.geojson`)
+- Fältnamn: NVRID, NAAM, SKYDDSTYP, IUCNKATEGORI, AREA_HA, URSPR_BESLUTSDATUM, KOMMUN, FORVALTARE, LAN
+
+**WMS-lager (11 st i 4 grupper):**
+- `naturskydd`: Naturreservat-undermapp + Nationalparker
+- `natura2000`: Habitatdirektivet, Fågeldirektivet
+- `nv_rikstackande`: Biotopskydd, Djur/växt, Vattenskydd, Naturminnen (yta+punkt), Kommunala NR, Tilltradesforbud, Interimistiskt_forbud
+- `planering`: Beslutsstatus, Naturvardsomrade, Riksintressen (Boverket)
+- `lm_fastighet`: Fastighetsgränser (avgiftsbelagd, DIN_API_NYCKEL)
+
+**Bakgrundskartor:**
+- OSM (synlig som standard), OpenTopoMap (XYZ), Lantmäteriet Topowebb (WMTS, konfigurerad med riktig nyckel)
+
+**UX-funktioner i `public/index.html`:**
+- County selector (6 knappar) — styr synlighet, zoom, söklista, statistikpanel
+- Reservatsökning — `<datalist>` filtrerad per valt län, `featuresloadend`-lyssning för lazy-load
+- Statistikpanel (nedre vänster, 4 sektioner): Skyddad natur | GBIF artobs | Planering | Jakt & tillträde | Fastighetsdata
+- GBIF live-API — per reservat (popup) och per valt län (stats), `fetch()` med bbox
+- Popup-polish — `featureinfoTitle: "NAAM"`, formaterad areal (MutationObserver), datum (formatDatetime)
+- Popup-länkar: NV Geocache, GBIF, Artportalen, MinKarta (LM), Boverket riksintressen, NV Ärenden
+- Mobilanpassning — `flex-wrap`, `max-width: calc(100vw - 16px)`
+
+**Kritisk Origo API-lärdom:**
+`viewer.getMap()` finns INTE — använd alltid `viewer.api().getMap()`
+
+**Datakällor (lokala filer för extraktion):**
+- `E:/NR/NR/NR_polygon.shp` — alla svenska naturreservat (5 993 st, EPSG:3006)
+- `E:/NP/NP/NP_polygon.shp` — alla svenska nationalparker (31 st, EPSG:3006)
+- `E:/LM2026_Topo_50/naturvard_sverige/naturvard_sverige.gpkg` — Lantmäteriet topo (saknar NAAM)
 
 ---
 
-## What to do next (Phase 3)
+## Möjliga nästa steg (Phase 4)
 
-1. Open the live site on GitHub Pages and verify all WMS layers render correctly
-2. Fix any layer IDs that fail (see ⚠️ above)
-3. Consider adding Lantmäteriet Topowebb WMTS as a Swedish basemap alternative
-4. Consider adding search/geocoding control (Origo has a `search` control for NV/SMHI APIs)
-5. Polish the "Om kartan" about-text and add screenshots to README for portfolio
+1. **Nya screenshots** — README-bilderna speglar inte nuläget (saknar stats-panel, planering, jakt m.m.)
+2. **Fler län** — kör `extract_nr_extra.py` med ytterligare län från `NR_polygon.shp`
+3. **SMHI öppna API** — väder/klimat per reservat (gratis, ingen nyckel)
+4. **Artportalen djuplänk** — per reservat med NVRID som sökparameter
+5. **QGIS Server** — ersätt statisk GeoJSON med live WFS (fas 4 i ursprungsplan)
+6. **Prestandaoptimering** — lazy-load GeoJSON per county
 
 ---
 
