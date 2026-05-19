@@ -69,19 +69,27 @@
               hide: [] }
   };
 
-  function getOLLayer(name) {
-    return viewer.getMap().getLayers().getArray()
+  function setLayerVisible(name, visible) {
+    // Sync both the OL layer and Origo's internal state (keeps checkbox in sync)
+    var l = viewer.getMap().getLayers().getArray()
       .find(function(l) { return l.get('name') === name; });
+    if (l) {
+      l.setVisible(visible);
+      // Origo stores visibility on the layer options object too
+      if (l.getProperties && l.getProperties().layerOptions) {
+        l.getProperties().layerOptions.visible = visible;
+      }
+    }
+    // Also try Origo's own setLayerVisible if it exists
+    if (viewer.setLayerVisible) {
+      viewer.setLayerVisible(name, visible);
+    }
   }
 
   function selectCounty(county) {
     var cfg = COUNTY_LAYERS[county];
-    cfg.show.forEach(function(n) {
-      var l = getOLLayer(n); if (l) l.setVisible(true);
-    });
-    cfg.hide.forEach(function(n) {
-      var l = getOLLayer(n); if (l) l.setVisible(false);
-    });
+    cfg.show.forEach(function(n) { setLayerVisible(n, true); });
+    cfg.hide.forEach(function(n) { setLayerVisible(n, false); });
     viewer.getMap().getView().fit(EXTENTS[county], {
       size: viewer.getMap().getSize(),
       padding: [60, 60, 60, 60],

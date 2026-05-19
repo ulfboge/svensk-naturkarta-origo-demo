@@ -26,10 +26,11 @@
   },
 
   "groups": [
-    { "name": "background",       "title": "Bakgrundskartor",                    "exclusive": true, "expanded": true  },
-    { "name": "naturskydd",        "title": "Skyddad natur",                       "expanded": true  },
-    { "name": "natura2000",        "title": "Natura 2000",                         "expanded": false },
-    { "name": "nv_rikstackande",   "title": "Naturvårdsverket (fler skyddstyper)", "expanded": false }
+    { "name": "background",          "title": "Bakgrundskartor",                    "exclusive": true, "expanded": true  },
+    { "name": "naturskydd",          "title": "Skyddad natur",                       "expanded": true  },
+    { "name": "naturreservat_group", "title": "Naturreservat", "parent": "naturskydd", "expanded": true },
+    { "name": "natura2000",          "title": "Natura 2000",                         "expanded": false },
+    { "name": "nv_rikstackande",     "title": "Naturvårdsverket (fler skyddstyper)", "expanded": false }
   ],
 
   "layers": [
@@ -71,7 +72,7 @@
     {
       "name": "nv_naturreservat_sthlm",
       "title": "Naturreservat — Stockholms län",
-      "group": "naturskydd",
+      "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-stockholm-v2.geojson",
       "visible": true,
@@ -92,7 +93,7 @@
     {
       "name": "nv_naturreservat_sod",
       "title": "Naturreservat — Södermanlands län",
-      "group": "naturskydd",
+      "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-sodermanland.geojson",
       "visible": true,
