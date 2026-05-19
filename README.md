@@ -45,6 +45,8 @@ A portfolio web GIS application showing Swedish nature conservation data across 
 | Vattenskyddsområden | Naturvårdsverket | WMS |
 | Naturminnen (ytor + punkter) | Naturvårdsverket | WMS |
 | Kommunala naturreservat | Naturvårdsverket | WMS |
+| Tillträdesförbud | Naturvårdsverket | WMS |
+| Interimistiska förbud | Naturvårdsverket | WMS |
 
 ---
 
@@ -140,7 +142,7 @@ Naturvårdsverket's WFS uses GML output only — `application/json` returns an e
 - [x] Origo Map v2.10 deployed on GitHub Pages
 - [x] 1 845 naturreservat i 6 län (GeoJSON, klickbara, sökbara)
 - [x] 31 nationalparker (rikstäckande)
-- [x] 7 WMS-lager (Natura 2000, biotopskydd, vattenskydd, naturminnen m.fl.)
+- [x] 9 WMS-lager (Natura 2000, biotopskydd, vattenskydd, naturminnen, tillträdesförbud m.fl.)
 - [x] County selector med länsbegränsad zoom
 - [x] Reservatsökning (namn-autocomplete)
 - [x] Statistikpanel (count, areal, NP per valt län)
@@ -151,7 +153,7 @@ Naturvårdsverket's WFS uses GML output only — `application/json` returns an e
 
 ### Kommande
 
-- [ ] Jakttider/jaktrestriktioner (Naturvårdsverket)
+- [x] Jakttider — tillträdesförbud/interimistiska förbudszoner (WMS) + länk till NV:s jakttider
 - [ ] Fler län
 - [ ] Lantmäteriets fastighetsdata — markägare per reservat
 - [ ] Planerings- och dispensärenden (kommunala GIS-tjänster)
