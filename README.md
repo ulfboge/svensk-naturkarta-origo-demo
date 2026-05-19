@@ -16,6 +16,9 @@ A portfolio web GIS application showing Swedish nature conservation data across 
 ![Popup med reservatinformation och länk till Naturvårdsverket](docs/screenshot-pop-up.png)
 *Klickbar popup med namn, skyddstyp, IUCN-kategori, areal, beslutsdatum, förvaltare och direktlänk till Naturvårdsverkets databas.*
 
+![Statistikpanel för valt län](docs/screenshot-stats.png)
+*Statistikpanel (nedre vänster) uppdateras direkt vid länsbyte — antal reservat, total areal och antal nationalparker.*
+
 ---
 
 ## What it shows

@@ -189,6 +189,7 @@
       b.classList.toggle('active', b.dataset.county === county);
     });
     updateStats(county);
+    rebuildSearch(county);
   }
 
   // Wait until Origo is ready AND the GeoJSON layers exist in the map
@@ -204,46 +205,86 @@
   }
   setTimeout(initSelector, 600);
 
-  // Feature name search across all naturreservat layers
-  function initSearch() {
-    var index = {};
-    ALL_LAYERS.forEach(function(layerName) {
-      var l = findOLLayer(layerName);
+  // Layer names per county (used by search to know which layer to query)
+  var COUNTY_LAYER_NAME = {
+    sthlm: 'nv_naturreservat_sthlm',
+    sod:   'nv_naturreservat_sod',
+    upp:   'nv_naturreservat_uppsala',
+    ost:   'nv_naturreservat_ostergotland',
+    vg:    'nv_naturreservat_vastragotaland',
+    skane: 'nv_naturreservat_skane'
+  };
+
+  var searchIndex = {};   // module-level so event handler always reads latest version
+
+  // Rebuild search datalist filtered to the selected county.
+  // Handles lazy-loading: hidden layers have no features until made visible,
+  // so we listen for featuresloadend when the source is empty.
+  function rebuildSearch(county) {
+    var layerNames = county === 'all'
+        ? Object.keys(COUNTY_LAYER_NAME).map(function(k) { return COUNTY_LAYER_NAME[k]; })
+        : (COUNTY_LAYER_NAME[county] ? [COUNTY_LAYER_NAME[county]] : []);
+
+    var newIndex = {};
+    var pending = 0;
+
+    function finish() {
+      searchIndex = newIndex;
+      var dl = document.getElementById('reservat-names');
+      dl.innerHTML = '';
+      Object.keys(newIndex).sort().forEach(function(n) {
+        var opt = document.createElement('option');
+        opt.value = n;
+        dl.appendChild(opt);
+      });
+    }
+
+    layerNames.forEach(function(lName) {
+      var l = findOLLayer(lName);
       if (!l || !l.getSource) return;
       var src = l.getSource();
-      if (!src || !src.getFeatures) return;
-      src.getFeatures().forEach(function(f) {
-        var name = f.get('NAMN');
-        if (name && !index[name]) index[name] = { feature: f, layerName: layerName };
-      });
+
+      function harvest() {
+        src.getFeatures().forEach(function(f) {
+          var n = f.get('NAMN');
+          if (n && !newIndex[n]) newIndex[n] = { feature: f, layerName: lName };
+        });
+      }
+
+      if (src.getFeatures().length > 0) {
+        harvest();
+      } else {
+        pending++;
+        src.once('featuresloadend', function() {
+          harvest();
+          pending--;
+          if (pending === 0) finish();
+        });
+      }
     });
 
-    var dl = document.getElementById('reservat-names');
-    Object.keys(index).sort().forEach(function(n) {
-      var opt = document.createElement('option');
-      opt.value = n;
-      dl.appendChild(opt);
-    });
+    if (pending === 0) finish();
+  }
+
+  function initSearch() {
+    rebuildSearch('all');
 
     document.getElementById('reservat-search').addEventListener('change', function() {
-      var match = index[this.value];
+      var match = searchIndex[this.value];
       if (!match) return;
-      // Ensure the layer is visible (switch to Alla)
-      selectCounty('all');
-      // Zoom to feature
+      // Make sure the matching layer is visible
+      var l = findOLLayer(match.layerName);
+      if (l && !l.getVisible()) l.setVisible(true);
       var geom = match.feature.getGeometry();
-      if (!geom) return;
-      var map = viewer.api().getMap();
-      map.getView().fit(geom.getExtent(), {
-        size: map.getSize(),
+      if (!geom) { this.value = ''; return; }
+      viewer.api().getMap().getView().fit(geom.getExtent(), {
         padding: [100, 80, 80, 80],
         duration: 600,
         maxZoom: 13
       });
       this.blur();
-      setTimeout(function() {
-        document.getElementById('reservat-search').value = '';
-      }, 400);
+      var inp = this;
+      setTimeout(function() { inp.value = ''; }, 400);
     });
   }
 
