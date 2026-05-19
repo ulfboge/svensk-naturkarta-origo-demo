@@ -106,7 +106,7 @@ python -m http.server 3000 --directory public
 
 ### Aktivera Lantmäteriet Topowebb (valfritt)
 
-Ersätt `DIN_API_NYCKEL` i `public/config/origo.json` med din nyckel från [opendata.lantmateriet.se](https://opendata.lantmateriet.se/).
+Topowebb använder Lantmäteriets öppna WMTS-åtkomstpunkt i `public/config/origo.json`.
 
 ---
 
@@ -118,6 +118,7 @@ Ersätt `DIN_API_NYCKEL` i `public/config/origo.json` med din nyckel från [open
 | Artobservationer | [GBIF](https://www.gbif.org) / [Artportalen](https://www.artportalen.se) | CC BY |
 | Biotopskydd, Djur- och växtskydd m.fl. | [Naturvårdsverket](https://www.naturvardsverket.se/om-oss/oppna-data-och-apier/) | CC0 |
 | Topowebb | [Lantmäteriet](https://opendata.lantmateriet.se/) | CC BY |
+| Fastighetsgränser (MinKarta-länk) | [Lantmäteriet](https://minkarta.lantmateriet.se/) | Avgiftsbelagd produkt — länk till webbgränssnittet är gratis |
 | Bakgrundskarta | [OpenStreetMap](https://www.openstreetmap.org/) contributors | ODbL |
 
 ---
@@ -155,7 +156,6 @@ Naturvårdsverket's WFS uses GML output only — `application/json` returns an e
 
 - [x] Jakttider — tillträdesförbud/interimistiska förbudszoner (WMS) + länk till NV:s jakttider
 - [ ] Fler län
-- [x] Lantmäteriets fastighetsdata — Fastighetsindelning WMS-lager + MinKarta-länk i popup och statistikpanel
 - [x] Planering — riksintressen (Boverket WMS), skyddsbeslutsstatus + naturvårdsområden (NV WMS), länk till Boverkets riksintressekarta
 
 ---
