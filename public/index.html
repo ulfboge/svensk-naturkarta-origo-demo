@@ -78,6 +78,17 @@
       <a id="stats-ap-link" href="https://www.artportalen.se/ViewSighting/SearchSighting" target="_blank" style="margin-left:8px">Artportalen ↗</a>
     </div>
   </div>
+  <div class="stats-section" id="stats-planning">
+    <div class="stats-section-title">Planering</div>
+    <div class="stats-row">
+      <span class="stats-label">Riksintressen</span>
+      <span class="stats-value stats-hint">se karta</span>
+    </div>
+    <div class="stats-row stats-row-link">
+      <a id="stats-riksintresse-link" href="https://www.boverket.se/sv/samhallsplanering/sa-planeras-sverige/nationella-intressen/riksintressekarta/" target="_blank">Riksintressekarta ↗</a>
+      <a href="https://www.naturvardsverket.se/amnen/skyddad-natur/skyddade-omraden/" target="_blank" style="margin-left:8px">NV Ärenden ↗</a>
+    </div>
+  </div>
   <div class="stats-section" id="stats-lm">
     <div class="stats-section-title">Fastighetsdata (LM)</div>
     <div class="stats-row">
@@ -244,6 +255,12 @@
                   + '<a href="' + gbifMapUrl(bbox) + '" target="_blank">GBIF ↗</a>'
                   + ' &nbsp;<a href="https://www.artportalen.se/ViewSighting/SearchSighting" target="_blank">Artportalen ↗</a>'
                   + ' &nbsp;<a href="' + minKartaUrl(centreLat, centreLon) + '" target="_blank">Fastighetsgränser (LM) ↗</a>';
+                // Add planning row
+                var liPlan = document.createElement('li');
+                liPlan.innerHTML = '<b>Planering</b><br>'
+                  + '<a href="https://www.boverket.se/sv/samhallsplanering/sa-planeras-sverige/nationella-intressen/riksintressekarta/" target="_blank">Riksintressen (Boverket) ↗</a>'
+                  + ' &nbsp;<a href="https://www.naturvardsverket.se/amnen/skyddad-natur/skyddade-omraden/" target="_blank">NV Ärenden ↗</a>';
+                el.appendChild(liPlan);
               })
               .catch(function() {
                 li.querySelector('.artobs-loading').textContent = '—';
