@@ -71,14 +71,14 @@
                     'nv_naturreservat_uppsala', 'nv_naturreservat_ostergotland',
                     'nv_nationalparker'];
 
-  // Which layers to show/hide per selection
+  // Layers to show/hide per county (NP = rikstäckande, visas för Stockholm + Uppsala)
   var COUNTY_LAYERS = {
     sthlm: { show: ['nv_naturreservat_sthlm', 'nv_nationalparker'],
               hide: ['nv_naturreservat_sod', 'nv_naturreservat_uppsala', 'nv_naturreservat_ostergotland'] },
     sod:   { show: ['nv_naturreservat_sod'],
-              hide: ['nv_naturreservat_sthlm', 'nv_nationalparker', 'nv_naturreservat_uppsala', 'nv_naturreservat_ostergotland'] },
-    upp:   { show: ['nv_naturreservat_uppsala'],
-              hide: ['nv_naturreservat_sthlm', 'nv_naturreservat_sod', 'nv_naturreservat_ostergotland', 'nv_nationalparker'] },
+              hide: ['nv_naturreservat_sthlm', 'nv_naturreservat_uppsala', 'nv_naturreservat_ostergotland', 'nv_nationalparker'] },
+    upp:   { show: ['nv_naturreservat_uppsala', 'nv_nationalparker'],
+              hide: ['nv_naturreservat_sthlm', 'nv_naturreservat_sod', 'nv_naturreservat_ostergotland'] },
     ost:   { show: ['nv_naturreservat_ostergotland'],
               hide: ['nv_naturreservat_sthlm', 'nv_naturreservat_sod', 'nv_naturreservat_uppsala', 'nv_nationalparker'] },
     all:   { show: ALL_LAYERS, hide: [] }
@@ -103,18 +103,18 @@
 
   function selectCounty(county) {
     var map = viewer.api().getMap();
+    if (!map) return;
     var cfg = COUNTY_LAYERS[county];
+    if (!cfg) return;
     cfg.show.forEach(function(n) {
       var l = findOLLayer(n); if (l) l.setVisible(true);
     });
     cfg.hide.forEach(function(n) {
       var l = findOLLayer(n); if (l) l.setVisible(false);
     });
-    map.getView().fit(EXTENTS[county], {
-      size: map.getSize(),
-      padding: [60, 60, 60, 60],
-      duration: 600
-    });
+    try {
+      map.getView().fit(EXTENTS[county], { padding: [60, 60, 60, 60], duration: 600 });
+    } catch (e) { /* fit kan misslyckas om kartan inte renderats klart */ }
     document.querySelectorAll('.county-btn').forEach(function(b) {
       b.classList.toggle('active', b.dataset.county === county);
     });

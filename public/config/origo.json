@@ -159,10 +159,10 @@
 
     {
       "name": "nv_nationalparker",
-      "title": "Nationalparker — Stockholms län",
+      "title": "Nationalparker",
       "group": "naturskydd",
       "type": "GEOJSON",
-      "source": "data/nationalparker-sthlm-sod.geojson",
+      "source": "data/nationalparker-alla.geojson",
       "visible": true,
       "queryable": true,
       "zIndex": 9,
