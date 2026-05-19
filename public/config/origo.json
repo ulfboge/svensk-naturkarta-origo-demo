@@ -189,6 +189,62 @@
       "visible": false,
       "queryable": false,
       "zIndex": 5
+    },
+
+    {
+      "name": "nv_vattenskydd",
+      "title": "Vattenskyddsområden",
+      "group": "nv_rikstackande",
+      "type": "WMS",
+      "source": "nv_naturvardsregistret",
+      "id": "Vattenskyddsomrade",
+      "format": "image/png",
+      "sourceParams": { "TRANSPARENT": "true" },
+      "visible": false,
+      "queryable": false,
+      "zIndex": 4
+    },
+
+    {
+      "name": "nv_naturminne_yta",
+      "title": "Naturminnen (ytor)",
+      "group": "nv_rikstackande",
+      "type": "WMS",
+      "source": "nv_naturvardsregistret",
+      "id": "Naturminne_polygon",
+      "format": "image/png",
+      "sourceParams": { "TRANSPARENT": "true" },
+      "visible": false,
+      "queryable": false,
+      "zIndex": 3
+    },
+
+    {
+      "name": "nv_naturminne_punkt",
+      "title": "Naturminnen (punkter)",
+      "group": "nv_rikstackande",
+      "type": "WMS",
+      "source": "nv_naturvardsregistret",
+      "id": "Naturminne_punkt",
+      "format": "image/png",
+      "sourceParams": { "TRANSPARENT": "true" },
+      "visible": false,
+      "queryable": false,
+      "zIndex": 3
+    },
+
+    {
+      "name": "nv_naturreservat_kommunalt",
+      "title": "Kommunala naturreservat",
+      "group": "nv_rikstackande",
+      "type": "WMS",
+      "source": "nv_naturvardsregistret",
+      "id": "Naturreservat_kommunalt",
+      "format": "image/png",
+      "sourceParams": { "TRANSPARENT": "true" },
+      "visible": false,
+      "queryable": false,
+      "zIndex": 2
     }
 
   ],

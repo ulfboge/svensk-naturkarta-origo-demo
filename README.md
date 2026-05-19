@@ -29,6 +29,9 @@ A portfolio web GIS application showing Swedish nature conservation data using [
 | Natura 2000 SPA — Fågeldirektivet | Naturvårdsverket | WMS | — |
 | Biotopskyddsområden | Naturvårdsverket | WMS | — |
 | Djur- och växtskyddsområden | Naturvårdsverket | WMS | — |
+| Vattenskyddsområden | Naturvårdsverket | WMS | — |
+| Naturminnen (ytor + punkter) | Naturvårdsverket | WMS | — |
+| Kommunala naturreservat | Naturvårdsverket | WMS | — |
 | OpenStreetMap / OpenTopoMap | OSM | Tile | — |
 | Topowebb (Lantmäteriet) | Lantmäteriet (CC BY) | XYZ/WMTS | — |
 
