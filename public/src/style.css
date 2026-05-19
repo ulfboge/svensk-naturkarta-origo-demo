@@ -162,11 +162,11 @@ body {
   color: #fff;
 }
 
-/* ── Statistics panel — bottom-right, extensible ── */
+/* ── Statistics panel — bottom-left, clears Origo's right-side legend ── */
 #stats-panel {
   position: fixed;
   bottom: 44px;
-  right: 12px;
+  left: 8px;
   z-index: 500;
   background: rgba(255, 255, 255, 0.93);
   border-radius: 12px;
@@ -220,7 +220,7 @@ body {
 
 /* ── Mobile: tighten everything below 520 px ── */
 @media (max-width: 520px) {
-  #stats-panel { min-width: 140px; bottom: 36px; right: 6px; }
+  #stats-panel { min-width: 140px; bottom: 36px; left: 6px; }
   .stats-header { font-size: 10px; padding: 5px 10px; }
   .stats-label  { font-size: 10px; }
   .stats-value  { font-size: 11px; }
