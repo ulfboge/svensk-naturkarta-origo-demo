@@ -18,7 +18,7 @@ Svar: `{ "count": 1234, ... }` — ingen data behöver parsas, bara räknevärde
 
 ---
 
-## Steg 1 — API-test [ ]
+## Steg 1 — API-test [✅ KLAR]
 - [ ] Testa GBIF-endpointen i webbläsaren med bbox för ett känt reservat
   - Exempelkoordinater: Tyresta (lat 59.18,59.23, lon 18.19,18.30)
   - Verifiera att `count` returneras korrekt
@@ -27,7 +27,7 @@ Svar: `{ "count": 1234, ... }` — ingen data behöver parsas, bara räknevärde
 
 ---
 
-## Steg 2 — Popup: artobservationer per reservat [ ]
+## Steg 2 — Popup: artobservationer per reservat [✅ KLAR]
 Triggas när användaren klickar på ett naturreservat.
 
 **Teknisk approach:**
@@ -51,7 +51,7 @@ Triggas när användaren klickar på ett naturreservat.
 
 ---
 
-## Steg 3 — Statistikpanel: observationer per län [ ]
+## Steg 3 — Statistikpanel: observationer per län [✅ KLAR]
 Triggas när användare byter länval.
 
 **Teknisk approach:**
@@ -78,7 +78,7 @@ var COUNTY_BBOX = {
 
 ---
 
-## Steg 4 — Loading-state och felhantering [ ]
+## Steg 4 — Loading-state och felhantering [✅ KLAR]
 - Visa "laddar..." medan GBIF svarar
 - Om GBIF returnerar fel (nätverk, timeout) → visa "—" utan att krascha
 - CORS bör fungera (GBIF har öppna CORS-headers), men verifiera
