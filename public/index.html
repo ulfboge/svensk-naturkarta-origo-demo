@@ -41,6 +41,10 @@
     <button class="county-btn" data-county="upp">Uppsala</button>
     <button class="county-btn" data-county="ost">Östergötland</button>
   </div>
+  <div id="reservat-search-wrap">
+    <input id="reservat-search" type="search" list="reservat-names" placeholder="Sök reservat…" autocomplete="off">
+    <datalist id="reservat-names"></datalist>
+  </div>
 </div>
 
 <!-- #app-wrapper MUST be completely empty — Origo fills it entirely -->
@@ -124,8 +128,52 @@
     document.querySelectorAll('.county-btn').forEach(function(btn) {
       btn.addEventListener('click', function() { selectCounty(btn.dataset.county); });
     });
+    initSearch();
   }
   setTimeout(initSelector, 600);
+
+  // Feature name search across all naturreservat layers
+  function initSearch() {
+    var index = {};
+    ALL_LAYERS.forEach(function(layerName) {
+      var l = findOLLayer(layerName);
+      if (!l || !l.getSource) return;
+      var src = l.getSource();
+      if (!src || !src.getFeatures) return;
+      src.getFeatures().forEach(function(f) {
+        var name = f.get('NAMN');
+        if (name && !index[name]) index[name] = { feature: f, layerName: layerName };
+      });
+    });
+
+    var dl = document.getElementById('reservat-names');
+    Object.keys(index).sort().forEach(function(n) {
+      var opt = document.createElement('option');
+      opt.value = n;
+      dl.appendChild(opt);
+    });
+
+    document.getElementById('reservat-search').addEventListener('change', function() {
+      var match = index[this.value];
+      if (!match) return;
+      // Ensure the layer is visible (switch to Alla)
+      selectCounty('all');
+      // Zoom to feature
+      var geom = match.feature.getGeometry();
+      if (!geom) return;
+      var map = viewer.api().getMap();
+      map.getView().fit(geom.getExtent(), {
+        size: map.getSize(),
+        padding: [100, 80, 80, 80],
+        duration: 600,
+        maxZoom: 13
+      });
+      this.blur();
+      setTimeout(function() {
+        document.getElementById('reservat-search').value = '';
+      }, 400);
+    });
+  }
 
   // Format AREA_HA with Swedish thousands separator when Origo renders a popup
   (function () {
