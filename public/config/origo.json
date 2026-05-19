@@ -158,6 +158,50 @@
     },
 
     {
+      "name": "nv_naturreservat_vastragotaland",
+      "title": "Naturreservat — Västra Götalands län",
+      "group": "naturreservat_group",
+      "type": "GEOJSON",
+      "source": "data/naturreservat-vastragotaland.geojson",
+      "visible": false,
+      "queryable": true,
+      "zIndex": 10,
+      "style": "naturreservat_polygon",
+      "attributes": [
+        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
+        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
+        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
+        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
+        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
+          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
+        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
+        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
+      ]
+    },
+
+    {
+      "name": "nv_naturreservat_skane",
+      "title": "Naturreservat — Skåne län",
+      "group": "naturreservat_group",
+      "type": "GEOJSON",
+      "source": "data/naturreservat-skane.geojson",
+      "visible": false,
+      "queryable": true,
+      "zIndex": 10,
+      "style": "naturreservat_polygon",
+      "attributes": [
+        { "name": "NAMN",              "title": "Namn",          "prefix": ": " },
+        { "name": "SKYDDSTYP",         "title": "Skyddstyp",     "prefix": ": " },
+        { "name": "IUCNKATEGORI",      "title": "IUCN-kategori", "prefix": ": " },
+        { "name": "AREA_HA",           "title": "Areal (ha)",    "prefix": ": " },
+        { "name": "URSPR_BESLUTSDATUM","title": "Beslutsdatum",  "prefix": ": ",
+          "formatDatetime": { "locale": "sv-SE", "options": { "year": "numeric", "month": "long", "day": "numeric" } } },
+        { "name": "KOMMUN",            "title": "Kommun",        "prefix": ": " },
+        { "name": "FORVALTARE",        "title": "Förvaltare",    "prefix": ": " }
+      ]
+    },
+
+    {
       "name": "nv_nationalparker",
       "title": "Nationalparker",
       "group": "naturskydd",

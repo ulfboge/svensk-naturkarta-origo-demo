@@ -40,6 +40,8 @@
     <button class="county-btn" data-county="sod">Södermanland</button>
     <button class="county-btn" data-county="upp">Uppsala</button>
     <button class="county-btn" data-county="ost">Östergötland</button>
+    <button class="county-btn" data-county="vg">Västra Götaland</button>
+    <button class="county-btn" data-county="skane">Skåne</button>
   </div>
   <div id="reservat-search-wrap">
     <input id="reservat-search" type="search" list="reservat-names" placeholder="Sök reservat…" autocomplete="off">
@@ -88,7 +90,9 @@
     sod:   'Södermanlands län',
     upp:   'Uppsala län',
     ost:   'Östergötlands län',
-    all:   'Alla fyra länen'
+    vg:    'Västra Götalands län',
+    skane: 'Skåne län',
+    all:   'Alla sex länen'
   };
 
   // Which NR layers to count per county selection
@@ -97,8 +101,11 @@
     sod:   ['nv_naturreservat_sod'],
     upp:   ['nv_naturreservat_uppsala'],
     ost:   ['nv_naturreservat_ostergotland'],
+    vg:    ['nv_naturreservat_vastragotaland'],
+    skane: ['nv_naturreservat_skane'],
     all:   ['nv_naturreservat_sthlm','nv_naturreservat_sod',
-             'nv_naturreservat_uppsala','nv_naturreservat_ostergotland']
+             'nv_naturreservat_uppsala','nv_naturreservat_ostergotland',
+             'nv_naturreservat_vastragotaland','nv_naturreservat_skane']
   };
 
   // Substring to match LAN field in nationalparker layer
@@ -107,6 +114,8 @@
     sod:   'Södermanlands',
     upp:   'Uppsala',
     ost:   'Östergötlands',
+    vg:    'Västra Götalands',
+    skane: 'Skåne',
     all:   ''
   };
 
@@ -145,25 +154,37 @@
     sod:   [1714320, 8051819, 2003751, 8333247],
     upp:   [1831000, 8350000, 2226000, 8726000],
     ost:   [1629000, 7920000, 2003000, 8228000],
-    all:   [1629000, 7920000, 2237522, 8726000]
+    vg:    [1224000, 7640000, 1762000, 8300000],
+    skane: [1380000, 7340000, 1665000, 7680000],
+    all:   [1224000, 7340000, 2237522, 8726000]
   };
 
-  var ALL_LAYERS = ['nv_naturreservat_sthlm', 'nv_naturreservat_sod',
-                    'nv_naturreservat_uppsala', 'nv_naturreservat_ostergotland',
-                    'nv_nationalparker'];
+  var ALL_NR = ['nv_naturreservat_sthlm', 'nv_naturreservat_sod',
+                'nv_naturreservat_uppsala', 'nv_naturreservat_ostergotland',
+                'nv_naturreservat_vastragotaland', 'nv_naturreservat_skane'];
+  var ALL_LAYERS = ALL_NR.concat(['nv_nationalparker']);
 
-  // Layers to show/hide per county (NP = rikstäckande, visas för Stockholm + Uppsala)
-  var COUNTY_LAYERS = {
-    sthlm: { show: ['nv_naturreservat_sthlm', 'nv_nationalparker'],
-              hide: ['nv_naturreservat_sod', 'nv_naturreservat_uppsala', 'nv_naturreservat_ostergotland'] },
-    sod:   { show: ['nv_naturreservat_sod'],
-              hide: ['nv_naturreservat_sthlm', 'nv_naturreservat_uppsala', 'nv_naturreservat_ostergotland', 'nv_nationalparker'] },
-    upp:   { show: ['nv_naturreservat_uppsala', 'nv_nationalparker'],
-              hide: ['nv_naturreservat_sthlm', 'nv_naturreservat_sod', 'nv_naturreservat_ostergotland'] },
-    ost:   { show: ['nv_naturreservat_ostergotland'],
-              hide: ['nv_naturreservat_sthlm', 'nv_naturreservat_sod', 'nv_naturreservat_uppsala', 'nv_nationalparker'] },
-    all:   { show: ALL_LAYERS, hide: [] }
-  };
+  // Counties WITH national parks (NP layer shown)
+  var COUNTIES_WITH_NP = { sthlm: true, upp: true, vg: true, skane: true };
+
+  // Layers to show/hide per county
+  var COUNTY_LAYERS = (function() {
+    var cfg = {};
+    ['sthlm','sod','upp','ost','vg','skane'].forEach(function(c) {
+      var nr = 'nv_naturreservat_' + {
+        sthlm:'sthlm', sod:'sod', upp:'uppsala', ost:'ostergotland',
+        vg:'vastragotaland', skane:'skane'
+      }[c];
+      var showNP = !!COUNTIES_WITH_NP[c];
+      cfg[c] = {
+        show: showNP ? [nr, 'nv_nationalparker'] : [nr],
+        hide: ALL_NR.filter(function(l) { return l !== nr; })
+                    .concat(showNP ? [] : ['nv_nationalparker'])
+      };
+    });
+    cfg.all = { show: ALL_LAYERS, hide: [] };
+    return cfg;
+  }());
 
   function findOLLayer(name) {
     var map = viewer.api().getMap();
