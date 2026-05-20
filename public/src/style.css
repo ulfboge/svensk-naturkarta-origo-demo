@@ -176,6 +176,9 @@ body {
   font-family: sans-serif;
   overflow: hidden;
 }
+#stats-panel a {
+  pointer-events: auto;
+}
 .stats-header {
   background: #2d6a4f;
   color: #d8f3dc;
