@@ -184,7 +184,7 @@
           "title": "Visa på Naturvårdsverket",
           "type": "url",
           "url": "NVRID",
-          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/?nvrid="
         }
       ],
       "featureinfoTitle": "NAMN"
@@ -248,7 +248,7 @@
           "title": "Visa på Naturvårdsverket",
           "type": "url",
           "url": "NVRID",
-          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/?nvrid="
         }
       ],
       "featureinfoTitle": "NAMN"
@@ -312,7 +312,7 @@
           "title": "Visa på Naturvårdsverket",
           "type": "url",
           "url": "NVRID",
-          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/?nvrid="
         }
       ],
       "featureinfoTitle": "NAMN"
@@ -376,7 +376,7 @@
           "title": "Visa på Naturvårdsverket",
           "type": "url",
           "url": "NVRID",
-          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/?nvrid="
         }
       ],
       "featureinfoTitle": "NAMN"
@@ -440,7 +440,7 @@
           "title": "Visa på Naturvårdsverket",
           "type": "url",
           "url": "NVRID",
-          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/?nvrid="
         }
       ],
       "featureinfoTitle": "NAMN"
@@ -504,7 +504,7 @@
           "title": "Visa på Naturvårdsverket",
           "type": "url",
           "url": "NVRID",
-          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/?nvrid="
         }
       ],
       "featureinfoTitle": "NAMN"
@@ -568,7 +568,7 @@
           "title": "Visa på Naturvårdsverket",
           "type": "url",
           "url": "NVRID",
-          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/Geocache/?NVRID="
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/?nvrid="
         }
       ],
       "featureinfoTitle": "NAMN"
