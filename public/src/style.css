@@ -67,34 +67,32 @@ body {
   margin-bottom: 6px;
 }
 
-/* ── County selector buttons ── */
+/* ── County selector dropdown ── */
 #county-selector {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 4px;
+  margin-top: 4px;
 }
-.county-btn {
+#county-select {
   font-family: sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 12px;
+  padding: 4px 28px 4px 12px;
+  border-radius: 14px;
   border: 1.5px solid #52b788;
-  background: transparent;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%232d6a4f'/%3E%3C/svg%3E") no-repeat right 10px center;
+  -webkit-appearance: none;
+  appearance: none;
   color: #2d6a4f;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
+  outline: none;
+  min-width: 200px;
+  transition: border-color 0.15s, background-color 0.15s;
 }
-.county-btn:hover {
-  background: #d8f3dc;
-}
-.county-btn.active {
-  background: #2d6a4f;
-  color: #fff;
+#county-select:hover,
+#county-select:focus {
   border-color: #2d6a4f;
+  background-color: #f0fdf4;
 }
 
 /* ── Reservat search input ── */

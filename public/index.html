@@ -33,15 +33,33 @@
 
 <!-- Map title + county selector overlay -->
 <div id="map-title">
-  <span>Skyddad natur</span>
+  <span>Skyddad natur i Sverige</span>
   <div id="county-selector">
-    <button class="county-btn active" data-county="all">Alla</button>
-    <button class="county-btn" data-county="sthlm">Stockholm</button>
-    <button class="county-btn" data-county="sod">Södermanland</button>
-    <button class="county-btn" data-county="upp">Uppsala</button>
-    <button class="county-btn" data-county="ost">Östergötland</button>
-    <button class="county-btn" data-county="vg">Västra Götaland</button>
-    <button class="county-btn" data-county="skane">Skåne</button>
+    <select id="county-select">
+      <option value="">Välj ett län…</option>
+      <option value="all">— Hela Sverige —</option>
+      <option value="ble">Blekinge län</option>
+      <option value="dal">Dalarnas län</option>
+      <option value="gav">Gävleborgs län</option>
+      <option value="got">Gotlands län</option>
+      <option value="hal">Hallands län</option>
+      <option value="jam">Jämtlands län</option>
+      <option value="jon">Jönköpings län</option>
+      <option value="kal">Kalmar län</option>
+      <option value="kro">Kronobergs län</option>
+      <option value="nrb">Norrbottens län</option>
+      <option value="ore">Örebro län</option>
+      <option value="ost">Östergötlands län</option>
+      <option value="skane">Skåne län</option>
+      <option value="sod">Södermanlands län</option>
+      <option value="sthlm">Stockholms län</option>
+      <option value="upp">Uppsala län</option>
+      <option value="vbo">Västerbottens län</option>
+      <option value="vg">Västra Götalands län</option>
+      <option value="vml">Västmanlands län</option>
+      <option value="vnr">Västernorrlands län</option>
+      <option value="vrm">Värmlands län</option>
+    </select>
   </div>
   <div id="reservat-search-wrap">
     <input id="reservat-search" type="search" list="reservat-names" placeholder="Sök reservat…" autocomplete="off">
@@ -114,12 +132,31 @@
     ost:   { minLat: 57.705, maxLat: 58.983, minLon: 14.543, maxLon: 17.209 },
     vg:    { minLat: 57.146, maxLat: 59.252, minLon: 10.942, maxLon: 14.716 },
     skane: { minLat: 55.269, maxLat: 56.557, minLon: 12.117, maxLon: 14.577 },
-    all:   { minLat: 55.269, maxLat: 60.705, minLon: 10.942, maxLon: 19.916 }
+    ble:   { minLat: 55.911, maxLat: 56.447, minLon: 14.404, maxLon: 16.046 },
+    dal:   { minLat: 59.885, maxLat: 62.284, minLon: 12.297, maxLon: 16.678 },
+    got:   { minLat: 56.938, maxLat: 58.584, minLon: 17.912, maxLon: 19.572 },
+    gav:   { minLat: 60.227, maxLat: 62.294, minLon: 14.524, maxLon: 17.676 },
+    hal:   { minLat: 56.301, maxLat: 57.597, minLon: 11.958, maxLon: 13.671 },
+    jam:   { minLat: 61.614, maxLat: 65.110, minLon: 12.223, maxLon: 16.824 },
+    jon:   { minLat: 56.893, maxLat: 58.117, minLon: 13.089, maxLon: 15.644 },
+    kal:   { minLat: 56.098, maxLat: 58.118, minLon: 15.501, maxLon: 17.572 },
+    kro:   { minLat: 56.361, maxLat: 57.222, minLon: 13.368, maxLon: 15.838 },
+    nrb:   { minLat: 65.204, maxLat: 68.178, minLon: 16.073, maxLon: 25.086 },
+    vrm:   { minLat: 58.698, maxLat: 61.073, minLon: 11.811, maxLon: 14.372 },
+    vbo:   { minLat: 63.399, maxLat: 66.184, minLon: 14.537, maxLon: 22.077 },
+    vnr:   { minLat: 62.156, maxLat: 63.976, minLon: 14.802, maxLon: 19.227 },
+    vml:   { minLat: 59.262, maxLat: 60.169, minLon: 15.454, maxLon: 17.005 },
+    ore:   { minLat: 58.685, maxLat: 60.077, minLon: 14.304, maxLon: 15.727 },
+    all:   { minLat: 55.269, maxLat: 68.178, minLon: 10.942, maxLon: 25.086 }
   };
 
   // Artportalen länskoder
   var COUNTY_AP_CODE = {
-    sthlm: 'AB', sod: 'D', upp: 'C', ost: 'E', vg: 'O', skane: 'M', all: null
+    sthlm: 'AB', sod: 'D',  upp: 'C',  ost: 'E',  vg: 'O',  skane: 'M',
+    ble:   'K',  dal: 'W',  got: 'I',  gav: 'X',  hal: 'N',
+    jam:   'Z',  jon: 'F',  kal: 'H',  kro: 'G',  nrb: 'BD',
+    vrm:   'S',  vbo: 'AC', vnr: 'Y',  vml: 'U',  ore: 'T',
+    all: null
   };
 
   function artportalenUrl(county) {
@@ -181,14 +218,13 @@
   var lastClickBbox   = null;
   var lastClickAPCode = null;
 
-  var LAYER_AP_CODE = {
-    nv_naturreservat_sthlm:          'AB',
-    nv_naturreservat_sod:            'D',
-    nv_naturreservat_uppsala:        'C',
-    nv_naturreservat_ostergotland:   'E',
-    nv_naturreservat_vastragotaland: 'O',
-    nv_naturreservat_skane:          'M'
-  };
+  var LAYER_AP_CODE = (function() {
+    var m = {};
+    Object.keys(COUNTY_LAYER_SUFFIX).forEach(function(c) {
+      m['nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c]] = COUNTY_AP_CODE[c] || null;
+    });
+    return m;
+  }());
 
   function apUrlForPopup(apCode) {
     var base = 'https://www.artportalen.se/ViewSighting/SearchSighting';
@@ -255,25 +291,44 @@
 
   // County display names for stats panel
   var COUNTY_NAMES = {
-    sthlm: 'Stockholms län',
-    sod:   'Södermanlands län',
-    upp:   'Uppsala län',
-    ost:   'Östergötlands län',
-    vg:    'Västra Götalands län',
-    skane: 'Skåne län',
-    all:   'Alla sex länen'
+    sthlm: 'Stockholms län',    sod:  'Södermanlands län',
+    upp:   'Uppsala län',       ost:  'Östergötlands län',
+    vg:    'Västra Götalands län', skane: 'Skåne län',
+    ble:   'Blekinge län',      dal:  'Dalarnas län',
+    got:   'Gotlands län',      gav:  'Gävleborgs län',
+    hal:   'Hallands län',      jam:  'Jämtlands län',
+    jon:   'Jönköpings län',    kal:  'Kalmar län',
+    kro:   'Kronobergs län',    nrb:  'Norrbottens län',
+    vrm:   'Värmlands län',     vbo:  'Västerbottens län',
+    vnr:   'Västernorrlands län', vml: 'Västmanlands län',
+    ore:   'Örebro län',
+    all:   'Hela Sverige'
   };
 
-  // Pre-calculated stats — avoids Origo's lazy-loading issue (hidden layers have no features yet)
-  // Counts and areas calculated from GeoJSON files at build time.
+  // Pre-calculated stats — counts and areas from GeoJSON files.
   var COUNTY_STATS = {
-    sthlm: { nr:  383, area:  189182, np:  3 },
-    sod:   { nr:  196, area:   52371, np:  0 },
-    upp:   { nr:  201, area:  109518, np:  1 },
-    ost:   { nr:  329, area:   67253, np:  0 },
-    vg:    { nr:  545, area:  162741, np:  4 },
-    skane: { nr:  391, area:  161528, np:  3 },
-    all:   { nr: 2045, area:  742593, np: 31 }
+    sthlm: { nr:  383, area:   189182, np:  3 },
+    sod:   { nr:  196, area:    52371, np:  0 },
+    upp:   { nr:  201, area:   109518, np:  1 },
+    ost:   { nr:  329, area:    67253, np:  0 },
+    vg:    { nr:  545, area:   162741, np:  4 },
+    skane: { nr:  391, area:   161528, np:  3 },
+    ble:   { nr:  126, area:    39023, np:  0 },
+    dal:   { nr:  420, area:   263362, np:  5 },
+    got:   { nr:  165, area:    82583, np:  2 },
+    gav:   { nr:  252, area:    61804, np:  1 },
+    hal:   { nr:  212, area:    29768, np:  1 },
+    jam:   { nr:  270, area:   638883, np:  4 },
+    jon:   { nr:  186, area:    21081, np:  2 },
+    kal:   { nr:  214, area:   103609, np:  2 },
+    kro:   { nr:  154, area:    28688, np:  0 },
+    nrb:   { nr:  529, area:  2169238, np:  7 },
+    vrm:   { nr:  243, area:   118015, np:  0 },
+    vbo:   { nr:  476, area:  1180754, np:  2 },
+    vnr:   { nr:  239, area:    53407, np:  1 },
+    vml:   { nr:  138, area:    34065, np:  0 },
+    ore:   { nr:  324, area:    38820, np:  1 },
+    all:   { nr: 5993, area:  5656695, np: 30 }
   };
 
   function updateStats(county) {
@@ -293,30 +348,47 @@
     ost:   [1629000, 7920000, 2003000, 8228000],
     vg:    [1224000, 7640000, 1762000, 8300000],
     skane: [1380000, 7340000, 1665000, 7680000],
-    all:   [1224000, 7340000, 2237522, 8726000]
+    ble:   [1603473, 7540745, 1786200, 7647889],
+    dal:   [1368935, 8374198, 1856580, 8926709],
+    got:   [1993984, 7747416, 2178765, 8091027],
+    gav:   [1616823, 8450354, 1967733, 8929093],
+    hal:   [1331194, 7618630, 1521843, 7883063],
+    jam:   [1360610, 8768160, 1872825, 9637306],
+    jon:   [1457079, 7738210, 1741459, 7991997],
+    kal:   [1725534, 7578007, 1956118, 7992234],
+    kro:   [1488080, 7630662, 1763117, 7805550],
+    nrb:   [1789246, 9662415, 2792526, 10500026],
+    vrm:   [1314785, 8115330, 1599862, 8642708],
+    vbo:   [1618203, 9198647, 2457651, 9927487],
+    vnr:   [1647696, 8896201, 2140362, 9343666],
+    vml:   [1720351, 8237248, 1892939, 8437451],
+    ore:   [1592309, 8112528, 1750777, 8417005],
+    all:   [1180000, 7320000, 2800000, 10520000]
   };
 
-  var ALL_NR = ['nv_naturreservat_sthlm', 'nv_naturreservat_sod',
-                'nv_naturreservat_uppsala', 'nv_naturreservat_ostergotland',
-                'nv_naturreservat_vastragotaland', 'nv_naturreservat_skane'];
+  var COUNTY_LAYER_SUFFIX = {
+    sthlm: 'sthlm',        sod:  'sod',           upp:  'uppsala',
+    ost:   'ostergotland', vg:   'vastragotaland', skane:'skane',
+    ble:   'blekinge',     dal:  'dalarna',        got:  'gotland',
+    gav:   'gavleborg',    hal:  'halland',        jam:  'jamtland',
+    jon:   'jonkoping',    kal:  'kalmar',         kro:  'kronoberg',
+    nrb:   'norrbotten',   vrm:  'varmland',       vbo:  'vasterbotten',
+    vnr:   'vasternorrland', vml:'vastmanland',    ore:  'orebro'
+  };
+
+  var ALL_NR = Object.keys(COUNTY_LAYER_SUFFIX).map(function(c) {
+    return 'nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c];
+  });
   var ALL_LAYERS = ALL_NR.concat(['nv_nationalparker']);
 
-  // Counties WITH national parks (NP layer shown)
-  var COUNTIES_WITH_NP = { sthlm: true, upp: true, vg: true, skane: true };
-
-  // Layers to show/hide per county
+  // Layers to show/hide per county — NP always shown
   var COUNTY_LAYERS = (function() {
     var cfg = {};
-    ['sthlm','sod','upp','ost','vg','skane'].forEach(function(c) {
-      var nr = 'nv_naturreservat_' + {
-        sthlm:'sthlm', sod:'sod', upp:'uppsala', ost:'ostergotland',
-        vg:'vastragotaland', skane:'skane'
-      }[c];
-      var showNP = !!COUNTIES_WITH_NP[c];
+    Object.keys(COUNTY_LAYER_SUFFIX).forEach(function(c) {
+      var nr = 'nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c];
       cfg[c] = {
-        show: showNP ? [nr, 'nv_nationalparker'] : [nr],
+        show: [nr, 'nv_nationalparker'],
         hide: ALL_NR.filter(function(l) { return l !== nr; })
-                    .concat(showNP ? [] : ['nv_nationalparker'])
       };
     });
     cfg.all = { show: ALL_LAYERS, hide: [] };
@@ -356,23 +428,33 @@
     try {
       map.getView().fit(EXTENTS[county], { padding: [60, 60, 60, 60], duration: 600 });
     } catch (e) { /* fit kan misslyckas om kartan inte renderats klart */ }
-    document.querySelectorAll('.county-btn').forEach(function(b) {
-      b.classList.toggle('active', b.dataset.county === county);
-    });
+    var sel = document.getElementById('county-select');
+    if (sel) sel.value = county;
     updateStats(county);
     updateArtobsStats(county);
     rebuildSearch(county);
   }
 
-  // Wait until Origo is ready AND the GeoJSON layers exist in the map
+  // Wait until Origo is ready, then wire up dropdown and set initial state
   function initSelector() {
     var map = null;
     try { map = viewer.api().getMap(); } catch (e) {}
     if (!map) { setTimeout(initSelector, 200); return; }
-    if (!findOLLayer('nv_naturreservat_sthlm') && !findOLLayer('nv_naturreservat_sod')) { setTimeout(initSelector, 200); return; }
-    document.querySelectorAll('.county-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() { selectCounty(btn.dataset.county); });
+
+    // Initial state B: only NP layer visible, zoom to all of Sweden
+    ALL_NR.forEach(function(n) {
+      var l = findOLLayer(n); if (l) l.setVisible(false);
     });
+    var npLayer = findOLLayer('nv_nationalparker');
+    if (npLayer) npLayer.setVisible(true);
+    try {
+      map.getView().fit(EXTENTS.all, { padding: [60, 60, 60, 60], duration: 800 });
+    } catch(e) {}
+
+    document.getElementById('county-select').addEventListener('change', function() {
+      if (this.value) selectCounty(this.value);
+    });
+
     initSearch();
     updateStats('all');
     updateArtobsStats('all');
@@ -380,15 +462,14 @@
   }
   setTimeout(initSelector, 600);
 
-  // Layer names per county (used by search to know which layer to query)
-  var COUNTY_LAYER_NAME = {
-    sthlm: 'nv_naturreservat_sthlm',
-    sod:   'nv_naturreservat_sod',
-    upp:   'nv_naturreservat_uppsala',
-    ost:   'nv_naturreservat_ostergotland',
-    vg:    'nv_naturreservat_vastragotaland',
-    skane: 'nv_naturreservat_skane'
-  };
+  // Layer names per county (used by search)
+  var COUNTY_LAYER_NAME = (function() {
+    var m = {};
+    Object.keys(COUNTY_LAYER_SUFFIX).forEach(function(c) {
+      m[c] = 'nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c];
+    });
+    return m;
+  }());
 
   var searchIndex = {};   // module-level so event handler always reads latest version
 
