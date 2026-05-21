@@ -109,6 +109,10 @@
       <a href="https://www.naturvardsverket.se/amnesomraden/jakt-och-vilt/jakttider/" target="_blank">Jakttider på NV ↗</a>
     </div>
   </div>
+  <div class="stats-section" id="stats-iucn">
+    <div class="stats-section-title">IUCN-kategorier</div>
+    <div id="iucn-chart"></div>
+  </div>
   <div class="stats-section" id="stats-weather">
     <div class="stats-section-title">Aktuellt väder</div>
     <div class="stats-row">
@@ -232,6 +236,63 @@
         callback({ t: cw.temperature, wsymb: cw.weathercode });
       })
       .catch(function() { callback(null); });
+  }
+
+  // ── IUCN-kategorifördelning per län ──────────────────────────────────────
+
+  var COUNTY_IUCN = {
+    sthlm: {'Ia':220,'IV':75,'V':46,'0':33,'Ib':6,'III':3},
+    sod:   {'Ia':96,'IV':51,'III':21,'V':17,'0':11},
+    upp:   {'Ia':125,'IV':42,'V':14,'0':9,'III':8,'Ib':3},
+    ost:   {'Ia':183,'IV':91,'0':26,'V':21,'Ib':5,'III':3},
+    vg:    {'IV':203,'Ia':196,'V':52,'0':46,'III':36,'Ib':12},
+    skane: {'IV':202,'Ia':91,'0':38,'III':30,'V':26,'Ib':4},
+    ble:   {'IV':104,'Ia':9,'III':5,'V':4,'0':4},
+    dal:   {'Ia':266,'IV':63,'0':48,'Ib':22,'III':21},
+    got:   {'Ia':91,'IV':37,'III':25,'0':8,'V':3,'Ib':1},
+    gav:   {'Ia':191,'IV':24,'0':15,'III':14,'V':5,'Ib':3},
+    hal:   {'IV':120,'Ia':63,'0':14,'III':8,'V':7},
+    jam:   {'Ia':190,'0':28,'Ib':26,'IV':20,'III':4,'V':2},
+    jon:   {'IV':107,'Ia':53,'0':10,'V':7,'III':5,'Ib':4},
+    kal:   {'IV':115,'Ia':46,'V':27,'0':13,'III':11,'Ib':2},
+    kro:   {'IV':74,'Ia':46,'III':12,'0':12,'V':6,'Ib':4},
+    nrb:   {'Ia':427,'Ib':62,'0':31,'III':5,'IV':2,'V':2},
+    vrm:   {'Ia':172,'IV':35,'0':11,'III':10,'Ib':9,'V':6},
+    vbo:   {'Ia':384,'0':32,'Ib':29,'III':14,'IV':14,'V':3},
+    vnr:   {'Ia':184,'IV':26,'III':17,'0':5,'Ib':5,'V':2},
+    vml:   {'Ia':70,'IV':42,'0':13,'III':8,'Ib':3,'V':2},
+    ore:   {'Ia':197,'IV':78,'0':26,'III':15,'Ib':6,'V':2},
+    all:   {'Ia':3300,'IV':1525,'0':433,'III':275,'V':254,'Ib':206}
+  };
+
+  var IUCN_LABEL = {
+    'Ia':'Strikt naturreservat','Ib':'Vildmarksomr\xe5de',
+    'III':'Naturmonument','IV':'Habitat/Artskydd',
+    'V':'Skyddat landskap','0':'Ej klassificerad'
+  };
+
+  var IUCN_CSS = {
+    'Ia':'iucn-ia','Ib':'iucn-ib','III':'iucn-iii',
+    'IV':'iucn-iv','V':'iucn-v','0':'iucn-zero'
+  };
+
+  function updateIUCNChart(county) {
+    var el = document.getElementById('iucn-chart');
+    if (!el) return;
+    var data = COUNTY_IUCN[county];
+    if (!data) { el.innerHTML = ''; return; }
+    var max = Math.max.apply(null, Object.keys(data).map(function(k){ return data[k]; }));
+    el.innerHTML = Object.keys(data).map(function(cat) {
+      var count = data[cat];
+      var pct   = Math.round(count / max * 100);
+      var label = IUCN_LABEL[cat] || cat;
+      var cls   = IUCN_CSS[cat]   || 'iucn-zero';
+      return '<div class="iucn-row">'
+        + '<span class="iucn-cat" title="' + label + '">' + cat + '</span>'
+        + '<div class="iucn-bar-outer"><div class="iucn-bar-inner ' + cls + '" style="width:' + pct + '%"></div></div>'
+        + '<span class="iucn-num">' + count + '</span>'
+        + '</div>';
+    }).join('');
   }
 
   // ── County stats: SMHI väder ─────────────────────────────────────────────
@@ -599,6 +660,7 @@
     var sel = document.getElementById('county-select');
     if (sel) sel.value = county;
     updateStats(county);
+    updateIUCNChart(county);
     updateArtobsStats(county);
     updateSMHIStats(county);
     rebuildSearch(county);
@@ -626,6 +688,7 @@
 
     initSearch();
     updateStats('all');
+    updateIUCNChart('all');
     updateArtobsStats('all');
     updateSMHIStats('all');
     initArtobs();
