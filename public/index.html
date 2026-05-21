@@ -388,8 +388,7 @@
                 var tempStr = data.t !== null ? data.t.toFixed(1) + ' °C' : '—';
                 var descStr = data.wsymb ? (WMO_SV[data.wsymb] || '') : '';
                 liSmhi.innerHTML = '<b>Väder nu</b>: ' + tempStr
-                  + (descStr ? ', ' + descStr : '') + '<br>'
-                  + '<a href="https://www.smhi.se/vader/prognoser/ortsvyer" target="_blank">SMHI prognos ↗</a>';
+                  + (descStr ? ', ' + descStr : '');
               });
             } else {
               el.removeChild(liSmhi);
