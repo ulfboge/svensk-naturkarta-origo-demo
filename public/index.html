@@ -65,6 +65,14 @@
     <input id="reservat-search" type="search" list="reservat-names" placeholder="Sök reservat…" autocomplete="off">
     <datalist id="reservat-names"></datalist>
   </div>
+  <div id="year-filter-wrap">
+    <div class="year-filter-header">
+      <span class="year-filter-title">Etablerade t.o.m.</span>
+      <span id="year-label">Alla år</span>
+      <span id="year-count"></span>
+    </div>
+    <input type="range" id="year-slider" min="1919" max="2026" value="2026" step="1">
+  </div>
 </div>
 
 <!-- Statistics panel — bottom-right, extensible with future data sources -->
@@ -654,6 +662,7 @@
       var l = findOLLayer(n); if (l) l.setVisible(false);
     });
     updateLegendVisibility(county);
+    resetYearFilter();
     try {
       map.getView().fit(EXTENTS[county], { padding: [60, 60, 60, 60], duration: 600 });
     } catch (e) {}
@@ -687,6 +696,7 @@
     });
 
     initSearch();
+    initYearSlider();
     updateStats('all');
     updateIUCNChart('all');
     updateArtobsStats('all');
@@ -774,6 +784,70 @@
       this.blur();
       var inp = this;
       setTimeout(function() { inp.value = ''; }, 400);
+    });
+  }
+
+  // ── Tidslinje-slider ─────────────────────────────────────────────────────
+
+  var currentMaxYear = 2026;
+
+  function getYear(dateStr) {
+    if (!dateStr) return null;
+    var m = String(dateStr).match(/^(\d{4})/);
+    return m ? parseInt(m[1], 10) : null;
+  }
+
+  function applyYearFilter(maxYear) {
+    currentMaxYear = maxYear;
+    var labelEl = document.getElementById('year-label');
+    var countEl = document.getElementById('year-count');
+    if (labelEl) labelEl.textContent = maxYear >= 2026 ? 'Alla år' : String(maxYear);
+
+    var countyVal = (document.getElementById('county-select').value) || 'all';
+    var names = countyVal === 'all'
+      ? ALL_NR
+      : (COUNTY_LAYER_SUFFIX[countyVal] ? ['nv_naturreservat_' + COUNTY_LAYER_SUFFIX[countyVal]] : []);
+
+    var visible = 0, total = 0;
+    names.forEach(function(name) {
+      var layer = findOLLayer(name);
+      if (!layer) return;
+      var src = layer.getSource();
+      if (!src || !src.getFeatures) return;
+      src.getFeatures().forEach(function(f) {
+        var year = getYear(f.get('URSPR_BESLUTSDATUM'));
+        total++;
+        if (year === null || year <= maxYear) {
+          f.setStyle(undefined);
+          visible++;
+        } else {
+          f.setStyle([]);
+        }
+      });
+    });
+
+    if (countEl) {
+      countEl.textContent = (maxYear < 2026 && total > 0)
+        ? ' (' + visible + ' / ' + total + ')'
+        : '';
+    }
+  }
+
+  function resetYearFilter() {
+    currentMaxYear = 2026;
+    var slider = document.getElementById('year-slider');
+    if (slider) slider.value = 2026;
+    var labelEl = document.getElementById('year-label');
+    if (labelEl) labelEl.textContent = 'Alla år';
+    var countEl = document.getElementById('year-count');
+    if (countEl) countEl.textContent = '';
+  }
+
+  function initYearSlider() {
+    var slider = document.getElementById('year-slider');
+    if (!slider) return;
+    slider.addEventListener('input', function() {
+      applyYearFilter(parseInt(this.value, 10));
     });
   }
 
