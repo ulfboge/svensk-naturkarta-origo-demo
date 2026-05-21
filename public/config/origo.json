@@ -1355,7 +1355,7 @@
       "group": "naturskydd",
       "type": "GEOJSON",
       "source": "data/nationalparker-alla.geojson",
-      "visible": true,
+      "visible": false,
       "queryable": true,
       "zIndex": 9,
       "style": "nationalpark_polygon",

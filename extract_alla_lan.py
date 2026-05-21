@@ -4,6 +4,7 @@ Skriver GeoJSON-filer + en JSON-sammanfattning med bbox/stats för index.html.
 """
 import json, math, fiona
 from pyproj import Transformer
+from extract_date_utils import load_nvrid_dates
 
 SHP = 'E:/NR/NR/NR_polygon.shp'
 DATE_FIELDS = ['URSBESLDAT', 'IKRAFTDATF', 'URSGALLDAT', 'SENGALLDAT']
@@ -46,6 +47,7 @@ bbox_3006 = {lan: [float('inf'), float('inf'), float('-inf'), float('-inf')] for
 areas     = {lan: 0.0 for lan in NEW_COUNTIES}
 
 print('Läser shapefile …')
+date_by_nvrid = load_nvrid_dates(SHP)
 with fiona.open(SHP, encoding='utf-8', ignore_fields=DATE_FIELDS) as src:
     print(f'  Totalt {len(src)} features')
     for feat in src:
@@ -93,7 +95,7 @@ with fiona.open(SHP, encoding='utf-8', ignore_fields=DATE_FIELDS) as src:
                 'IUCNKATEGORI':       str(props.get('IUCNKAT') or ''),
                 'FORVALTARE':         str(props.get('FORVALTARE') or ''),
                 'AREA_HA':            props.get('AREA_HA'),
-                'URSPR_BESLUTSDATUM': '',
+                'URSPR_BESLUTSDATUM': date_by_nvrid.get(str(props.get('NVRID') or ''), ''),
             }
         })
 

@@ -71,7 +71,7 @@
       <span id="year-label">Alla år</span>
       <span id="year-count"></span>
     </div>
-    <input type="range" id="year-slider" min="1919" max="2026" value="2026" step="1">
+    <input type="range" id="year-slider" min="1908" max="2026" value="2026" step="1">
   </div>
 </div>
 
@@ -284,14 +284,14 @@
     'IV':'iucn-iv','V':'iucn-v','0':'iucn-zero'
   };
 
-  function updateIUCNChart(county) {
+  function updateIUCNChart(county, data) {
     var el = document.getElementById('iucn-chart');
     if (!el) return;
-    var data = COUNTY_IUCN[county];
-    if (!data) { el.innerHTML = ''; return; }
-    var max = Math.max.apply(null, Object.keys(data).map(function(k){ return data[k]; }));
-    el.innerHTML = Object.keys(data).map(function(cat) {
-      var count = data[cat];
+    var chartData = data || COUNTY_IUCN[county];
+    if (!chartData || Object.keys(chartData).length === 0) { el.innerHTML = ''; return; }
+    var max = Math.max.apply(null, Object.keys(chartData).map(function(k){ return chartData[k]; }));
+    el.innerHTML = Object.keys(chartData).map(function(cat) {
+      var count = chartData[cat];
       var pct   = Math.round(count / max * 100);
       var label = IUCN_LABEL[cat] || cat;
       var cls   = IUCN_CSS[cat]   || 'iucn-zero';
@@ -499,6 +499,21 @@
     all:   'Hela Sverige'
   };
 
+  // Län-namn som i nationalparkernas LAN-fält (NV-data)
+  var COUNTY_LAN = {
+    sthlm: 'Stockholms län',    sod:  'Södermanlands län',
+    upp:   'Uppsala län',       ost:  'Östergötlands län',
+    vg:    'Västra Götalands län', skane: 'Skåne län',
+    ble:   'Blekinge län',      dal:  'Dalarnas län',
+    got:   'Gotlands län',      gav:  'Gävleborgs län',
+    hal:   'Hallands län',      jam:  'Jämtlands län',
+    jon:   'Jönköpings län',    kal:  'Kalmar län',
+    kro:   'Kronobergs län',    nrb:  'Norrbottens län',
+    vrm:   'Värmlands län',     vbo:  'Västerbottens län',
+    vnr:   'Västernorrlands län', vml: 'Västmanlands län',
+    ore:   'Örebro län'
+  };
+
   // Pre-calculated stats — counts and areas from GeoJSON files.
   var COUNTY_STATS = {
     sthlm: { nr:  383, area:   189182, np:  3 },
@@ -525,13 +540,87 @@
     all:   { nr: 5993, area:  5656695, np: 30 }
   };
 
-  function updateStats(county) {
-    var s = COUNTY_STATS[county];
-    if (!s) return;
+  var currentMaxYear = 2026;
+  // Min = ett år före äldsta nationalparken (Hamra m.fl., 1909)
+  var YEAR_SLIDER_MIN = 1908;
+  var YEAR_SLIDER_MAX = 2026;
+
+  function getYear(dateStr) {
+    if (!dateStr) return null;
+    var m = String(dateStr).match(/^(\d{4})/);
+    return m ? parseInt(m[1], 10) : null;
+  }
+
+  function getFeatureYear(feature) {
+    return getYear(feature.get('URSPR_BESLUTSDATUM'))
+        || getYear(feature.get('URSBESLDAT'));
+  }
+
+  function getStatsLayerNames(county) {
+    if (county === 'all') return ALL_NR;
+    var suffix = COUNTY_LAYER_SUFFIX[county];
+    return suffix ? ['nv_naturreservat_' + suffix] : [];
+  }
+
+  function parseIUCNCategory(value) {
+    if (!value) return '0';
+    var cat = String(value).split(',')[0].trim();
+    return cat || '0';
+  }
+
+  function featureInYearRange(feature, maxYear) {
+    if (maxYear >= YEAR_SLIDER_MAX) return true;
+    var year = getFeatureYear(feature);
+    return year === null || year <= maxYear;
+  }
+
+  function computeFilteredNRStats(county, maxYear) {
+    var nr = 0;
+    var area = 0;
+    var iucn = {};
+    getStatsLayerNames(county).forEach(function(name) {
+      var layer = findOLLayer(name);
+      if (!layer) return;
+      var src = layer.getSource();
+      if (!src || !src.getFeatures) return;
+      src.getFeatures().forEach(function(f) {
+        if (!featureInYearRange(f, maxYear)) return;
+        nr++;
+        var a = parseFloat(f.get('AREA_HA'));
+        if (!isNaN(a)) area += a;
+        var cat = parseIUCNCategory(f.get('IUCNKATEGORI') || f.get('IUCNKAT'));
+        iucn[cat] = (iucn[cat] || 0) + 1;
+      });
+    });
+    return { nr: nr, area: Math.round(area), iucn: iucn };
+  }
+
+  function updateStats(county, maxYear) {
+    var base = COUNTY_STATS[county];
+    if (!base) return;
+    maxYear = maxYear == null ? currentMaxYear : maxYear;
+    var filtered = computeFilteredNRStats(county, maxYear);
+    var hasFeatures = filtered.nr > 0;
+    var nr = hasFeatures ? filtered.nr : (maxYear >= YEAR_SLIDER_MAX ? base.nr : 0);
+    var area = hasFeatures ? filtered.area : (maxYear >= YEAR_SLIDER_MAX ? base.area : 0);
+
     document.getElementById('stats-county').textContent   = COUNTY_NAMES[county] || county;
-    document.getElementById('stats-nr-count').textContent = s.nr.toLocaleString('sv-SE') + ' st';
-    document.getElementById('stats-nr-area').textContent  = s.area.toLocaleString('sv-SE') + ' ha';
-    document.getElementById('stats-np-count').textContent = s.np + ' st';
+    document.getElementById('stats-nr-count').textContent = nr.toLocaleString('sv-SE') + ' st';
+    document.getElementById('stats-nr-area').textContent  = area.toLocaleString('sv-SE') + ' ha';
+    var npCount = computeNPStats(county, maxYear);
+    document.getElementById('stats-np-count').textContent =
+      (npCount !== null ? npCount : base.np) + ' st';
+  }
+
+  function updateFilteredStats(county, maxYear) {
+    if (!county) return;
+    updateStats(county, maxYear);
+    var filtered = computeFilteredNRStats(county, maxYear);
+    if (Object.keys(filtered.iucn).length > 0) {
+      updateIUCNChart(county, filtered.iucn);
+    } else {
+      updateIUCNChart(county);
+    }
   }
 
   // County extents in EPSG:3857 [minX, minY, maxX, maxY]
@@ -565,7 +654,7 @@
   });
   var ALL_LAYERS = ALL_NR.concat(['nv_nationalparker']);
 
-  // Layers to show/hide per county — NP always shown
+  // Layers to show/hide per county — NR + NP shown once a county is selected
   var COUNTY_LAYERS = (function() {
     var cfg = {};
     Object.keys(COUNTY_LAYER_SUFFIX).forEach(function(c) {
@@ -595,6 +684,59 @@
       return null;
     }
     return search(map.getLayerGroup());
+  }
+
+  var origNPStyleFn = null;
+
+  function featureInCounty(feature, county) {
+    if (!county || county === 'all') return true;
+    var lanName = COUNTY_LAN[county];
+    if (!lanName) return false;
+    return String(feature.get('LAN') || '').toLowerCase()
+      .indexOf(lanName.toLowerCase()) !== -1;
+  }
+
+  function computeNPStats(county, maxYear) {
+    maxYear = maxYear == null ? currentMaxYear : maxYear;
+    var layer = findOLLayer('nv_nationalparker');
+    if (!layer) return null;
+    var src = layer.getSource();
+    if (!src || !src.getFeatures) return null;
+    var features = src.getFeatures();
+    if (!features.length) return null;
+    var np = 0;
+    features.forEach(function(f) {
+      if (!featureInCounty(f, county)) return;
+      if (!featureInYearRange(f, maxYear)) return;
+      np++;
+    });
+    return np;
+  }
+
+  function applyNPFilters(county, maxYear) {
+    maxYear = maxYear == null ? currentMaxYear : maxYear;
+    var layer = findOLLayer('nv_nationalparker');
+    if (!layer) return;
+    if (!origNPStyleFn) {
+      origNPStyleFn = layer.getStyleFunction() || function() { return []; };
+    }
+    var orig = origNPStyleFn;
+    var c = county || 'all';
+    if (c === 'all' && maxYear >= YEAR_SLIDER_MAX) {
+      layer.setStyle(orig);
+    } else {
+      (function(fn, countyCode, yr) {
+        layer.setStyle(function(feature, resolution) {
+          if (countyCode !== 'all' && !featureInCounty(feature, countyCode)) return null;
+          if (yr < YEAR_SLIDER_MAX) {
+            var year = getFeatureYear(feature);
+            if (year !== null && year > yr) return null;
+          }
+          return fn(feature, resolution);
+        });
+      })(orig, c, maxYear);
+    }
+    layer.changed();
   }
 
   // Map layer name → exact title as set in origo.json (used for legend text matching)
@@ -661,15 +803,15 @@
     cfg.hide.forEach(function(n) {
       var l = findOLLayer(n); if (l) l.setVisible(false);
     });
-    updateLegendVisibility(county);
     resetYearFilter();
+    applyNPFilters(county, YEAR_SLIDER_MAX);
+    updateLegendVisibility(county);
     try {
       map.getView().fit(EXTENTS[county], { padding: [60, 60, 60, 60], duration: 600 });
     } catch (e) {}
     var sel = document.getElementById('county-select');
     if (sel) sel.value = county;
-    updateStats(county);
-    updateIUCNChart(county);
+    updateFilteredStats(county, YEAR_SLIDER_MAX);
     updateArtobsStats(county);
     updateSMHIStats(county);
     rebuildSearch(county);
@@ -681,12 +823,12 @@
     try { map = viewer.api().getMap(); } catch (e) {}
     if (!map) { setTimeout(initSelector, 200); return; }
 
-    // Initial state B: only NP layer visible, zoom to all of Sweden
+    // Initial state: NR and NP hidden until user selects a county
     ALL_NR.forEach(function(n) {
       var l = findOLLayer(n); if (l) l.setVisible(false);
     });
     var npLayer = findOLLayer('nv_nationalparker');
-    if (npLayer) npLayer.setVisible(true);
+    if (npLayer) npLayer.setVisible(false);
     try {
       map.getView().fit(EXTENTS.all, { padding: [60, 60, 60, 60], duration: 800 });
     } catch(e) {}
@@ -789,21 +931,14 @@
 
   // ── Tidslinje-slider ─────────────────────────────────────────────────────
 
-  var currentMaxYear = 2026;
   var origStyleFns = {};   // name -> original style function (cached on first use)
-
-  function getYear(dateStr) {
-    if (!dateStr) return null;
-    var m = String(dateStr).match(/^(\d{4})/);
-    return m ? parseInt(m[1], 10) : null;
-  }
 
   function applyYearFilter(maxYear) {
     currentMaxYear = maxYear;
     var labelEl = document.getElementById('year-label');
     var countEl = document.getElementById('year-count');
-    if (labelEl) labelEl.textContent = maxYear >= 2026 ? 'Alla år' : String(maxYear);
-    var pct = ((maxYear - 1919) / (2026 - 1919) * 100).toFixed(1);
+    if (labelEl) labelEl.textContent = maxYear >= YEAR_SLIDER_MAX ? 'Alla år' : String(maxYear);
+    var pct = ((maxYear - YEAR_SLIDER_MIN) / (YEAR_SLIDER_MAX - YEAR_SLIDER_MIN) * 100).toFixed(1);
     var sliderEl = document.getElementById('year-slider');
     if (sliderEl) sliderEl.style.background =
       'linear-gradient(to right, #2d6a4f ' + pct + '%, #d8f3dc ' + pct + '%)';
@@ -825,19 +960,18 @@
       }
       var orig = origStyleFns[name];
 
-      if (maxYear >= 2026) {
+      if (maxYear >= YEAR_SLIDER_MAX) {
         layer.setStyle(orig);
       } else {
-        // IIFE captures orig (as fn) and maxYear (as yr) — avoids closure-in-loop issue
         (function(fn, yr) {
           layer.setStyle(function(feature, resolution) {
-            var year = getYear(feature.get('URSPR_BESLUTSDATUM'));
-            // Return null (falsy) → OL skips rendering this feature
+            var year = getFeatureYear(feature);
             if (year !== null && year > yr) return null;
             return fn(feature, resolution);
           });
         }(orig, maxYear));
       }
+      layer.changed();
 
       // Count visible vs total for display
       if (layer.getVisible()) {
@@ -845,24 +979,40 @@
         if (src && src.getFeatures) {
           src.getFeatures().forEach(function(f) {
             total++;
-            var year = getYear(f.get('URSPR_BESLUTSDATUM'));
+            var year = getFeatureYear(f);
             if (year === null || year <= maxYear) visible++;
           });
         }
       }
     });
 
+    // Nationalparker — samma län- och årsfilter
+    var npLayer = findOLLayer('nv_nationalparker');
+    if (npLayer && npLayer.getVisible()) {
+      var npSrc = npLayer.getSource();
+      if (npSrc && npSrc.getFeatures) {
+        npSrc.getFeatures().forEach(function(f) {
+          if (!featureInCounty(f, countyVal)) return;
+          total++;
+          if (featureInYearRange(f, maxYear)) visible++;
+        });
+      }
+    }
+    applyNPFilters(countyVal, maxYear);
+
     if (countEl) {
-      countEl.textContent = (maxYear < 2026 && total > 0)
+      countEl.textContent = (maxYear < YEAR_SLIDER_MAX && total > 0)
         ? ' (' + visible + ' / ' + total + ')'
         : '';
     }
+
+    if (countyVal) updateFilteredStats(countyVal, maxYear);
   }
 
   function resetYearFilter() {
-    currentMaxYear = 2026;
+    currentMaxYear = YEAR_SLIDER_MAX;
     var slider = document.getElementById('year-slider');
-    if (slider) slider.value = 2026;
+    if (slider) slider.value = YEAR_SLIDER_MAX;
     var labelEl = document.getElementById('year-label');
     if (labelEl) labelEl.textContent = 'Alla år';
     var countEl = document.getElementById('year-count');
@@ -870,7 +1020,10 @@
     // Restore original style functions
     Object.keys(origStyleFns).forEach(function(name) {
       var layer = findOLLayer(name);
-      if (layer) layer.setStyle(origStyleFns[name]);
+      if (layer) {
+        layer.setStyle(origStyleFns[name]);
+        layer.changed();
+      }
     });
     origStyleFns = {};
   }
