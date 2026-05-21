@@ -240,8 +240,12 @@
     var tempEl = document.getElementById('stats-smhi-temp');
     var descEl = document.getElementById('stats-smhi-desc');
     if (!tempEl) return;
+    if (county === 'all' || !COUNTY_CENTER[county]) {
+      tempEl.textContent = '—';
+      if (descEl) descEl.textContent = 'Välj ett län';
+      return;
+    }
     var center = COUNTY_CENTER[county];
-    if (!center) { tempEl.textContent = '—'; if (descEl) descEl.textContent = ''; return; }
     tempEl.textContent = 'hämtar…';
     if (descEl) descEl.textContent = '';
     fetchWeather(center.lon, center.lat, function(data) {
