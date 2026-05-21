@@ -528,6 +528,58 @@
     return search(map.getLayerGroup());
   }
 
+  // Map layer name → exact title as set in origo.json (used for legend text matching)
+  var LAYER_TITLE = {
+    'nv_naturreservat_sthlm':          'Naturreservat – Stockholms l\xe4n',
+    'nv_naturreservat_sod':            'Naturreservat – S\xf6dermanlands l\xe4n',
+    'nv_naturreservat_uppsala':        'Naturreservat – Uppsala l\xe4n',
+    'nv_naturreservat_ostergotland':   'Naturreservat – \xd6sterg\xf6tlands l\xe4n',
+    'nv_naturreservat_vastragotaland': 'Naturreservat – V\xe4stra G\xf6talands l\xe4n',
+    'nv_naturreservat_skane':          'Naturreservat – Sk\xe5ne l\xe4n',
+    'nv_naturreservat_blekinge':       'Naturreservat – Blekinge l\xe4n',
+    'nv_naturreservat_dalarna':        'Naturreservat – Dalarnas l\xe4n',
+    'nv_naturreservat_gotland':        'Naturreservat – Gotlands l\xe4n',
+    'nv_naturreservat_gavleborg':      'Naturreservat – G\xe4vleborgs l\xe4n',
+    'nv_naturreservat_halland':        'Naturreservat – Hallands l\xe4n',
+    'nv_naturreservat_jamtland':       'Naturreservat – J\xe4mtlands l\xe4n',
+    'nv_naturreservat_jonkoping':      'Naturreservat – J\xf6nk\xf6pings l\xe4n',
+    'nv_naturreservat_kalmar':         'Naturreservat – Kalmar l\xe4n',
+    'nv_naturreservat_kronoberg':      'Naturreservat – Kronobergs l\xe4n',
+    'nv_naturreservat_norrbotten':     'Naturreservat – Norrbottens l\xe4n',
+    'nv_naturreservat_varmland':       'Naturreservat – V\xe4rmlands l\xe4n',
+    'nv_naturreservat_vasterbotten':   'Naturreservat – V\xe4sterbottens l\xe4n',
+    'nv_naturreservat_vasternorrland': 'Naturreservat – V\xe4sternorrlands l\xe4n',
+    'nv_naturreservat_vastmanland':    'Naturreservat – V\xe4stmanlands l\xe4n',
+    'nv_naturreservat_orebro':         'Naturreservat – \xd6rebro l\xe4n'
+  };
+
+  var legendItemCache = null;
+
+  function buildLegendCache() {
+    legendItemCache = {};
+    var container = document.querySelector('.o-legend') || document.body;
+    var lis = container.querySelectorAll('li');
+    lis.forEach(function(li) {
+      var text = (li.textContent || '').trim();
+      Object.keys(LAYER_TITLE).forEach(function(name) {
+        if (text.indexOf(LAYER_TITLE[name]) !== -1) {
+          legendItemCache[name] = li;
+        }
+      });
+    });
+  }
+
+  function updateLegendVisibility(county) {
+    if (!legendItemCache || Object.keys(legendItemCache).length === 0) buildLegendCache();
+    var cfg = COUNTY_LAYERS[county];
+    if (!cfg) return;
+    ALL_NR.forEach(function(name) {
+      var el = legendItemCache[name];
+      if (!el) return;
+      el.style.display = cfg.hide.indexOf(name) !== -1 ? 'none' : '';
+    });
+  }
+
   function selectCounty(county) {
     var map = null;
     try { map = viewer.api().getMap(); } catch (e) {}
@@ -540,9 +592,10 @@
     cfg.hide.forEach(function(n) {
       var l = findOLLayer(n); if (l) l.setVisible(false);
     });
+    updateLegendVisibility(county);
     try {
       map.getView().fit(EXTENTS[county], { padding: [60, 60, 60, 60], duration: 600 });
-    } catch (e) { /* fit kan misslyckas om kartan inte renderats klart */ }
+    } catch (e) {}
     var sel = document.getElementById('county-select');
     if (sel) sel.value = county;
     updateStats(county);

@@ -127,7 +127,7 @@
     },
     {
       "name": "nv_naturreservat_sthlm",
-      "title": "Naturreservat — Stockholms län",
+      "title": "Naturreservat – Stockholms län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-stockholm-v2.geojson",
@@ -191,7 +191,7 @@
     },
     {
       "name": "nv_naturreservat_sod",
-      "title": "Naturreservat — Södermanlands län",
+      "title": "Naturreservat – Södermanlands län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-sodermanland.geojson",
@@ -255,7 +255,7 @@
     },
     {
       "name": "nv_naturreservat_uppsala",
-      "title": "Naturreservat — Uppsala län",
+      "title": "Naturreservat – Uppsala län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-uppsala.geojson",
@@ -319,7 +319,7 @@
     },
     {
       "name": "nv_naturreservat_ostergotland",
-      "title": "Naturreservat — Östergötlands län",
+      "title": "Naturreservat – Östergötlands län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-ostergotland.geojson",
@@ -383,7 +383,7 @@
     },
     {
       "name": "nv_naturreservat_vastragotaland",
-      "title": "Naturreservat — Västra Götalands län",
+      "title": "Naturreservat – Västra Götalands län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-vastragotaland.geojson",
@@ -447,7 +447,7 @@
     },
     {
       "name": "nv_naturreservat_skane",
-      "title": "Naturreservat — Skåne län",
+      "title": "Naturreservat – Skåne län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-skane.geojson",
