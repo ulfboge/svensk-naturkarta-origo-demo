@@ -110,7 +110,7 @@
     </div>
   </div>
   <div class="stats-section" id="stats-weather">
-    <div class="stats-section-title">Väder (SMHI)</div>
+    <div class="stats-section-title">Aktuellt väder</div>
     <div class="stats-row">
       <span class="stats-label">Temperatur</span>
       <span class="stats-value" id="stats-smhi-temp">—</span>
@@ -208,28 +208,28 @@
     return n.toLocaleString('sv-SE') + ' st';
   }
 
-  // SMHI Wsymb2 → svensk text (index = symbolkod 1–27)
-  var WSYMB_SV = ['','Klart','Nästan klart','Växlande molnighet','Halvklart','Molnigt',
-    'Mulet','Dimma','Lätt regnskur','Måttlig regnskur','Kraftig regnskur','Åska',
-    'Lätt snöblandat regn (byar)','Snöblandat regn (byar)','Kraftigt snöblandat regn (byar)',
-    'Lätt snöbyar','Måttliga snöbyar','Kraftiga snöbyar','Lätt regn','Måttligt regn',
-    'Kraftigt regn','Åska','Lätt snöblandat regn','Snöblandat regn',
-    'Kraftigt snöblandat regn','Lätt snöfall','Måttligt snöfall','Kraftigt snöfall'];
+  // WMO weather codes → svensk text (Open-Meteo / ECMWF)
+  var WMO_SV = {
+    0:'Klart', 1:'Mestadels klart', 2:'Delvis molnigt', 3:'Mulet',
+    45:'Dimma', 48:'Isfrimma',
+    51:'Lätt duggregn', 53:'Duggregn', 55:'Kraftigt duggregn',
+    61:'Lätt regn', 63:'Regn', 65:'Kraftigt regn',
+    71:'Lätt snöfall', 73:'Snöfall', 75:'Kraftigt snöfall', 77:'Kornsnö',
+    80:'Lätt regnskur', 81:'Regnskur', 82:'Kraftig regnskur',
+    85:'Lätt snöskur', 86:'Kraftig snöskur',
+    95:'Åska', 96:'Åska med hagel', 99:'Åska med kraftigt hagel'
+  };
 
-  function fetchSmhiWeather(lon, lat, callback) {
-    var url = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point'
-      + '/lon/' + lon.toFixed(4) + '/lat/' + lat.toFixed(4) + '/data.json';
+  function fetchWeather(lon, lat, callback) {
+    var url = 'https://api.open-meteo.com/v1/forecast'
+      + '?latitude=' + lat.toFixed(4) + '&longitude=' + lon.toFixed(4)
+      + '&current_weather=true';
     fetch(url)
       .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
       .then(function(d) {
-        if (!d || !d.timeSeries || !d.timeSeries.length) { callback(null); return; }
-        var params = d.timeSeries[0].parameters || [];
-        var t = null, wsymb = null;
-        params.forEach(function(p) {
-          if (p.name === 't')      t      = p.values[0];
-          if (p.name === 'Wsymb2') wsymb  = p.values[0];
-        });
-        callback({ t: t, wsymb: wsymb });
+        if (!d || !d.current_weather) { callback(null); return; }
+        var cw = d.current_weather;
+        callback({ t: cw.temperature, wsymb: cw.weathercode });
       })
       .catch(function() { callback(null); });
   }
@@ -244,10 +244,10 @@
     if (!center) { tempEl.textContent = '—'; if (descEl) descEl.textContent = ''; return; }
     tempEl.textContent = 'hämtar…';
     if (descEl) descEl.textContent = '';
-    fetchSmhiWeather(center.lon, center.lat, function(data) {
+    fetchWeather(center.lon, center.lat, function(data) {
       if (!data) { tempEl.textContent = '—'; return; }
       tempEl.textContent = data.t !== null ? data.t.toFixed(1) + ' °C' : '—';
-      if (descEl) descEl.textContent = data.wsymb ? (WSYMB_SV[data.wsymb] || '') : '';
+      if (descEl) descEl.textContent = data.wsymb ? (WMO_SV[data.wsymb] || '') : '';
     });
   }
 
@@ -352,7 +352,7 @@
             el.appendChild(li);
 
             var liSmhi = document.createElement('li');
-            liSmhi.innerHTML = '<b>Väder nu (SMHI)</b>: <span class="smhi-loading">hämtar…</span>';
+            liSmhi.innerHTML = '<b>Väder nu</b>: <span class="smhi-loading">hämtar…</span>';
             el.appendChild(liSmhi);
 
             // GBIF + Artportalen djuplänk (NVRID som area-filter)
@@ -379,11 +379,11 @@
 
             // SMHI punktprognos för reservatets centroid
             if (centroid) {
-              fetchSmhiWeather(centroid.lon, centroid.lat, function(data) {
+              fetchWeather(centroid.lon, centroid.lat, function(data) {
                 if (!data) { liSmhi.querySelector('.smhi-loading').textContent = '—'; return; }
                 var tempStr = data.t !== null ? data.t.toFixed(1) + ' °C' : '—';
-                var descStr = data.wsymb ? (WSYMB_SV[data.wsymb] || '') : '';
-                liSmhi.innerHTML = '<b>Väder nu (SMHI)</b>: ' + tempStr
+                var descStr = data.wsymb ? (WMO_SV[data.wsymb] || '') : '';
+                liSmhi.innerHTML = '<b>Väder nu</b>: ' + tempStr
                   + (descStr ? ', ' + descStr : '') + '<br>'
                   + '<a href="https://www.smhi.se/vader/prognoser/ortsvyer" target="_blank">SMHI prognos ↗</a>';
               });
