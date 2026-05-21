@@ -790,6 +790,7 @@
   // ── Tidslinje-slider ─────────────────────────────────────────────────────
 
   var currentMaxYear = 2026;
+  var origStyleFns = {};   // name -> original style function (cached on first use)
 
   function getYear(dateStr) {
     if (!dateStr) return null;
@@ -809,26 +810,46 @@
       : (COUNTY_LAYER_SUFFIX[countyVal] ? ['nv_naturreservat_' + COUNTY_LAYER_SUFFIX[countyVal]] : []);
 
     var visible = 0, total = 0;
+
     names.forEach(function(name) {
       var layer = findOLLayer(name);
       if (!layer) return;
-      var src = layer.getSource();
-      if (!src || !src.getFeatures) return;
-      src.getFeatures().forEach(function(f) {
-        var year = getYear(f.get('URSPR_BESLUTSDATUM'));
-        total++;
-        if (year === null || year <= maxYear) {
-          f.setStyle(undefined);
-          visible++;
-        } else {
-          f.setStyle([]);
+
+      // Cache original style function once per layer
+      if (!origStyleFns[name]) {
+        origStyleFns[name] = layer.getStyleFunction() || function() { return []; };
+      }
+      var orig = origStyleFns[name];
+
+      if (maxYear >= 2026) {
+        layer.setStyle(orig);
+      } else {
+        // Closure captures maxYear and orig for this specific call
+        (function(fn, yr) {
+          layer.setStyle(function(feature, resolution) {
+            var year = getYear(feature.get('URSPR_BESLUTSDATUM'));
+            if (year !== null && year > yr) return [];
+            return fn(feature, resolution);
+          });
+        }(orig, maxYear));
+      }
+
+      // Count visible vs total for display
+      if (layer.getVisible()) {
+        var src = layer.getSource();
+        if (src && src.getFeatures) {
+          src.getFeatures().forEach(function(f) {
+            total++;
+            var year = getYear(f.get('URSPR_BESLUTSDATUM'));
+            if (year === null || year <= maxYear) visible++;
+          });
         }
-      });
+      }
     });
 
     if (countEl) {
       countEl.textContent = (maxYear < 2026 && total > 0)
-        ? ' (' + visible + ' / ' + total + ')'
+        ? ' (' + visible + ' / ' + total + ')'
         : '';
     }
   }
@@ -841,6 +862,12 @@
     if (labelEl) labelEl.textContent = 'Alla år';
     var countEl = document.getElementById('year-count');
     if (countEl) countEl.textContent = '';
+    // Restore original style functions
+    Object.keys(origStyleFns).forEach(function(name) {
+      var layer = findOLLayer(name);
+      if (layer) layer.setStyle(origStyleFns[name]);
+    });
+    origStyleFns = {};
   }
 
   function initYearSlider() {
