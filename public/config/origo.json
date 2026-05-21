@@ -511,7 +511,7 @@
     },
     {
       "name": "nv_naturreservat_blekinge",
-      "title": "Blekinge lan",
+      "title": "Naturreservat – Blekinge län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-blekinge.geojson",
@@ -567,7 +567,7 @@
     },
     {
       "name": "nv_naturreservat_dalarna",
-      "title": "Dalarnas lan",
+      "title": "Naturreservat – Dalarnas län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-dalarna.geojson",
@@ -623,7 +623,7 @@
     },
     {
       "name": "nv_naturreservat_gotland",
-      "title": "Gotlands lan",
+      "title": "Naturreservat – Gotlands län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-gotland.geojson",
@@ -679,7 +679,7 @@
     },
     {
       "name": "nv_naturreservat_gavleborg",
-      "title": "Gavleborgs lan",
+      "title": "Naturreservat – Gävleborgs län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-gavleborg.geojson",
@@ -735,7 +735,7 @@
     },
     {
       "name": "nv_naturreservat_halland",
-      "title": "Hallands lan",
+      "title": "Naturreservat – Hallands län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-halland.geojson",
@@ -791,7 +791,7 @@
     },
     {
       "name": "nv_naturreservat_jamtland",
-      "title": "Jamtlands lan",
+      "title": "Naturreservat – Jämtlands län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-jamtland.geojson",
@@ -847,7 +847,7 @@
     },
     {
       "name": "nv_naturreservat_jonkoping",
-      "title": "Jonkopings lan",
+      "title": "Naturreservat – Jönköpings län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-jonkoping.geojson",
@@ -903,7 +903,7 @@
     },
     {
       "name": "nv_naturreservat_kalmar",
-      "title": "Kalmar lan",
+      "title": "Naturreservat – Kalmar län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-kalmar.geojson",
@@ -959,7 +959,7 @@
     },
     {
       "name": "nv_naturreservat_kronoberg",
-      "title": "Kronobergs lan",
+      "title": "Naturreservat – Kronobergs län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-kronoberg.geojson",
@@ -1015,7 +1015,7 @@
     },
     {
       "name": "nv_naturreservat_norrbotten",
-      "title": "Norrbottens lan",
+      "title": "Naturreservat – Norrbottens län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-norrbotten.geojson",
@@ -1071,7 +1071,7 @@
     },
     {
       "name": "nv_naturreservat_varmland",
-      "title": "Varmlands lan",
+      "title": "Naturreservat – Värmlands län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-varmland.geojson",
@@ -1127,7 +1127,7 @@
     },
     {
       "name": "nv_naturreservat_vasterbotten",
-      "title": "Vasterbottens lan",
+      "title": "Naturreservat – Västerbottens län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-vasterbotten.geojson",
@@ -1183,7 +1183,7 @@
     },
     {
       "name": "nv_naturreservat_vasternorrland",
-      "title": "Vasternorrlands lan",
+      "title": "Naturreservat – Västernorrlands län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-vasternorrland.geojson",
@@ -1239,7 +1239,7 @@
     },
     {
       "name": "nv_naturreservat_vastmanland",
-      "title": "Vastmanlands lan",
+      "title": "Naturreservat – Västmanlands län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-vastmanland.geojson",
@@ -1295,7 +1295,7 @@
     },
     {
       "name": "nv_naturreservat_orebro",
-      "title": "Orebro lan",
+      "title": "Naturreservat – Örebro län",
       "group": "naturreservat_group",
       "type": "GEOJSON",
       "source": "data/naturreservat-orebro.geojson",
