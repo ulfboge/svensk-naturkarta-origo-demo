@@ -803,6 +803,10 @@
     var labelEl = document.getElementById('year-label');
     var countEl = document.getElementById('year-count');
     if (labelEl) labelEl.textContent = maxYear >= 2026 ? 'Alla år' : String(maxYear);
+    var pct = ((maxYear - 1919) / (2026 - 1919) * 100).toFixed(1);
+    var sliderEl = document.getElementById('year-slider');
+    if (sliderEl) sliderEl.style.background =
+      'linear-gradient(to right, #2d6a4f ' + pct + '%, #d8f3dc ' + pct + '%)';
 
     var countyVal = (document.getElementById('county-select').value) || 'all';
     var names = countyVal === 'all'
@@ -824,11 +828,12 @@
       if (maxYear >= 2026) {
         layer.setStyle(orig);
       } else {
-        // Closure captures maxYear and orig for this specific call
+        // IIFE captures orig (as fn) and maxYear (as yr) — avoids closure-in-loop issue
         (function(fn, yr) {
           layer.setStyle(function(feature, resolution) {
             var year = getYear(feature.get('URSPR_BESLUTSDATUM'));
-            if (year !== null && year > yr) return [];
+            // Return null (falsy) → OL skips rendering this feature
+            if (year !== null && year > yr) return null;
             return fn(feature, resolution);
           });
         }(orig, maxYear));
