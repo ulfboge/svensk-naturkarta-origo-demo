@@ -1,0 +1,287 @@
+{
+  "ble": {
+    "lan": "Blekinge Län",
+    "count": 126,
+    "area": 39023,
+    "wgs84": {
+      "minLat": 55.911,
+      "maxLat": 56.447,
+      "minLon": 14.404,
+      "maxLon": 16.046
+    },
+    "e3857": [
+      1603473,
+      7540745,
+      1786200,
+      7647889
+    ],
+    "layer": "nv_naturreservat_blekinge",
+    "file": "public/data/naturreservat-blekinge.geojson"
+  },
+  "dal": {
+    "lan": "Dalarnas Län",
+    "count": 420,
+    "area": 263362,
+    "wgs84": {
+      "minLat": 59.885,
+      "maxLat": 62.284,
+      "minLon": 12.297,
+      "maxLon": 16.678
+    },
+    "e3857": [
+      1368935,
+      8374198,
+      1856580,
+      8926709
+    ],
+    "layer": "nv_naturreservat_dalarna",
+    "file": "public/data/naturreservat-dalarna.geojson"
+  },
+  "got": {
+    "lan": "Gotlands Län",
+    "count": 165,
+    "area": 82583,
+    "wgs84": {
+      "minLat": 56.938,
+      "maxLat": 58.584,
+      "minLon": 17.912,
+      "maxLon": 19.572
+    },
+    "e3857": [
+      1993984,
+      7747416,
+      2178765,
+      8091027
+    ],
+    "layer": "nv_naturreservat_gotland",
+    "file": "public/data/naturreservat-gotland.geojson"
+  },
+  "gav": {
+    "lan": "Gävleborgs Län",
+    "count": 252,
+    "area": 61804,
+    "wgs84": {
+      "minLat": 60.227,
+      "maxLat": 62.294,
+      "minLon": 14.524,
+      "maxLon": 17.676
+    },
+    "e3857": [
+      1616823,
+      8450354,
+      1967733,
+      8929093
+    ],
+    "layer": "nv_naturreservat_gavleborg",
+    "file": "public/data/naturreservat-gavleborg.geojson"
+  },
+  "hal": {
+    "lan": "Hallands Län",
+    "count": 212,
+    "area": 29768,
+    "wgs84": {
+      "minLat": 56.301,
+      "maxLat": 57.597,
+      "minLon": 11.958,
+      "maxLon": 13.671
+    },
+    "e3857": [
+      1331194,
+      7618630,
+      1521843,
+      7883063
+    ],
+    "layer": "nv_naturreservat_halland",
+    "file": "public/data/naturreservat-halland.geojson"
+  },
+  "jam": {
+    "lan": "Jämtlands Län",
+    "count": 270,
+    "area": 638883,
+    "wgs84": {
+      "minLat": 61.614,
+      "maxLat": 65.11,
+      "minLon": 12.223,
+      "maxLon": 16.824
+    },
+    "e3857": [
+      1360610,
+      8768160,
+      1872825,
+      9637306
+    ],
+    "layer": "nv_naturreservat_jamtland",
+    "file": "public/data/naturreservat-jamtland.geojson"
+  },
+  "jon": {
+    "lan": "Jönköpings Län",
+    "count": 186,
+    "area": 21081,
+    "wgs84": {
+      "minLat": 56.893,
+      "maxLat": 58.117,
+      "minLon": 13.089,
+      "maxLon": 15.644
+    },
+    "e3857": [
+      1457079,
+      7738210,
+      1741459,
+      7991997
+    ],
+    "layer": "nv_naturreservat_jonkoping",
+    "file": "public/data/naturreservat-jonkoping.geojson"
+  },
+  "kal": {
+    "lan": "Kalmar Län",
+    "count": 214,
+    "area": 103609,
+    "wgs84": {
+      "minLat": 56.098,
+      "maxLat": 58.118,
+      "minLon": 15.501,
+      "maxLon": 17.572
+    },
+    "e3857": [
+      1725534,
+      7578007,
+      1956118,
+      7992234
+    ],
+    "layer": "nv_naturreservat_kalmar",
+    "file": "public/data/naturreservat-kalmar.geojson"
+  },
+  "kro": {
+    "lan": "Kronobergs Län",
+    "count": 154,
+    "area": 28688,
+    "wgs84": {
+      "minLat": 56.361,
+      "maxLat": 57.222,
+      "minLon": 13.368,
+      "maxLon": 15.838
+    },
+    "e3857": [
+      1488080,
+      7630662,
+      1763117,
+      7805550
+    ],
+    "layer": "nv_naturreservat_kronoberg",
+    "file": "public/data/naturreservat-kronoberg.geojson"
+  },
+  "nrb": {
+    "lan": "Norrbottens Län",
+    "count": 529,
+    "area": 2169238,
+    "wgs84": {
+      "minLat": 65.204,
+      "maxLat": 68.178,
+      "minLon": 16.073,
+      "maxLon": 25.086
+    },
+    "e3857": [
+      1789246,
+      9662415,
+      2792526,
+      10500026
+    ],
+    "layer": "nv_naturreservat_norrbotten",
+    "file": "public/data/naturreservat-norrbotten.geojson"
+  },
+  "vrm": {
+    "lan": "Värmlands Län",
+    "count": 243,
+    "area": 118015,
+    "wgs84": {
+      "minLat": 58.698,
+      "maxLat": 61.073,
+      "minLon": 11.811,
+      "maxLon": 14.372
+    },
+    "e3857": [
+      1314785,
+      8115330,
+      1599862,
+      8642708
+    ],
+    "layer": "nv_naturreservat_varmland",
+    "file": "public/data/naturreservat-varmland.geojson"
+  },
+  "vbo": {
+    "lan": "Västerbottens Län",
+    "count": 476,
+    "area": 1180754,
+    "wgs84": {
+      "minLat": 63.399,
+      "maxLat": 66.184,
+      "minLon": 14.537,
+      "maxLon": 22.077
+    },
+    "e3857": [
+      1618203,
+      9198647,
+      2457651,
+      9927487
+    ],
+    "layer": "nv_naturreservat_vasterbotten",
+    "file": "public/data/naturreservat-vasterbotten.geojson"
+  },
+  "vnr": {
+    "lan": "Västernorrlands Län",
+    "count": 239,
+    "area": 53407,
+    "wgs84": {
+      "minLat": 62.156,
+      "maxLat": 63.976,
+      "minLon": 14.802,
+      "maxLon": 19.227
+    },
+    "e3857": [
+      1647696,
+      8896201,
+      2140362,
+      9343666
+    ],
+    "layer": "nv_naturreservat_vasternorrland",
+    "file": "public/data/naturreservat-vasternorrland.geojson"
+  },
+  "vml": {
+    "lan": "Västmanlands Län",
+    "count": 138,
+    "area": 34065,
+    "wgs84": {
+      "minLat": 59.262,
+      "maxLat": 60.169,
+      "minLon": 15.454,
+      "maxLon": 17.005
+    },
+    "e3857": [
+      1720351,
+      8237248,
+      1892939,
+      8437451
+    ],
+    "layer": "nv_naturreservat_vastmanland",
+    "file": "public/data/naturreservat-vastmanland.geojson"
+  },
+  "ore": {
+    "lan": "Örebro Län",
+    "count": 324,
+    "area": 38820,
+    "wgs84": {
+      "minLat": 58.685,
+      "maxLat": 60.077,
+      "minLon": 14.304,
+      "maxLon": 15.727
+    },
+    "e3857": [
+      1592309,
+      8112528,
+      1750777,
+      8417005
+    ],
+    "layer": "nv_naturreservat_orebro",
+    "file": "public/data/naturreservat-orebro.geojson"
+  }
+}

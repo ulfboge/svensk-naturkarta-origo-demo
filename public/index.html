@@ -109,6 +109,20 @@
       <a href="https://www.naturvardsverket.se/amnesomraden/jakt-och-vilt/jakttider/" target="_blank">Jakttider på NV ↗</a>
     </div>
   </div>
+  <div class="stats-section" id="stats-weather">
+    <div class="stats-section-title">Väder (SMHI)</div>
+    <div class="stats-row">
+      <span class="stats-label">Temperatur</span>
+      <span class="stats-value" id="stats-smhi-temp">—</span>
+    </div>
+    <div class="stats-row">
+      <span class="stats-label">Väder</span>
+      <span class="stats-value" id="stats-smhi-desc">—</span>
+    </div>
+    <div class="stats-row stats-row-link">
+      <a id="stats-smhi-link" href="https://www.smhi.se/vader/prognoser/ortsvyer" target="_blank">SMHI prognos ↗</a>
+    </div>
+  </div>
 </div>
 
 <!-- #app-wrapper MUST be completely empty — Origo fills it entirely -->
@@ -194,6 +208,49 @@
     return n.toLocaleString('sv-SE') + ' st';
   }
 
+  // SMHI Wsymb2 → svensk text (index = symbolkod 1–27)
+  var WSYMB_SV = ['','Klart','Nästan klart','Växlande molnighet','Halvklart','Molnigt',
+    'Mulet','Dimma','Lätt regnskur','Måttlig regnskur','Kraftig regnskur','Åska',
+    'Lätt snöblandat regn (byar)','Snöblandat regn (byar)','Kraftigt snöblandat regn (byar)',
+    'Lätt snöbyar','Måttliga snöbyar','Kraftiga snöbyar','Lätt regn','Måttligt regn',
+    'Kraftigt regn','Åska','Lätt snöblandat regn','Snöblandat regn',
+    'Kraftigt snöblandat regn','Lätt snöfall','Måttligt snöfall','Kraftigt snöfall'];
+
+  function fetchSmhiWeather(lon, lat, callback) {
+    var url = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point'
+      + '/lon/' + lon.toFixed(4) + '/lat/' + lat.toFixed(4) + '/data.json';
+    fetch(url)
+      .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+      .then(function(d) {
+        if (!d || !d.timeSeries || !d.timeSeries.length) { callback(null); return; }
+        var params = d.timeSeries[0].parameters || [];
+        var t = null, wsymb = null;
+        params.forEach(function(p) {
+          if (p.name === 't')      t      = p.values[0];
+          if (p.name === 'Wsymb2') wsymb  = p.values[0];
+        });
+        callback({ t: t, wsymb: wsymb });
+      })
+      .catch(function() { callback(null); });
+  }
+
+  // ── County stats: SMHI väder ─────────────────────────────────────────────
+
+  function updateSMHIStats(county) {
+    var tempEl = document.getElementById('stats-smhi-temp');
+    var descEl = document.getElementById('stats-smhi-desc');
+    if (!tempEl) return;
+    var center = COUNTY_CENTER[county];
+    if (!center) { tempEl.textContent = '—'; if (descEl) descEl.textContent = ''; return; }
+    tempEl.textContent = 'hämtar…';
+    if (descEl) descEl.textContent = '';
+    fetchSmhiWeather(center.lon, center.lat, function(data) {
+      if (!data) { tempEl.textContent = '—'; return; }
+      tempEl.textContent = data.t !== null ? data.t.toFixed(1) + ' °C' : '—';
+      if (descEl) descEl.textContent = data.wsymb ? (WSYMB_SV[data.wsymb] || '') : '';
+    });
+  }
+
   // ── County stats: artobservationer ───────────────────────────────────────
 
   function updateArtobsStats(county) {
@@ -215,8 +272,10 @@
 
   // ── Popup: artobservationer per klickat reservat ──────────────────────────
 
-  var lastClickBbox   = null;
-  var lastClickAPCode = null;
+  var lastClickBbox      = null;
+  var lastClickAPCode    = null;
+  var lastClickCentroid  = null;
+  var lastClickNVRID     = null;
 
   var LAYER_AP_CODE = (function() {
     var m = {};
@@ -234,16 +293,27 @@
   function initArtobs() {
     var map = viewer.api().getMap();
 
-    // Capture bbox and county of clicked NR/NP feature
+    // Capture bbox, centroid, county and NVRID of clicked NR/NP feature
     map.on('singleclick', function(evt) {
-      lastClickBbox   = null;
-      lastClickAPCode = null;
+      lastClickBbox     = null;
+      lastClickAPCode   = null;
+      lastClickCentroid = null;
+      lastClickNVRID    = null;
       map.forEachFeatureAtPixel(evt.pixel, function(f, layer) {
         if (!layer) return;
         var n = layer.get('name') || '';
         if (n.indexOf('nv_naturreservat') === -1 && n.indexOf('nv_nationalparker') === -1) return;
-        lastClickBbox   = extentToWGS84(f.getGeometry().getExtent());
+        var ext = f.getGeometry().getExtent();
+        lastClickBbox   = extentToWGS84(ext);
         lastClickAPCode = LAYER_AP_CODE[n] || null;
+        lastClickNVRID  = f.get('NVRID') || null;
+        var R = 20037508.34;
+        var cx = (ext[0] + ext[2]) / 2;
+        var cy = (ext[1] + ext[3]) / 2;
+        lastClickCentroid = {
+          lon: cx * 180 / R,
+          lat: Math.atan(Math.exp(cy * Math.PI / R)) * 360 / Math.PI - 90
+        };
         return true;
       });
     });
@@ -262,18 +332,31 @@
           targets.forEach(function(el) {
             if (el.dataset.artobs || !lastClickBbox) return;
             el.dataset.artobs = '1';
+            var bbox     = lastClickBbox;
+            var centroid = lastClickCentroid;
+            var nvrid    = lastClickNVRID;
+            var apCode   = lastClickAPCode;
+
             var li = document.createElement('li');
             li.innerHTML = '<b>Artobservationer</b>: <span class="artobs-loading">hämtar…</span>';
             el.appendChild(li);
-            var bbox = lastClickBbox;
+
+            var liSmhi = document.createElement('li');
+            liSmhi.innerHTML = '<b>Väder nu (SMHI)</b>: <span class="smhi-loading">hämtar…</span>';
+            el.appendChild(liSmhi);
+
+            // GBIF + Artportalen djuplänk (NVRID som area-filter)
             fetch(gbifUrl(bbox))
               .then(function(r) { return r.json(); })
               .then(function(d) {
                 var count = fmtCount(d.count || 0);
+                var apBase = 'https://www.artportalen.se/ViewSighting/SearchSighting';
+                var apUrl  = nvrid
+                  ? apBase + '?areaId=' + nvrid + (apCode ? '&countyId=' + apCode : '')
+                  : apUrlForPopup(apCode);
                 li.innerHTML = '<b>Artobservationer</b>: ' + count + ' (2020–2025)<br>'
                   + '<a href="' + gbifMapUrl(bbox) + '" target="_blank">GBIF ↗</a>'
-                  + ' &nbsp;<a href="' + apUrlForPopup(lastClickAPCode) + '" target="_blank">Artportalen ↗</a>';
-                // Add planning row
+                  + ' &nbsp;<a href="' + apUrl + '" target="_blank">Artportalen ↗</a>';
                 var liPlan = document.createElement('li');
                 liPlan.innerHTML = '<b>Planering</b><br>'
                   + '<a href="https://www.boverket.se/sv/PBL-kunskapsbanken/riksintressen/kartor/" target="_blank">Riksintressen (Boverket) ↗</a>'
@@ -283,11 +366,40 @@
               .catch(function() {
                 li.querySelector('.artobs-loading').textContent = '—';
               });
+
+            // SMHI punktprognos för reservatets centroid
+            if (centroid) {
+              fetchSmhiWeather(centroid.lon, centroid.lat, function(data) {
+                if (!data) { liSmhi.querySelector('.smhi-loading').textContent = '—'; return; }
+                var tempStr = data.t !== null ? data.t.toFixed(1) + ' °C' : '—';
+                var descStr = data.wsymb ? (WSYMB_SV[data.wsymb] || '') : '';
+                liSmhi.innerHTML = '<b>Väder nu (SMHI)</b>: ' + tempStr
+                  + (descStr ? ', ' + descStr : '') + '<br>'
+                  + '<a href="https://www.smhi.se/vader/prognoser/ortsvyer" target="_blank">SMHI prognos ↗</a>';
+              });
+            } else {
+              el.removeChild(liSmhi);
+            }
           });
         });
       });
     }).observe(document.body, { childList: true, subtree: true });
   }
+
+  // County center coordinates (WGS84) for SMHI API — midpoints of COUNTY_BBOX
+  var COUNTY_CENTER = {
+    sthlm: { lat: 59.50, lon: 18.62 }, sod:   { lat: 59.06, lon: 16.75 },
+    upp:   { lat: 60.05, lon: 17.84 }, ost:   { lat: 58.34, lon: 15.88 },
+    vg:    { lat: 58.20, lon: 12.83 }, skane: { lat: 55.91, lon: 13.35 },
+    ble:   { lat: 56.18, lon: 15.22 }, dal:   { lat: 61.08, lon: 14.49 },
+    got:   { lat: 57.76, lon: 18.74 }, gav:   { lat: 61.26, lon: 16.10 },
+    hal:   { lat: 56.95, lon: 12.81 }, jam:   { lat: 63.36, lon: 14.52 },
+    jon:   { lat: 57.51, lon: 14.37 }, kal:   { lat: 57.11, lon: 16.54 },
+    kro:   { lat: 56.79, lon: 14.60 }, nrb:   { lat: 66.69, lon: 20.58 },
+    vrm:   { lat: 59.89, lon: 13.09 }, vbo:   { lat: 64.79, lon: 18.31 },
+    vnr:   { lat: 63.07, lon: 17.01 }, vml:   { lat: 59.72, lon: 16.23 },
+    ore:   { lat: 59.38, lon: 15.02 }, all:   { lat: 62.00, lon: 15.00 }
+  };
 
   // County display names for stats panel
   var COUNTY_NAMES = {
@@ -432,6 +544,7 @@
     if (sel) sel.value = county;
     updateStats(county);
     updateArtobsStats(county);
+    updateSMHIStats(county);
     rebuildSearch(county);
   }
 
@@ -458,6 +571,7 @@
     initSearch();
     updateStats('all');
     updateArtobsStats('all');
+    updateSMHIStats('all');
     initArtobs();
   }
   setTimeout(initSelector, 600);

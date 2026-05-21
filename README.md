@@ -2,7 +2,7 @@
 
 **[Öppna kartan →](https://ulfboge.github.io/svensk-naturkarta-origo-demo/)**
 
-A portfolio web GIS application showing Swedish nature conservation data across six counties using [Origo Map](https://github.com/origo-map/origo) — the open-source GIS framework used by Swedish municipalities and county administrative boards (_länsstyrelser_).
+A portfolio web GIS application showing Swedish nature conservation data across **all 21 counties** using [Origo Map](https://github.com/origo-map/origo) — the open-source GIS framework used by Swedish municipalities and county administrative boards (_länsstyrelser_).
 
 > The application mimics a realistic Swedish municipal/regional nature conservation GIS portal.
 
@@ -11,28 +11,43 @@ A portfolio web GIS application showing Swedish nature conservation data across 
 ## Screenshots
 
 ![Karta med lagerpanel och statistikpanel](docs/screenshot-overview.png)
-*1 845 naturreservat och 31 nationalparker i sex län. County-selector, sökfunktion och statistikpanel.*
+*5 993 naturreservat och 31 nationalparker i alla 21 svenska län. Dropdown-selector, sökfunktion och statistikpanel.*
 
 ![Popup med reservatinformation och länk till Naturvårdsverket](docs/screenshot-pop-up.png)
-*Klickbar popup med namn, skyddstyp, IUCN-kategori, areal, beslutsdatum, förvaltare och direktlänk till Naturvårdsverkets databas.*
+*Klickbar popup med namn, skyddstyp, IUCN-kategori, areal, beslutsdatum, förvaltare, direktlänk till NV, GBIF-artobs, Artportalen-länk och SMHI-väder.*
 
 ![Statistikpanel för valt län](docs/screenshot-stats.png)
-*Statistikpanel (nedre vänster) uppdateras direkt vid länsbyte — antal reservat, total areal och antal nationalparker.*
+*Statistikpanel (nedre vänster) uppdateras vid länsbyte — reservat, areal, nationalparker, GBIF-artobs och SMHI-temperatur.*
 
 ---
 
 ## What it shows
 
-**1 845 naturreservat** och **31 nationalparker** i sex svenska län:
+**5 993 naturreservat** och **31 nationalparker** i alla 21 svenska län:
 
 | Län | Naturreservat | Nationalparker |
 |---|---|---|
-| Stockholms | 383 | 3 (Tyresta, Ängsö, Nämndö) |
+| Stockholms | 383 | 3 |
 | Södermanlands | 196 | — |
-| Uppsala | 201 | 1 (Färnebofjärden, del) |
+| Uppsala | 201 | 1 |
 | Östergötlands | 329 | — |
-| Västra Götalands | 545 | 4 (Tresticklan, Djurö, Kosterhavet, Tiveden) |
-| Skåne | 391 | 3 (Dalby Söderskog, Söderåsen, Stenshuvud) |
+| Västra Götalands | 545 | 4 |
+| Skåne | 391 | 3 |
+| Blekinge | 126 | — |
+| Dalarnas | 420 | 5 |
+| Gotlands | 165 | 2 |
+| Gävleborgs | 252 | 1 |
+| Hallands | 212 | 1 |
+| Jämtlands | 270 | 4 |
+| Jönköpings | 186 | 2 |
+| Kalmar | 214 | 2 |
+| Kronobergs | 154 | — |
+| Norrbottens | 529 | 7 |
+| Värmlands | 243 | — |
+| Västerbottens | 476 | 2 |
+| Västernorrlands | 239 | 1 |
+| Västmanlands | 138 | — |
+| Örebro | 324 | 1 |
 
 **WMS-lager (rikstäckande):**
 
@@ -138,17 +153,19 @@ Naturvårdsverket's WFS uses GML output only — `application/json` returns an e
 
 ## Roadmap
 
-### ✅ Klart (fas 1–3)
+### ✅ Klart (fas 1–4)
 
 - [x] Origo Map v2.10 deployed on GitHub Pages
-- [x] 1 845 naturreservat i 6 län — Stockholm, Södermanland, Uppsala, Östergötland, Västra Götaland, Skåne
+- [x] 5 993 naturreservat i alla 21 svenska län (extraherat från NR_polygon.shp)
 - [x] 31 nationalparker (rikstäckande från NP_polygon.shp)
 - [x] 11 WMS-lager: Natura 2000, biotopskydd, vattenskydd, naturminnen, tillträdesförbud, riksintressen m.fl.
-- [x] County selector — 6 knappar + zoom + filtrerad söklista + statistikpanel
+- [x] County dropdown-selector — 21 län + zoom + filtrerad söklista + statistikpanel
 - [x] Reservatsökning — namn-autocomplete, filtrerat per valt län, `featuresloadend`-lyssning
-- [x] Statistikpanel — skyddad natur, GBIF-artobs, planering, jakt, fastighetsdata
-- [x] Popup — featureinfoTitle, formaterad areal/datum, NV-länk, GBIF-count, Artportalen, MinKarta, riksintressen
-- [x] Artdatabanken/GBIF — live-API per reservat och per valt län
+- [x] Statistikpanel — skyddad natur, GBIF-artobs, planering, jakt, SMHI-väder
+- [x] Popup — featureinfoTitle, formaterad areal/datum, NV-länk, GBIF-count, Artportalen djuplänk, SMHI-väder
+- [x] Artdatabanken/GBIF — live-API per reservat (bbox) och per valt län
+- [x] Artportalen djuplänk — NVRID som areaId-filter i URL
+- [x] SMHI öppna API — punktprognos (temperatur + symbol) i popup och statistikpanel per valt län
 - [x] Jakttider — Tilltradesforbud/Interimistiskt_forbud WMS + NV jakttider-länk
 - [x] Fastighetsdata — MinKarta-länk i popup/stats (Fastighetsindelning WMS är avgiftsbelagd)
 - [x] Planering — riksintressen (Boverket WMS), Beslutsstatus, Naturvardsomrade (NV WMS)
@@ -156,12 +173,9 @@ Naturvårdsverket's WFS uses GML output only — `application/json` returns an e
 
 ### Möjliga nästa steg
 
-- [ ] Nya screenshots — hela funktionsuppsättningen syns inte i nuvarande bilder
-- [ ] Fler län — all data finns i NR_polygon.shp (5 993 reservat totalt, 6 extraherade)
-- [ ] Artportalen djuplänk per reservat med NVRID-filter
-- [ ] SMHI-väderdata — koppla väder/klimat per reservat via SMHI öppna API
+- [ ] Nya screenshots — lägg till bilder som visar SMHI-sektionen och alla 21 länen
 - [ ] Höjddata — Lantmäteriet Höjdmodell NH (kräver API-nyckel)
-- [ ] QGIS Server-backend — ersätt statisk GeoJSON med live WFS (fas 4 i ursprungsplan)
+- [ ] QGIS Server-backend — ersätt statisk GeoJSON med live WFS (fas 5)
 - [ ] Prestandaoptimering — lazy-load GeoJSON per county vid aktivering
 
 ---
