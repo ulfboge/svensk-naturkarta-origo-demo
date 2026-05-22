@@ -127,6 +127,16 @@ python -m http.server 3000 --directory public
 # Open http://localhost:3000
 ```
 
+### QGIS Server (WFS pilot, valfritt)
+
+Kräver Docker Desktop. Se [QGIS_SERVER_PLAN.md](QGIS_SERVER_PLAN.md).
+
+```powershell
+docker compose up -d
+python scripts/dev_server.py
+# Lager: "Naturreservat Gavleborg (WFS live)" i lagerpanelen
+```
+
 ### Uppdatera screenshots
 
 ```powershell
@@ -171,7 +181,7 @@ python backfill_dates.py
 ### Möjliga nästa steg
 
 - [x] Höjddata — Markhöjdmodell NH (terrängskuggning + lutning, WMS)
-- [ ] QGIS Server — live WFS istället för statisk GeoJSON
+- [x] QGIS Server — WFS-pilot (Gävleborg, Docker + `scripts/dev_server.py`)
 - [ ] Lazy-load GeoJSON per län vid aktivering (prestanda)
 - [ ] SWEREF99 TM som visningsprojektion (fas 4)
 

@@ -60,6 +60,11 @@
     },
     "lm_hojdmodell": {
       "url": "https://minkarta.lantmateriet.se/map/hojdmodell/"
+    },
+    "local_qgis_wfs": {
+      "url": "/qgis-server/?MAP=/etc/qgisserver/naturkarta.qgs",
+      "type": "QGIS",
+      "filterType": "qgis"
     }
   },
   "groups": [
@@ -742,7 +747,63 @@
       "featureinfoTitle": "NAMN"
     },
     {
-      "name": "nv_naturreservat_halland",
+      "name": "nv_wfs_gavleborg",
+      "id": "naturreservat_gavleborg",
+      "title": "Naturreservat Gavleborg (WFS live)",
+      "group": "naturreservat_group",
+      "type": "WFS",
+      "source": "local_qgis_wfs",
+      "strategy": "all",
+      "visible": false,
+      "queryable": true,
+      "zIndex": 11,
+      "style": "naturreservat_polygon",
+      "attributes": [
+        {
+          "name": "NAMN",
+          "title": "Namn",
+          "prefix": ": "
+        },
+        {
+          "name": "SKYDDSTYP",
+          "title": "Skyddstyp",
+          "prefix": ": "
+        },
+        {
+          "name": "IUCNKATEGORI",
+          "title": "IUCN-kategori",
+          "prefix": ": "
+        },
+        {
+          "name": "AREA_HA",
+          "title": "Areal (ha)",
+          "prefix": ": "
+        },
+        {
+          "name": "URSPR_BESLUTSDATUM",
+          "title": "Beslutsdatum",
+          "prefix": ": "
+        },
+        {
+          "name": "KOMMUN",
+          "title": "Kommun",
+          "prefix": ": "
+        },
+        {
+          "name": "FORVALTARE",
+          "title": "Forvaltare",
+          "prefix": ": "
+        },
+        {
+          "name": "NVRID",
+          "title": "Visa pa Naturvardsverket",
+          "type": "url",
+          "url": "NVRID",
+          "urlPrefix": "https://skyddadnatur.naturvardsverket.se/?nvrid="
+        }
+      ],
+      "featureinfoTitle": "NAMN"
+    },
       "title": "Naturreservat – Hallands län",
       "group": "naturreservat_group",
       "type": "GEOJSON",

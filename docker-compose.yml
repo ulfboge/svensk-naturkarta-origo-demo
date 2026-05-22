@@ -1,0 +1,13 @@
+services:
+  qgis-server:
+    image: camptocamp/qgis-server:3.34
+    ports:
+      - "8081:80"
+    volumes:
+      - ./qgis/server:/etc/qgisserver:ro
+      - ./qgis/server/apache-cors.conf:/etc/apache2/conf-enabled/cors.conf:ro
+    environment:
+      QGIS_SERVER_LOG_STDERR: "1"
+      QGIS_SERVER_LOG_LEVEL: "0"
+      QGIS_PROJECT_FILE: /etc/qgisserver/naturkarta.qgs
+    restart: unless-stopped
