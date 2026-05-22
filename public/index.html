@@ -321,7 +321,7 @@
     fetchWeather(center.lon, center.lat, function(data) {
       if (!data) { tempEl.textContent = '—'; return; }
       tempEl.textContent = data.t !== null ? data.t.toFixed(1) + ' °C' : '—';
-      if (descEl) descEl.textContent = data.wsymb ? (WMO_SV[data.wsymb] || '') : '';
+      if (descEl) descEl.textContent = data.wsymb != null ? (WMO_SV[data.wsymb] || '') : '';
     });
   }
 
@@ -458,7 +458,7 @@
               fetchWeather(centroid.lon, centroid.lat, function(data) {
                 if (!data) { liSmhi.querySelector('.smhi-loading').textContent = '—'; return; }
                 var tempStr = data.t !== null ? data.t.toFixed(1) + ' °C' : '—';
-                var descStr = data.wsymb ? (WMO_SV[data.wsymb] || '') : '';
+                var descStr = data.wsymb != null ? (WMO_SV[data.wsymb] || '') : '';
                 liSmhi.innerHTML = '<b>Väder nu</b>: ' + tempStr
                   + (descStr ? ', ' + descStr : '');
               });
@@ -812,33 +812,100 @@
   };
 
   var legendItemCache = null;
+  var legendSyncTimer = null;
+  var legendObserverStarted = false;
+
+  function extendLayerTitlesForWfs() {
+    Object.keys(COUNTY_LAYER_SUFFIX).forEach(function(c) {
+      var geo = 'nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c];
+      var wfs = 'nv_wfs_' + COUNTY_LAYER_SUFFIX[c];
+      if (LAYER_TITLE[geo]) {
+        LAYER_TITLE[wfs] = LAYER_TITLE[geo].replace(' \u2013 ', ' ').replace(' l\u00e4n', '').trim()
+          + ' (WFS live)';
+      }
+    });
+  }
+  extendLayerTitlesForWfs();
+
+  function getLegendCounty() {
+    var sel = document.getElementById('county-select');
+    return sel ? sel.value : '';
+  }
 
   function buildLegendCache() {
     legendItemCache = {};
-    var container = document.querySelector('.o-legend') || document.body;
-    var lis = container.querySelectorAll('li');
-    lis.forEach(function(li) {
-      var text = (li.textContent || '').trim();
-      Object.keys(LAYER_TITLE).forEach(function(name) {
-        if (text.indexOf(LAYER_TITLE[name]) !== -1) {
-          legendItemCache[name] = li;
-        }
+    var containers = document.querySelectorAll('.o-layerswitcher-overlays, .o-legend');
+    if (!containers.length) containers = [document.body];
+    containers.forEach(function(container) {
+      container.querySelectorAll('li').forEach(function(li) {
+        var text = (li.textContent || '').trim();
+        Object.keys(LAYER_TITLE).forEach(function(name) {
+          if (text.indexOf(LAYER_TITLE[name]) !== -1) {
+            legendItemCache[name] = li;
+          }
+        });
       });
     });
   }
 
+  function refreshVisibleLegendView() {
+    try {
+      var legend = viewer.getControlByName('legend');
+      if (!legend || !legend.getState().visibleLayersViewActive) return;
+      legend.setVisibleLayersViewActive(false);
+      legend.setVisibleLayersViewActive(true);
+    } catch (e) {}
+  }
+
   function updateLegendVisibility(county) {
-    if (!legendItemCache || Object.keys(legendItemCache).length === 0) buildLegendCache();
+    if (county === undefined || county === null) county = getLegendCounty();
+    buildLegendCache();
+
+    getInactiveNrLayers().forEach(function(name) {
+      var el = legendItemCache[name];
+      if (el) el.style.display = 'none';
+    });
+
+    if (!county) {
+      getAllNrLayers().forEach(function(name) {
+        var el = legendItemCache[name];
+        if (el) el.style.display = 'none';
+      });
+      return;
+    }
+
     var cfg = getCountyLayerConfig(county);
     if (!cfg) return;
-    getAllNrLayers().concat(getInactiveNrLayers()).forEach(function(name) {
+    getAllNrLayers().forEach(function(name) {
       var el = legendItemCache[name];
-      if (!el && name.indexOf('nv_wfs_') === 0) {
-        el = legendItemCache[name.replace('nv_wfs_', 'nv_naturreservat_')];
-      }
       if (!el) return;
       el.style.display = cfg.hide.indexOf(name) !== -1 ? 'none' : '';
     });
+  }
+
+  function scheduleLegendSync(county) {
+    var delays = county === undefined ? [0, 300, 800, 1500] : [0, 300, 800];
+    delays.forEach(function(ms) {
+      setTimeout(function() {
+        updateLegendVisibility(county);
+        refreshVisibleLegendView();
+      }, ms);
+    });
+  }
+
+  function initLegendSync() {
+    if (legendObserverStarted) return;
+    legendObserverStarted = true;
+    var debounced = function() {
+      if (legendSyncTimer) clearTimeout(legendSyncTimer);
+      legendSyncTimer = setTimeout(function() {
+        updateLegendVisibility(getLegendCounty());
+        refreshVisibleLegendView();
+      }, 200);
+    };
+    var target = document.getElementById('app-wrapper') || document.body;
+    new MutationObserver(debounced).observe(target, { childList: true, subtree: true });
+    scheduleLegendSync(getLegendCounty());
   }
 
   function selectCounty(county) {
@@ -855,7 +922,7 @@
     });
     resetYearFilter();
     applyNPFilters(county, YEAR_SLIDER_MAX);
-    updateLegendVisibility(county);
+    scheduleLegendSync(county);
     try {
       map.getView().fit(EXTENTS[county], { padding: [60, 60, 60, 60], duration: 600 });
     } catch (e) {}
@@ -980,16 +1047,6 @@
       .catch(function() { done(false); });
   }
 
-  function extendLayerTitlesForWfs() {
-    Object.keys(COUNTY_LAYER_SUFFIX).forEach(function(c) {
-      var geo = 'nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c];
-      var wfs = 'nv_wfs_' + COUNTY_LAYER_SUFFIX[c];
-      if (LAYER_TITLE[geo]) {
-        LAYER_TITLE[wfs] = LAYER_TITLE[geo].replace(' l\u00e4n', ' (WFS live)').replace(' \u2013 ', ' ');
-      }
-    });
-  }
-
   // Wait until Origo is ready, then wire up dropdown and set initial state
   function initSelector() {
     var map = null;
@@ -1018,13 +1075,14 @@
         updateArtobsStats('all');
         updateSMHIStats('all');
         initArtobs();
+        initLegendSync();
+        scheduleLegendSync('');
       }
 
       if (qgisOk) {
         USE_WFS_NR = true;
         ALL_NR = getAllNrLayers();
         ALL_LAYERS = ALL_NR.concat(['nv_nationalparker']);
-        extendLayerTitlesForWfs();
         getInactiveNrLayers().forEach(function(n) {
           var l = findOLLayer(n); if (l) l.setVisible(false);
         });
