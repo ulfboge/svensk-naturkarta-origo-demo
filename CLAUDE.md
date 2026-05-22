@@ -96,7 +96,7 @@ python -m http.server 3000 --directory public
 - `lm_fastighet`: Fastighetsgränser (avgiftsbelagd, DIN_API_NYCKEL)
 
 **Bakgrundskartor:**
-- OSM (synlig som standard), OpenTopoMap (XYZ), Lantmäteriet Topowebb (WMTS, konfigurerad med riktig nyckel)
+- OSM (synlig som standard), OpenTopoMap (XYZ)
 
 **UX-funktioner i `public/index.html`:**
 - County selector (6 knappar) — styr synlighet, zoom, söklista, statistikpanel

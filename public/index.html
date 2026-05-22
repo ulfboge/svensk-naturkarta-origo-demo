@@ -35,8 +35,8 @@
 <div id="map-title">
   <span>Skyddad natur i Sverige</span>
   <div id="county-selector">
-    <select id="county-select">
-      <option value="">Välj ett län…</option>
+    <select id="county-select" autocomplete="off">
+      <option value="" selected>Välj ett län…</option>
       <option value="all">— Hela Sverige —</option>
       <option value="ble">Blekinge län</option>
       <option value="dal">Dalarnas län</option>
@@ -61,6 +61,7 @@
       <option value="vrm">Värmlands län</option>
     </select>
     <span id="data-source-hint" aria-live="polite"></span>
+    <a href="#" id="share-view-link" title="Kopiera länk till vald vy">Dela länk</a>
   </div>
   <div id="reservat-search-wrap">
     <input id="reservat-search" type="search" list="reservat-names" placeholder="Sök reservat…" autocomplete="off">
@@ -451,6 +452,13 @@
                   + '<a href="https://www.boverket.se/sv/PBL-kunskapsbanken/riksintressen/kartor/" target="_blank">Riksintressen (Boverket) ↗</a>'
                   + ' &nbsp;<a href="https://www.naturvardsverket.se/amnesomraden/skyddad-natur/" target="_blank">NV Ärenden ↗</a>';
                 el.appendChild(liPlan);
+                if (centroid) {
+                  var liLm = document.createElement('li');
+                  liLm.innerHTML = '<b>Fastighet</b><br>'
+                    + '<a href="https://minkarta.lantmateriet.se/?lat=' + centroid.lat.toFixed(5)
+                    + '&lon=' + centroid.lon.toFixed(5) + '&zoom=14" target="_blank">MinKarta ↗</a>';
+                  el.appendChild(liLm);
+                }
               })
               .catch(function() {
                 li.querySelector('.artobs-loading').textContent = '—';
@@ -675,6 +683,150 @@
     ore:   [1592309, 8112528, 1750777, 8417005],
     all:   [1100000, 7280000, 2900000, 10920000]
   };
+
+  // Rikstäckande WMS — begränsa tile-hämtning till valt län
+  var COUNTY_CLIP_WMS = [
+    'nv_beslutsstatus', 'nv_naturvardsomrade', 'boverket_riksintressen',
+    'n2000_sci', 'n2000_spa', 'nv_biotopskydd', 'nv_djur_vaxt', 'nv_vattenskydd',
+    'nv_naturminne_yta', 'nv_naturminne_punkt', 'nv_naturreservat_kommunalt',
+    'nv_tilltradesforbud', 'nv_interimistiskt_forbud'
+  ];
+
+  var activeCounty = null;
+  var countyUiReady = false;
+
+  function patchXyzBackgroundLayers() {
+    var layer = findOLLayer('osm_topo');
+    if (!layer || !layer.getSource) return;
+    var src = layer.getSource();
+    if (src && typeof src.setCrossOrigin === 'function') {
+      src.setCrossOrigin(null);
+    }
+  }
+
+  function updateCountyWmsClip(county) {
+    var extent = county && county !== 'all' && EXTENTS[county] ? EXTENTS[county] : undefined;
+    COUNTY_CLIP_WMS.forEach(function(name) {
+      var layer = findOLLayer(name);
+      if (!layer || typeof layer.setExtent !== 'function') return;
+      layer.setExtent(extent);
+    });
+  }
+
+  function updateUrlState(county, maxYear, opts) {
+    opts = opts || {};
+    var u = new URL(window.location.href);
+    if (county && county !== 'all') u.searchParams.set('county', county);
+    else u.searchParams.delete('county');
+    if (opts.shared) u.searchParams.set('shared', '1');
+    else u.searchParams.delete('shared');
+    if (maxYear != null && maxYear < YEAR_SLIDER_MAX) u.searchParams.set('year', String(maxYear));
+    else u.searchParams.delete('year');
+    history.replaceState(null, '', u.pathname + u.search + u.hash);
+  }
+
+  function hideAllCountyLayers() {
+    getAllNrLayers().forEach(function(n) {
+      var l = findOLLayer(n); if (l) l.setVisible(false);
+    });
+    var np = findOLLayer('nv_nationalparker');
+    if (np) np.setVisible(false);
+    var lan = findOLLayer('lan_grans');
+    if (lan) lan.setVisible(false);
+  }
+
+  function hasUrlCounty() {
+    var params = new URLSearchParams(window.location.search);
+    var county = params.get('county') || params.get('lan');
+    if (!county || !params.get('shared')) return false;
+    return !!document.querySelector('#county-select option[value="' + county + '"]');
+  }
+
+  function resetOverviewStartup() {
+    activeCounty = null;
+    hideAllCountyLayers();
+    var sel = document.getElementById('county-select');
+    if (sel && !hasUrlCounty()) sel.value = '';
+    document.getElementById('stats-county').textContent = 'Hela Sverige';
+    setDataSourceHint('');
+    updateCountyWmsClip(null);
+    if (!hasUrlCounty()) updateUrlState('', currentMaxYear);
+    scheduleLegendSync('');
+  }
+
+  function enforceOverviewState() {
+    if (hasUrlCounty()) return;
+    activeCounty = null;
+    var sel = document.getElementById('county-select');
+    if (sel && sel.value) sel.value = '';
+    hideAllCountyLayers();
+    updateUrlState('', currentMaxYear);
+    scheduleLegendSync('');
+  }
+
+  function onCountySelectChange() {
+    if (!countyUiReady) return;
+    var val = this.value;
+    if (!val) {
+      resetOverviewStartup();
+      try {
+        viewer.api().getMap().getView().fit(EXTENTS.all, { padding: [60, 60, 60, 60], duration: 400 });
+      } catch (e) {}
+      return;
+    }
+    resetYearFilter();
+    selectCounty(val, { updateUrl: false });
+  }
+
+  function applyUrlState() {
+    var params = new URLSearchParams(window.location.search);
+    var county = params.get('county') || params.get('lan');
+    var year = params.get('year');
+    if (county && !params.get('shared')) {
+      updateUrlState('', currentMaxYear);
+      return;
+    }
+    var y = null;
+    if (year) {
+      y = parseInt(year, 10);
+      if (isNaN(y) || y < YEAR_SLIDER_MIN || y > YEAR_SLIDER_MAX) y = null;
+    }
+    if (county && document.querySelector('#county-select option[value="' + county + '"]')) {
+      if (y != null) {
+        currentMaxYear = y;
+        var slider = document.getElementById('year-slider');
+        if (slider) slider.value = String(y);
+      }
+      selectCounty(county, { updateUrl: false });
+      if (y != null) applyYearFilter(y);
+    } else if (y != null) {
+      currentMaxYear = y;
+      var sliderEl = document.getElementById('year-slider');
+      if (sliderEl) sliderEl.value = String(y);
+      applyYearFilter(y);
+    }
+  }
+
+  function initShareLink() {
+    var link = document.getElementById('share-view-link');
+    if (!link) return;
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var county = activeCounty || 'all';
+      updateUrlState(county === '' ? 'all' : county, currentMaxYear, { shared: true });
+      var url = window.location.href;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function() {
+          link.textContent = 'Kopierad!';
+          setTimeout(function() { link.textContent = 'Dela länk'; }, 2000);
+        }).catch(function() {
+          window.prompt('Kopiera länken:', url);
+        });
+      } else {
+        window.prompt('Kopiera länken:', url);
+      }
+    });
+  }
 
   var USE_WFS_NR = false;
   var USE_NV_WFS = false;
@@ -919,8 +1071,7 @@
   extendLayerTitlesForWfs();
 
   function getLegendCounty() {
-    var sel = document.getElementById('county-select');
-    return sel ? sel.value : '';
+    return activeCounty || '';
   }
 
   function buildLegendCache() {
@@ -999,7 +1150,9 @@
     scheduleLegendSync(getLegendCounty());
   }
 
-  function selectCounty(county) {
+  function selectCounty(county, opts) {
+    opts = opts || {};
+    activeCounty = county;
     var map = null;
     try { map = viewer.api().getMap(); } catch (e) {}
     if (!map) return;
@@ -1033,14 +1186,16 @@
     } catch (e) {}
 
     updateCountyBoundary(county);
+    updateCountyWmsClip(county);
+    if (opts.updateUrl) updateUrlState(county, currentMaxYear, { shared: !!opts.shared });
 
     prepareCountyLayers(cfg.show, county).then(function() {
       cfg.show.forEach(function(n) {
         var l = findOLLayer(n); if (l) l.setVisible(true);
       });
-      resetYearFilter();
-      applyNPFilters(county, YEAR_SLIDER_MAX);
+      applyNPFilters(county, currentMaxYear);
       scheduleLegendSync(county);
+      rebuildSearch(county);
 
       if (nvWfsFallback) {
         setDataSourceHint('NV WFS fel — visar lokal GeoJSON');
@@ -1236,23 +1391,14 @@
 
     probeQgisWfs(function(qgisOk) {
       function finishInit() {
-        getAllNrLayers().forEach(function(n) {
-          var l = findOLLayer(n); if (l) l.setVisible(false);
-        });
-        var npLayer = findOLLayer('nv_nationalparker');
-        if (npLayer) npLayer.setVisible(false);
-        var lanLayer = findOLLayer('lan_grans');
-        if (lanLayer) lanLayer.setVisible(false);
+        hideAllCountyLayers();
         try {
-          map.getView().fit(EXTENTS.all, { padding: [60, 60, 60, 60], duration: 800 });
+          map.getView().fit(EXTENTS.all, { padding: [60, 60, 60, 60], duration: 0 });
         } catch (e) {}
-
-        document.getElementById('county-select').addEventListener('change', function() {
-          if (this.value) selectCounty(this.value);
-        });
 
         initSearch();
         initYearSlider();
+        resetOverviewStartup();
         updateStats('all');
         updateIUCNChart('all');
         updateArtobsStats('all');
@@ -1260,6 +1406,17 @@
         initArtobs();
         initLegendSync();
         scheduleLegendSync('');
+        initShareLink();
+        patchXyzBackgroundLayers();
+        applyUrlState();
+        if (!hasUrlCounty()) {
+          enforceOverviewState();
+          [100, 500, 1500].forEach(function(ms) {
+            setTimeout(enforceOverviewState, ms);
+          });
+        }
+        countyUiReady = true;
+        document.getElementById('county-select').addEventListener('change', onCountySelectChange);
       }
 
       if (qgisOk) {
@@ -1339,8 +1496,6 @@
   }
 
   function initSearch() {
-    rebuildSearch('all');
-
     document.getElementById('reservat-search').addEventListener('change', function() {
       var match = searchIndex[this.value];
       if (!match) return;
@@ -1374,10 +1529,12 @@
     if (sliderEl) sliderEl.style.background =
       'linear-gradient(to right, #2d6a4f ' + pct + '%, #d8f3dc ' + pct + '%)';
 
-    var countyVal = (document.getElementById('county-select').value) || 'all';
+    var countyVal = activeCounty || '';
     var names = countyVal === 'all'
       ? getAllNrLayers()
-      : (COUNTY_LAYER_SUFFIX[countyVal] ? [nrLayerName(COUNTY_LAYER_SUFFIX[countyVal])] : []);
+      : (countyVal && COUNTY_LAYER_SUFFIX[countyVal]
+        ? [nrLayerName(COUNTY_LAYER_SUFFIX[countyVal])]
+        : []);
 
     var visible = 0, total = 0;
 

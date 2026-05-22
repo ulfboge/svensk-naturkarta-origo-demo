@@ -64,9 +64,6 @@
     "opentopomap": {
       "url": "https://tile.opentopomap.org/{z}/{x}/{y}.png"
     },
-    "lm_topowebb": {
-      "url": "https://maps.lantmateriet.se/open/topowebb-ccby/v1/wmts/1.0.0/topowebb/default/3857/{z}/{y}/{x}.png"
-    },
     "local_qgis_wfs": {
       "url": "/qgis-server/?MAP=/etc/qgisserver/naturkarta.qgs",
       "type": "QGIS",
@@ -131,18 +128,41 @@
       "attribution": "Kartdata: © OpenStreetMap contributors, SRTM | Kartvisning: © OpenTopoMap",
       "style": "karta_topo",
       "visible": false,
-      "queryable": false
-    },
-    {
-      "name": "lm_topowebb",
-      "title": "Topowebb (Lantmäteriet)",
-      "group": "background",
-      "type": "XYZ",
-      "source": "lm_topowebb",
-      "attribution": "© Lantmäteriet (CC BY)",
-      "style": "karta_lm",
-      "visible": false,
-      "queryable": false
+      "queryable": false,
+      "tileGrid": {
+        "alignBottomLeft": false,
+        "extent": [
+          -20037508.342789244,
+          -20037508.342789244,
+          20037508.342789244,
+          20037508.342789244
+        ],
+        "resolutions": [
+          156543.03392804097,
+          78271.51696402048,
+          39135.75848201024,
+          19567.87924100512,
+          9783.93962050256,
+          4891.96981025128,
+          2445.98490512564,
+          1222.99245256282,
+          611.49622628141,
+          305.748113140705,
+          152.8740565703525,
+          76.43702828517624,
+          38.21851414258812,
+          19.10925707129406,
+          9.55462853564703,
+          4.777314267823516,
+          2.388657133911758,
+          1.194328566955879,
+          0.5971642834779395
+        ],
+        "tileSize": [
+          256,
+          256
+        ]
+      }
     },
     {
       "name": "nv_naturreservat_sthlm",
@@ -2962,15 +2982,6 @@
         }
       ]
     ],
-    "karta_lm": [
-      [
-        {
-          "image": {
-            "src": "img/png/osm.png"
-          }
-        }
-      ]
-    ],
     "naturreservat_polygon": [
       [
         {
@@ -3050,7 +3061,7 @@
     {
       "name": "mapmenu",
       "options": {
-        "isActive": false
+        "isActive": true
       }
     },
     {

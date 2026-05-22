@@ -89,7 +89,7 @@ Full county table in [CLAUDE.md](CLAUDE.md). National parks are filtered per cou
 - **Reserve search** — autocomplete per county, zoom to feature
 - **Statistics panel** — NR count/area, national parks, GBIF observations, planning links, IUCN bars, weather
 - **Popup** — NV, GBIF, Artportalen (NVRID), Boverket, Open-Meteo weather
-- **Three basemaps** — OSM, OpenTopoMap, Lantmäteriet Topowebb
+- **Two basemaps** — OSM, OpenTopoMap
 - **Legend** — hides duplicate WFS/GeoJSON entries; county-aware layer list
 
 ---
@@ -170,7 +170,8 @@ Wait for OSM tiles to load — the script checks for rendered basemap tiles befo
 | Artobservationer (count) | [GBIF](https://www.gbif.org) API | CC BY |
 | Artobservationer (links) | [Artportalen](https://www.artportalen.se) | — |
 | Weather | [Open-Meteo](https://open-meteo.com) | CC BY 4.0 |
-| Topowebb, Markhöjd NH | [Lantmäteriet](https://opendata.lantmateriet.se/) | CC BY |
+| Topographic basemap | [OpenTopoMap](https://opentopomap.org/) | ODbL |
+| MinKarta (popup links) | [Lantmäteriet](https://minkarta.lantmateriet.se/) | — |
 | Basemap | [OpenStreetMap](https://www.openstreetmap.org/) | ODbL |
 
 ---
@@ -186,13 +187,14 @@ Wait for OSM tiles to load — the script checks for rendered basemap tiles befo
 - [x] QGIS Server WFS (local) + NV WFS (GitHub Pages)
 - [x] Legend county filter, README screenshots with basemap
 - [x] Lazy-load GeoJSON per county (performance)
+- [x] Länsgräns overlay (SCB) + WMS clip to county extent
+- [x] Permalänk (`?county=gav&year=1960`) + Origo Dela karta
 
 ### Possible next steps
 
 - [ ] SWEREF99 TM as display projection
 - [ ] SMHI open API instead of Open-Meteo
 - [ ] Artportalen count if open API available
-- [ ] Share map / permalink (Origo built-in)
 
 ---
 

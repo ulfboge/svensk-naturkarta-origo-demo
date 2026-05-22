@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static file server for public/ with /qgis-server proxy (avoids CORS in dev)."""
+"""Static file server for public/ with optional QGIS proxy."""
 
 from __future__ import annotations
 
@@ -83,7 +83,7 @@ class DevHandler(http.server.SimpleHTTPRequestHandler):
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Origo dev server with QGIS proxy")
+    parser = argparse.ArgumentParser(description="Origo dev server (static + QGIS proxy)")
     parser.add_argument("--port", type=int, default=3000)
     args = parser.parse_args()
 

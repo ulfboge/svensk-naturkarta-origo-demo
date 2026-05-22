@@ -36,6 +36,26 @@ def wait_for_basemap_tiles(page, timeout_ms=45000):
     )
 
 
+def wait_for_county_boundary(page, timeout_ms=15000):
+    page.wait_for_function(
+        """
+        () => {
+          const map = window.viewer.api().getMap();
+          function find(name, arr) {
+            for (const x of arr) {
+              if (x.getLayers) { const h = find(name, x.getLayers().getArray()); if (h) return h; }
+              if (x.get('name') === name) return x;
+            }
+            return null;
+          }
+          const lan = find('lan_grans', map.getLayerGroup().getLayers().getArray());
+          return lan && lan.getVisible() && lan.getSource().getFeatures().length > 0;
+        }
+        """,
+        timeout=timeout_ms,
+    )
+
+
 def wait_for_county_ready(page, county_label, timeout_ms=30000):
     """County selected — stats header and NR count should be populated."""
     page.wait_for_function(
@@ -68,6 +88,7 @@ def main():
         # Overview — Gävleborgs län med NR + NP
         page.select_option('#county-select', 'gav')
         wait_for_county_ready(page, 'Gävleborg')
+        wait_for_county_boundary(page)
         wait_for_basemap_tiles(page)
         page.wait_for_timeout(800)
         page.screenshot(path=str(DOCS / 'screenshot-overview.png'))
