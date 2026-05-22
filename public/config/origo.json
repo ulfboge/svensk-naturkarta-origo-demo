@@ -2847,7 +2847,7 @@
       "title": "Kommunala naturreservat",
       "group": "nv_rikstackande",
       "type": "WMS",
-      "source": "data/empty.geojson",
+      "source": "nv_naturvardsregistret",
       "id": "Naturreservat_kommunalt",
       "format": "image/png",
       "sourceParams": {
