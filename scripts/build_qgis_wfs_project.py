@@ -17,6 +17,31 @@ GPKG_PATH = DATA_DIR / "naturkarta.gpkg"
 QGS_PATH = SERVER_DIR / "naturkarta.qgs"
 ORIGO_JSON = ROOT / "public" / "config" / "origo.json"
 
+# Lazy-load paths (origo.json uses empty.geojson; real files loaded in index.html)
+NR_GEOJSON_FILES = {
+    "sthlm": "data/naturreservat-stockholm-v2.geojson",
+    "sod": "data/naturreservat-sodermanland.geojson",
+    "uppsala": "data/naturreservat-uppsala.geojson",
+    "ostergotland": "data/naturreservat-ostergotland.geojson",
+    "vastragotaland": "data/naturreservat-vastragotaland.geojson",
+    "skane": "data/naturreservat-skane.geojson",
+    "blekinge": "data/naturreservat-blekinge.geojson",
+    "dalarna": "data/naturreservat-dalarna.geojson",
+    "gotland": "data/naturreservat-gotland.geojson",
+    "gavleborg": "data/naturreservat-gavleborg.geojson",
+    "halland": "data/naturreservat-halland.geojson",
+    "jamtland": "data/naturreservat-jamtland.geojson",
+    "jonkoping": "data/naturreservat-jonkoping.geojson",
+    "kalmar": "data/naturreservat-kalmar.geojson",
+    "kronoberg": "data/naturreservat-kronoberg.geojson",
+    "norrbotten": "data/naturreservat-norrbotten.geojson",
+    "varmland": "data/naturreservat-varmland.geojson",
+    "vasterbotten": "data/naturreservat-vasterbotten.geojson",
+    "vasternorrland": "data/naturreservat-vasternorrland.geojson",
+    "vastmanland": "data/naturreservat-vastmanland.geojson",
+    "orebro": "data/naturreservat-orebro.geojson",
+}
+
 EPSG3857_WKT = (
     'PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",'
     'MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],'
@@ -59,7 +84,10 @@ def discover_layers_from_origo() -> list[dict]:
             continue
         if layer.get("type") != "GEOJSON":
             continue
+        suffix = name.replace("nv_naturreservat_", "")
         src = layer.get("source", "")
+        if src.endswith("empty.geojson"):
+            src = NR_GEOJSON_FILES.get(suffix, "")
         if not src.endswith(".geojson"):
             continue
         path = ROOT / "public" / src

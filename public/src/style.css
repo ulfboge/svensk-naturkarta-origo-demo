@@ -299,7 +299,13 @@ body {
 .stats-row-link a:hover { text-decoration: underline; }
 
 /* Stats hint text (small, muted) */
-.stats-hint { color: #95c9aa; font-size: 11px; font-style: italic; }
+.stats-hint {
+  color: #52796f;
+  font-size: 11px;
+  line-height: 1.35;
+  font-style: normal;
+  padding: 2px 0 4px;
+}
 
 /* ── IUCN mini bar chart ── */
 .iucn-row {
