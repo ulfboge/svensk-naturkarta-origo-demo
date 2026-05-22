@@ -117,14 +117,14 @@ python -m http.server 3000 --directory public
 
 ---
 
-## Möjliga nästa steg (Phase 4)
+## Möjliga nästa steg (Phase 4+)
 
-1. **Nya screenshots** — README-bilderna speglar inte nuläget (saknar stats-panel, planering, jakt m.m.)
-2. **Fler län** — kör `extract_nr_extra.py` med ytterligare län från `NR_polygon.shp`
-3. **SMHI öppna API** — väder/klimat per reservat (gratis, ingen nyckel)
-4. **Artportalen djuplänk** — per reservat med NVRID som sökparameter
-5. **QGIS Server** — ersätt statisk GeoJSON med live WFS (fas 4 i ursprungsplan)
-6. **Prestandaoptimering** — lazy-load GeoJSON per county
+1. ~~**Nya screenshots**~~ ✅ README + `scripts/capture_screenshots.py`
+2. ~~**Datumslider + statistik + NP per län**~~ ✅ Se `docs/05_session_2026-05-21.md`
+3. **Höjddata** — Lantmäteriet Höjdmodell NH
+4. **QGIS Server** — ersätt statisk GeoJSON med live WFS
+5. **Prestandaoptimering** — lazy-load GeoJSON per county
+6. **SWEREF99 TM** — visningsprojektion + Lantmäteriet tile grid
 
 ---
 

@@ -2,6 +2,7 @@
 """Extract Västra Götaland + Skåne naturreservat from NR_polygon.shp."""
 import json, fiona
 from pyproj import Transformer
+from extract_date_utils import load_nvrid_dates
 
 SHP = 'E:/NR/NR/NR_polygon.shp'
 DATE_FIELDS = ['URSBESLDAT', 'IKRAFTDATF', 'URSGALLDAT', 'SENGALLDAT']
@@ -19,6 +20,7 @@ def tr_coords(c):
     return [round(lon, 5), round(lat, 5)]
 
 buckets = {k: [] for k in COUNTIES}
+date_by_nvrid = load_nvrid_dates(SHP)
 
 with fiona.open(SHP, encoding='utf-8', ignore_fields=DATE_FIELDS) as src:
     print(f'Total: {len(src)} features')
@@ -49,7 +51,7 @@ with fiona.open(SHP, encoding='utf-8', ignore_fields=DATE_FIELDS) as src:
                 'IUCNKATEGORI':       str(props.get('IUCNKAT') or ''),
                 'FORVALTARE':         str(props.get('FORVALTARE') or ''),
                 'AREA_HA':            props.get('AREA_HA'),
-                'URSPR_BESLUTSDATUM': '',
+                'URSPR_BESLUTSDATUM': date_by_nvrid.get(str(props.get('NVRID') or ''), ''),
             }
         })
 

@@ -6,6 +6,7 @@ and export as WGS84 GeoJSON matching the origo.json attribute schema.
 import json
 import fiona
 from fiona.transform import transform_geom
+from extract_date_utils import load_nvrid_dates
 
 SHP = 'E:/NR/NR/NR_polygon.shp'
 
@@ -36,6 +37,7 @@ def round_geom(geom):
 
 with fiona.open(SHP, encoding='utf-8', ignore_fields=DATE_FIELDS) as src:
     print(f'Total features: {len(src)}, CRS: {src.crs}')
+    date_by_nvrid = load_nvrid_dates(SHP)
 
     buckets = {k: [] for k in COUNTIES}
 
@@ -70,7 +72,7 @@ with fiona.open(SHP, encoding='utf-8', ignore_fields=DATE_FIELDS) as src:
                     'IUCNKATEGORI':        str(props.get('IUCNKAT') or ''),
                     'FORVALTARE':          str(props.get('FORVALTARE') or ''),
                     'AREA_HA':             props.get('AREA_HA'),
-                    'URSPR_BESLUTSDATUM':  '',   # skipped (year-0 dates crash fiona)
+                    'URSPR_BESLUTSDATUM': date_by_nvrid.get(str(props.get('NVRID') or ''), ''),
                 },
             })
 

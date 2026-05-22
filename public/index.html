@@ -571,7 +571,8 @@
   function featureInYearRange(feature, maxYear) {
     if (maxYear >= YEAR_SLIDER_MAX) return true;
     var year = getFeatureYear(feature);
-    return year === null || year <= maxYear;
+    if (year === null) return false;
+    return year <= maxYear;
   }
 
   function computeFilteredNRStats(county, maxYear) {
@@ -600,16 +601,25 @@
     if (!base) return;
     maxYear = maxYear == null ? currentMaxYear : maxYear;
     var filtered = computeFilteredNRStats(county, maxYear);
-    var hasFeatures = filtered.nr > 0;
-    var nr = hasFeatures ? filtered.nr : (maxYear >= YEAR_SLIDER_MAX ? base.nr : 0);
-    var area = hasFeatures ? filtered.area : (maxYear >= YEAR_SLIDER_MAX ? base.area : 0);
+    var npCount = computeNPStats(county, maxYear);
+    var nrLoaded = filtered.nr > 0 || (county !== 'all' && getStatsLayerNames(county).length > 0
+      && layerHasFeatures(getStatsLayerNames(county)[0]));
+    var nr = nrLoaded ? filtered.nr : (maxYear >= YEAR_SLIDER_MAX ? base.nr : 0);
+    var area = nrLoaded ? filtered.area : (maxYear >= YEAR_SLIDER_MAX ? base.area : 0);
 
     document.getElementById('stats-county').textContent   = COUNTY_NAMES[county] || county;
-    document.getElementById('stats-nr-count').textContent = nr.toLocaleString('sv-SE') + ' st';
-    document.getElementById('stats-nr-area').textContent  = area.toLocaleString('sv-SE') + ' ha';
-    var npCount = computeNPStats(county, maxYear);
+    document.getElementById('stats-nr-count').textContent =
+      (nrLoaded ? nr.toLocaleString('sv-SE') : '…') + ' st';
+    document.getElementById('stats-nr-area').textContent  =
+      (nrLoaded ? area.toLocaleString('sv-SE') : '…') + ' ha';
     document.getElementById('stats-np-count').textContent =
-      (npCount !== null ? npCount : base.np) + ' st';
+      (npCount !== null ? npCount : (maxYear >= YEAR_SLIDER_MAX ? base.np : 0)) + ' st';
+  }
+
+  function layerHasFeatures(layerName) {
+    var layer = findOLLayer(layerName);
+    if (!layer || !layer.getSource) return false;
+    return layer.getSource().getFeatures().length > 0;
   }
 
   function updateFilteredStats(county, maxYear) {
@@ -730,7 +740,7 @@
           if (countyCode !== 'all' && !featureInCounty(feature, countyCode)) return null;
           if (yr < YEAR_SLIDER_MAX) {
             var year = getFeatureYear(feature);
-            if (year !== null && year > yr) return null;
+            if (year === null || year > yr) return null;
           }
           return fn(feature, resolution);
         });
@@ -815,6 +825,26 @@
     updateArtobsStats(county);
     updateSMHIStats(county);
     rebuildSearch(county);
+    scheduleStatsRefresh(county);
+  }
+
+  function scheduleStatsRefresh(county) {
+    var names = getStatsLayerNames(county).concat(['nv_nationalparker']);
+    var pending = 0;
+    function done() {
+      pending--;
+      if (pending <= 0) updateFilteredStats(county, currentMaxYear);
+    }
+    names.forEach(function(name) {
+      var layer = findOLLayer(name);
+      if (!layer || !layer.getSource) return;
+      var src = layer.getSource();
+      if (!src || !src.getFeatures) return;
+      if (src.getFeatures().length > 0) return;
+      pending++;
+      src.once('featuresloadend', done);
+    });
+    if (pending === 0) updateFilteredStats(county, currentMaxYear);
   }
 
   // Wait until Origo is ready, then wire up dropdown and set initial state
@@ -966,7 +996,7 @@
         (function(fn, yr) {
           layer.setStyle(function(feature, resolution) {
             var year = getFeatureYear(feature);
-            if (year !== null && year > yr) return null;
+            if (year === null || year > yr) return null;
             return fn(feature, resolution);
           });
         }(orig, maxYear));
@@ -979,8 +1009,7 @@
         if (src && src.getFeatures) {
           src.getFeatures().forEach(function(f) {
             total++;
-            var year = getFeatureYear(f);
-            if (year === null || year <= maxYear) visible++;
+            if (featureInYearRange(f, maxYear)) visible++;
           });
         }
       }
