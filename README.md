@@ -81,6 +81,7 @@ Nationalparker filtreras per län via `LAN`-fältet (parkar i flera län, t.ex. 
 - **Statistikpanel** — antal/areal, nationalparker, GBIF-artobs, planering, jakt, IUCN-stapeldiagram, SMHI-väder
 - **Popup** — NV, GBIF, Artportalen (NVRID), Boverket riksintressen, SMHI punktprognos
 - **Tre bakgrundskartor** — OSM, OpenTopoMap, Lantmäteriet Topowebb
+- **Terräng & höjd** — Lantmäteriets Markhöjdmodell NH (terrängskuggning + lutning som WMS-overlay)
 
 ---
 
@@ -169,7 +170,7 @@ python backfill_dates.py
 
 ### Möjliga nästa steg
 
-- [ ] Höjddata — Lantmäteriet Höjdmodell NH
+- [x] Höjddata — Markhöjdmodell NH (terrängskuggning + lutning, WMS)
 - [ ] QGIS Server — live WFS istället för statisk GeoJSON
 - [ ] Lazy-load GeoJSON per län vid aktivering (prestanda)
 - [ ] SWEREF99 TM som visningsprojektion (fas 4)

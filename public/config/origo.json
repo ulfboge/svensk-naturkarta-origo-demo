@@ -57,6 +57,9 @@
     },
     "boverket_riksintressen": {
       "url": "https://gis.boverket.se/arcgis/services/riksintressen/MapServer/WmsServer"
+    },
+    "lm_hojdmodell": {
+      "url": "https://minkarta.lantmateriet.se/map/hojdmodell/"
     }
   },
   "groups": [
@@ -90,6 +93,11 @@
     {
       "name": "planering",
       "title": "Planering & skyddsstatus",
+      "expanded": false
+    },
+    {
+      "name": "terrang",
+      "title": "Terräng & höjd",
       "expanded": false
     }
   ],
@@ -1607,6 +1615,44 @@
       "visible": false,
       "queryable": false,
       "zIndex": 1
+    },
+    {
+      "name": "lm_terrangskuggning",
+      "title": "Terrängskuggning (Markhöjdmodell NH)",
+      "group": "terrang",
+      "type": "WMS",
+      "source": "lm_hojdmodell",
+      "id": "terrangskuggning",
+      "format": "image/png",
+      "opacity": 0.7,
+      "sourceParams": {
+        "TRANSPARENT": "true",
+        "STYLES": "hojdmodell.default",
+        "VERSION": "1.1.1"
+      },
+      "attribution": "© Lantmäteriet (CC BY)",
+      "visible": false,
+      "queryable": false,
+      "zIndex": 3
+    },
+    {
+      "name": "lm_terranglutning",
+      "title": "Terränglutning (Markhöjdmodell NH)",
+      "group": "terrang",
+      "type": "WMS",
+      "source": "lm_hojdmodell",
+      "id": "terranglutning",
+      "format": "image/png",
+      "opacity": 0.55,
+      "sourceParams": {
+        "TRANSPARENT": "true",
+        "STYLES": "hojdmodell.default",
+        "VERSION": "1.1.1"
+      },
+      "attribution": "© Lantmäteriet (CC BY)",
+      "visible": false,
+      "queryable": false,
+      "zIndex": 3
     }
   ],
   "styles": {

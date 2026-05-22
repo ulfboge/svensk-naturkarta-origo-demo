@@ -121,7 +121,7 @@ python -m http.server 3000 --directory public
 
 1. ~~**Nya screenshots**~~ ✅ README + `scripts/capture_screenshots.py`
 2. ~~**Datumslider + statistik + NP per län**~~ ✅ Se `docs/05_session_2026-05-21.md`
-3. **Höjddata** — Lantmäteriet Höjdmodell NH
+3. ~~**Höjddata**~~ ✅ Markhöjdmodell NH WMS — se `HOJDDATA_PLAN.md`
 4. **QGIS Server** — ersätt statisk GeoJSON med live WFS
 5. **Prestandaoptimering** — lazy-load GeoJSON per county
 6. **SWEREF99 TM** — visningsprojektion + Lantmäteriet tile grid
