@@ -707,6 +707,54 @@
   var loadedGeojsonLayers = {};
   var loadingGeojsonPromises = {};
   var nvWfsFallback = false;
+  var LANSGRANS_URL = 'data/lansgranser.geojson';
+  var lansgransCache = null;
+
+  function updateCountyBoundary(county) {
+    var layer = findOLLayer('lan_grans');
+    if (!layer) return;
+    var src = layer.getSource();
+    if (!src) return;
+
+    if (!county || county === 'all') {
+      src.clear();
+      layer.setVisible(false);
+      layer.changed();
+      return;
+    }
+
+    function apply(data) {
+      var features = geojsonToFeatures(data, layer).filter(function(f) {
+        return f.get('county') === county;
+      });
+      src.clear();
+      if (features.length) {
+        src.addFeatures(features);
+        layer.setVisible(true);
+      } else {
+        layer.setVisible(false);
+      }
+      layer.changed();
+    }
+
+    if (lansgransCache) {
+      apply(lansgransCache);
+      return;
+    }
+
+    fetch(LANSGRANS_URL)
+      .then(function(r) {
+        if (!r.ok) throw new Error('Länsgränser HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function(data) {
+        lansgransCache = data;
+        apply(data);
+      })
+      .catch(function() {
+        layer.setVisible(false);
+      });
+  }
 
   var ALL_NR_GEOJSON = Object.keys(COUNTY_LAYER_SUFFIX).map(function(c) {
     return 'nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c];
@@ -763,7 +811,16 @@
     return search(map.getLayerGroup());
   }
 
-  function geojsonToFeatures(data) {
+  function geojsonToFeatures(data, layer) {
+    var src = layer && layer.getSource && layer.getSource();
+    var format = src && typeof src.getFormat === 'function' ? src.getFormat() : null;
+    var mapProjection = viewer.api().getMap().getView().getProjection();
+    if (format) {
+      return format.readFeatures(data, {
+        dataProjection: 'EPSG:4326',
+        featureProjection: mapProjection
+      });
+    }
     return viewer.api().getMapUtils().geojsonToFeature(data);
   }
 
@@ -971,6 +1028,12 @@
       setDataSourceHint('');
     }
 
+    try {
+      map.getView().fit(EXTENTS[county], { padding: [60, 60, 60, 60], duration: 400 });
+    } catch (e) {}
+
+    updateCountyBoundary(county);
+
     prepareCountyLayers(cfg.show, county).then(function() {
       cfg.show.forEach(function(n) {
         var l = findOLLayer(n); if (l) l.setVisible(true);
@@ -978,9 +1041,6 @@
       resetYearFilter();
       applyNPFilters(county, YEAR_SLIDER_MAX);
       scheduleLegendSync(county);
-      try {
-        map.getView().fit(EXTENTS[county], { padding: [60, 60, 60, 60], duration: 600 });
-      } catch (e) {}
 
       if (nvWfsFallback) {
         setDataSourceHint('NV WFS fel — visar lokal GeoJSON');
@@ -1042,6 +1102,16 @@
     return USE_NV_WFS && !USE_WFS_NR && county && county !== 'all' && !nvCountyUsesStatic(county);
   }
 
+  function buildNvLanFilter(lanNv) {
+    return '<Filter xmlns="http://www.opengis.net/ogc">' +
+      '<And>' +
+      '<PropertyIsEqualTo><PropertyName>LAN</PropertyName>' +
+      '<Literal>' + lanNv + '</Literal></PropertyIsEqualTo>' +
+      '<PropertyIsEqualTo><PropertyName>SKYDDSTYP</PropertyName>' +
+      '<Literal>Naturreservat</Literal></PropertyIsEqualTo>' +
+      '</And></Filter>';
+  }
+
   function fetchNvCountyGeojson(lanNv) {
     var params = new URLSearchParams({
       SERVICE: 'WFS',
@@ -1049,7 +1119,7 @@
       REQUEST: 'GetFeature',
       TYPENAMES: NV_WFS_TYPENAME,
       outputFormat: 'GEOJSON',
-      CQL_FILTER: "LAN='" + lanNv + "' AND SKYDDSTYP='Naturreservat'"
+      FILTER: buildNvLanFilter(lanNv)
     });
     return fetch(NV_WFS_URL + '?' + params.toString())
       .then(function(r) {
@@ -1074,7 +1144,7 @@
         return r.json();
       })
       .then(function(data) {
-        var features = geojsonToFeatures(data);
+        var features = geojsonToFeatures(data, layer);
         features.forEach(function(f, i) {
           if (!f.getId()) {
             if (f.get('NVRID')) f.setId(String(f.get('NVRID')));
@@ -1128,7 +1198,10 @@
     if (!src) return Promise.resolve(null);
 
     return fetchNvCountyGeojson(lanNv).then(function(data) {
-      var features = geojsonToFeatures(data);
+      var features = geojsonToFeatures(data, layer);
+      features = features.filter(function(f) {
+        return f.get('LAN') === lanNv && f.get('SKYDDSTYP') === 'Naturreservat';
+      });
       features.forEach(function(f, i) {
         if (!f.getId()) {
           if (f.get('NVRID')) f.setId(String(f.get('NVRID')));
@@ -1168,6 +1241,8 @@
         });
         var npLayer = findOLLayer('nv_nationalparker');
         if (npLayer) npLayer.setVisible(false);
+        var lanLayer = findOLLayer('lan_grans');
+        if (lanLayer) lanLayer.setVisible(false);
         try {
           map.getView().fit(EXTENTS.all, { padding: [60, 60, 60, 60], duration: 800 });
         } catch (e) {}

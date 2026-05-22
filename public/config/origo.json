@@ -61,6 +61,12 @@
     "lm_hojdmodell": {
       "url": "https://minkarta.lantmateriet.se/map/hojdmodell/"
     },
+    "opentopomap": {
+      "url": "https://tile.opentopomap.org/{z}/{x}/{y}.png"
+    },
+    "lm_topowebb": {
+      "url": "https://maps.lantmateriet.se/open/topowebb-ccby/v1/wmts/1.0.0/topowebb/default/3857/{z}/{y}/{x}.png"
+    },
     "local_qgis_wfs": {
       "url": "/qgis-server/?MAP=/etc/qgisserver/naturkarta.qgs",
       "type": "QGIS",
@@ -121,7 +127,7 @@
       "title": "OpenTopoMap",
       "group": "background",
       "type": "XYZ",
-      "url": "https://tile.opentopomap.org/{z}/{x}/{y}.png",
+      "source": "opentopomap",
       "attribution": "Kartdata: © OpenStreetMap contributors, SRTM | Kartvisning: © OpenTopoMap",
       "style": "karta_topo",
       "visible": false,
@@ -132,7 +138,7 @@
       "title": "Topowebb (Lantmäteriet)",
       "group": "background",
       "type": "XYZ",
-      "url": "https://maps.lantmateriet.se/open/topowebb-ccby/v1/wmts/1.0.0/topowebb/default/3857/{z}/{y}/{x}.png",
+      "source": "lm_topowebb",
       "attribution": "© Lantmäteriet (CC BY)",
       "style": "karta_lm",
       "visible": false,
@@ -2904,7 +2910,7 @@
       "attribution": "© Lantmäteriet (CC BY)",
       "visible": false,
       "queryable": false,
-      "zIndex": 3
+      "zIndex": 6
     },
     {
       "name": "lm_terranglutning",
@@ -2923,7 +2929,18 @@
       "attribution": "© Lantmäteriet (CC BY)",
       "visible": false,
       "queryable": false,
-      "zIndex": 3
+      "zIndex": 6
+    },
+    {
+      "name": "lan_grans",
+      "title": "Länsgräns",
+      "group": "terrang",
+      "type": "GEOJSON",
+      "source": "data/empty.geojson",
+      "visible": false,
+      "queryable": false,
+      "zIndex": 12,
+      "style": "lan_grans_outline"
     }
   ],
   "styles": {
@@ -2976,6 +2993,20 @@
           },
           "fill": {
             "color": "rgba(180,90,0,0.25)"
+          }
+        }
+      ]
+    ],
+    "lan_grans_outline": [
+      [
+        {
+          "stroke": {
+            "color": "#1565c0",
+            "width": 3,
+            "lineDash": [10, 6]
+          },
+          "fill": {
+            "color": "rgba(21,101,192,0.05)"
           }
         }
       ]
