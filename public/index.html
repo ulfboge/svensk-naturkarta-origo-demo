@@ -19,7 +19,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="description" content="Naturkarta — skyddade naturområden i Stockholms län. Naturreservat och nationalparker med klickbar information.">
+  <meta name="description" content="Naturkarta — skyddade naturområden i alla svenska län. Naturreservat och nationalparker med klickbar information.">
   <meta name="theme-color" content="#2d6a4f">
   <title>Naturkarta — Skyddad natur i Sverige</title>
 
@@ -60,6 +60,7 @@
       <option value="vnr">Västernorrlands län</option>
       <option value="vrm">Värmlands län</option>
     </select>
+    <span id="data-source-hint" aria-live="polite"></span>
   </div>
   <div id="reservat-search-wrap">
     <input id="reservat-search" type="search" list="reservat-names" placeholder="Sök reservat…" autocomplete="off">
@@ -516,6 +517,19 @@
     ore:   'Örebro län'
   };
 
+  // NV WFS expects capital L in Län (matches GeoJSON LAN field)
+  var COUNTY_LAN_NV = (function() {
+    var m = {};
+    Object.keys(COUNTY_LAN).forEach(function(c) {
+      m[c] = COUNTY_LAN[c].replace(/ län$/, ' Län');
+    });
+    return m;
+  }());
+
+  var NV_WFS_URL = 'https://geodata.naturvardsverket.se/naturvardsregistret/wfs';
+  var NV_WFS_TYPENAME = 'Naturvardsregistret_WFS:SkyddadeOmraden';
+  var NV_WFS_MAX_FEATURES = 500;
+
   // Pre-calculated stats — counts and areas from GeoJSON files.
   var COUNTY_STATS = {
     sthlm: { nr:  383, area:   189182, np:  3 },
@@ -662,6 +676,7 @@
   };
 
   var USE_WFS_NR = false;
+  var USE_NV_WFS = false;
 
   var ALL_NR_GEOJSON = Object.keys(COUNTY_LAYER_SUFFIX).map(function(c) {
     return 'nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c];
@@ -846,11 +861,40 @@
     } catch (e) {}
     var sel = document.getElementById('county-select');
     if (sel) sel.value = county;
-    updateFilteredStats(county, YEAR_SLIDER_MAX);
-    updateArtobsStats(county);
-    updateSMHIStats(county);
-    rebuildSearch(county);
-    scheduleStatsRefresh(county);
+
+    function afterDataReady() {
+      updateFilteredStats(county, YEAR_SLIDER_MAX);
+      updateArtobsStats(county);
+      updateSMHIStats(county);
+      rebuildSearch(county);
+      scheduleStatsRefresh(county);
+    }
+
+    if (shouldLoadNvCounty(county)) {
+      var suffix = COUNTY_LAYER_SUFFIX[county];
+      var layerName = 'nv_naturreservat_' + suffix;
+      setDataSourceHint('Hämtar live från NV…');
+      loadNvWfsIntoLayer(layerName, COUNTY_LAN_NV[county])
+        .then(function(n) {
+          setDataSourceHint(n ? 'Live: Naturvårdsverket WFS' : '');
+          afterDataReady();
+        })
+        .catch(function() {
+          setDataSourceHint('NV WFS fel — visar lokal GeoJSON');
+          afterDataReady();
+        });
+      return;
+    }
+
+    if (USE_WFS_NR) setDataSourceHint('Live: lokal QGIS Server');
+    else if (USE_NV_WFS && county !== 'all' && nvCountyUsesStatic(county)) {
+      setDataSourceHint('Lokal GeoJSON (>500 NR hos NV)');
+    } else if (USE_NV_WFS && county === 'all') {
+      setDataSourceHint('Lokal GeoJSON (alla län)');
+    } else {
+      setDataSourceHint('');
+    }
+    afterDataReady();
   }
 
   function scheduleStatsRefresh(county) {
@@ -870,6 +914,63 @@
       src.once('featuresloadend', done);
     });
     if (pending === 0) updateFilteredStats(county, currentMaxYear);
+  }
+
+  function setDataSourceHint(text) {
+    var el = document.getElementById('data-source-hint');
+    if (el) el.textContent = text || '';
+  }
+
+  function nvCountyUsesStatic(county) {
+    var stats = COUNTY_STATS[county];
+    return stats && stats.nr > NV_WFS_MAX_FEATURES;
+  }
+
+  function shouldLoadNvCounty(county) {
+    return USE_NV_WFS && !USE_WFS_NR && county && county !== 'all' && !nvCountyUsesStatic(county);
+  }
+
+  function fetchNvCountyGeojson(lanNv) {
+    var params = new URLSearchParams({
+      SERVICE: 'WFS',
+      VERSION: '2.0.0',
+      REQUEST: 'GetFeature',
+      TYPENAMES: NV_WFS_TYPENAME,
+      outputFormat: 'GEOJSON',
+      CQL_FILTER: "LAN='" + lanNv + "' AND SKYDDSTYP='Naturreservat'"
+    });
+    return fetch(NV_WFS_URL + '?' + params.toString())
+      .then(function(r) {
+        if (!r.ok) throw new Error('NV WFS HTTP ' + r.status);
+        return r.json();
+      });
+  }
+
+  function loadNvWfsIntoLayer(layerName, lanNv) {
+    var layer = findOLLayer(layerName);
+    if (!layer) return Promise.resolve(null);
+    var src = layer.getSource();
+    if (!src) return Promise.resolve(null);
+
+    return fetchNvCountyGeojson(lanNv).then(function(data) {
+      var features = viewer.api().geojsonToFeature(data);
+      features.forEach(function(f, i) {
+        if (!f.getId()) {
+          if (f.get('NVRID')) f.setId(String(f.get('NVRID')));
+          else f.setId('nv-' + i);
+        }
+      });
+      src.clear();
+      src.addFeatures(features);
+      layer.changed();
+      return features.length;
+    });
+  }
+
+  function probeNvWfs(done) {
+    fetchNvCountyGeojson('Gävleborgs Län')
+      .then(function(data) { done(!!(data && data.features && data.features.length)); })
+      .catch(function() { done(false); });
   }
 
   function probeQgisWfs(done) {
@@ -895,8 +996,31 @@
     try { map = viewer.api().getMap(); } catch (e) {}
     if (!map) { setTimeout(initSelector, 200); return; }
 
-    probeQgisWfs(function(ok) {
-      if (ok) {
+    probeQgisWfs(function(qgisOk) {
+      function finishInit() {
+        getAllNrLayers().forEach(function(n) {
+          var l = findOLLayer(n); if (l) l.setVisible(false);
+        });
+        var npLayer = findOLLayer('nv_nationalparker');
+        if (npLayer) npLayer.setVisible(false);
+        try {
+          map.getView().fit(EXTENTS.all, { padding: [60, 60, 60, 60], duration: 800 });
+        } catch (e) {}
+
+        document.getElementById('county-select').addEventListener('change', function() {
+          if (this.value) selectCounty(this.value);
+        });
+
+        initSearch();
+        initYearSlider();
+        updateStats('all');
+        updateIUCNChart('all');
+        updateArtobsStats('all');
+        updateSMHIStats('all');
+        initArtobs();
+      }
+
+      if (qgisOk) {
         USE_WFS_NR = true;
         ALL_NR = getAllNrLayers();
         ALL_LAYERS = ALL_NR.concat(['nv_nationalparker']);
@@ -904,29 +1028,16 @@
         getInactiveNrLayers().forEach(function(n) {
           var l = findOLLayer(n); if (l) l.setVisible(false);
         });
+        setDataSourceHint('Live: lokal QGIS Server');
+        finishInit();
+        return;
       }
 
-      // Initial state: NR and NP hidden until user selects a county
-      getAllNrLayers().forEach(function(n) {
-        var l = findOLLayer(n); if (l) l.setVisible(false);
+      probeNvWfs(function(nvOk) {
+        USE_NV_WFS = nvOk;
+        if (nvOk) setDataSourceHint('Live: Naturvårdsverket WFS');
+        finishInit();
       });
-      var npLayer = findOLLayer('nv_nationalparker');
-      if (npLayer) npLayer.setVisible(false);
-      try {
-        map.getView().fit(EXTENTS.all, { padding: [60, 60, 60, 60], duration: 800 });
-      } catch(e) {}
-
-      document.getElementById('county-select').addEventListener('change', function() {
-        if (this.value) selectCounty(this.value);
-      });
-
-      initSearch();
-      initYearSlider();
-      updateStats('all');
-      updateIUCNChart('all');
-      updateArtobsStats('all');
-      updateSMHIStats('all');
-      initArtobs();
     });
   }
   setTimeout(initSelector, 600);

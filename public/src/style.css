@@ -69,8 +69,18 @@ body {
 /* ── County selector dropdown ── */
 #county-selector {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
   justify-content: flex-start;
   margin-top: 4px;
+}
+#data-source-hint {
+  font-family: sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #40916c;
+  letter-spacing: 0.02em;
 }
 #county-select {
   font-family: sans-serif;

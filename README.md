@@ -134,8 +134,11 @@ Kräver Docker Desktop. Se [QGIS_SERVER_PLAN.md](QGIS_SERVER_PLAN.md).
 ```powershell
 docker compose up -d
 python scripts/dev_server.py
-# Lager: "Naturreservat Gavleborg (WFS live)" i lagerpanelen
 ```
+
+### Live NV WFS (GitHub Pages)
+
+Utan Docker hämtas naturreservat live från Naturvårdsverket vid länval. Se [NV_WFS_PLAN.md](NV_WFS_PLAN.md).
 
 ### Uppdatera screenshots
 
@@ -181,7 +184,8 @@ python backfill_dates.py
 ### Möjliga nästa steg
 
 - [x] Höjddata — Markhöjdmodell NH (terrängskuggning + lutning, WMS)
-- [x] QGIS Server — WFS för alla 21 län (auto-växling via `scripts/dev_server.py`)
+- [x] QGIS Server — WFS för alla 21 län (lokal utveckling)
+- [x] NV WFS — live naturreservat från Naturvårdsverket (GitHub Pages)
 - [ ] Lazy-load GeoJSON per län vid aktivering (prestanda)
 - [ ] SWEREF99 TM som visningsprojektion (fas 4)
 
