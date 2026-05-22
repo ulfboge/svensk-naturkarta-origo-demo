@@ -181,7 +181,7 @@ python backfill_dates.py
 ### Möjliga nästa steg
 
 - [x] Höjddata — Markhöjdmodell NH (terrängskuggning + lutning, WMS)
-- [x] QGIS Server — WFS-pilot (Gävleborg, Docker + `scripts/dev_server.py`)
+- [x] QGIS Server — WFS för alla 21 län (auto-växling via `scripts/dev_server.py`)
 - [ ] Lazy-load GeoJSON per län vid aktivering (prestanda)
 - [ ] SWEREF99 TM som visningsprojektion (fas 4)
 

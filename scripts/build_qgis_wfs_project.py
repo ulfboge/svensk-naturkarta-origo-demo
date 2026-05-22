@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Build GeoPackage + QGIS project for local QGIS Server WFS pilot."""
+"""Build GeoPackage + QGIS project and sync Origo WFS layers for all counties."""
 
 from __future__ import annotations
 
 import json
 import uuid
+from copy import deepcopy
 from pathlib import Path
 
 import geopandas as gpd
@@ -14,15 +15,7 @@ SERVER_DIR = ROOT / "qgis" / "server"
 DATA_DIR = SERVER_DIR / "data"
 GPKG_PATH = DATA_DIR / "naturkarta.gpkg"
 QGS_PATH = SERVER_DIR / "naturkarta.qgs"
-
-# Pilot: one county GeoJSON → WFS layer (expand via --all-counties later)
-PILOT_LAYERS = [
-    {
-        "geojson": ROOT / "public" / "data" / "naturreservat-gavleborg.geojson",
-        "layer_name": "naturreservat_gavleborg",
-        "title": "Naturreservat Gavleborg",
-    },
-]
+ORIGO_JSON = ROOT / "public" / "config" / "origo.json"
 
 EPSG3857_WKT = (
     'PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",'
@@ -55,6 +48,82 @@ def qgs_field_type(dtype) -> str:
     if "float" in name:
         return "Real"
     return "String"
+
+
+def discover_layers_from_origo() -> list[dict]:
+    cfg = json.loads(ORIGO_JSON.read_text(encoding="utf-8"))
+    layers = []
+    for layer in cfg["layers"]:
+        name = layer.get("name", "")
+        if not name.startswith("nv_naturreservat_"):
+            continue
+        if layer.get("type") != "GEOJSON":
+            continue
+        src = layer.get("source", "")
+        if not src.endswith(".geojson"):
+            continue
+        path = ROOT / "public" / src
+        if not path.exists():
+            print(f"WARNING: missing {path.name}, skipping")
+            continue
+        slug = Path(src).stem.replace("naturreservat-", "")
+        layers.append(
+            {
+                "geojson": path,
+                "layer_name": f"naturreservat_{slug}",
+                "title": layer.get("title", slug),
+                "origo_suffix": name.replace("nv_naturreservat_", ""),
+                "attributes": deepcopy(layer.get("attributes", [])),
+                "featureinfoTitle": layer.get("featureinfoTitle", "NAMN"),
+            }
+        )
+    return layers
+
+
+def wfs_title_from_geojson(title: str) -> str:
+    cleaned = title.replace(" – ", " ").replace(" län", "").strip()
+    if "(WFS live)" in cleaned:
+        return cleaned
+    return f"{cleaned} (WFS live)"
+
+
+def make_wfs_layer(spec: dict) -> dict:
+    suffix = spec["origo_suffix"]
+    return {
+        "name": f"nv_wfs_{suffix}",
+        "id": spec["layer_name"],
+        "title": wfs_title_from_geojson(spec["title"]),
+        "group": "naturreservat_group",
+        "type": "WFS",
+        "source": "local_qgis_wfs",
+        "strategy": "all",
+        "visible": False,
+        "queryable": True,
+        "zIndex": 11,
+        "style": "naturreservat_polygon",
+        "attributes": spec["attributes"],
+        "featureinfoTitle": spec["featureinfoTitle"],
+    }
+
+
+def sync_origo_wfs_layers(county_layers: list[dict]) -> None:
+    cfg = json.loads(ORIGO_JSON.read_text(encoding="utf-8"))
+    wfs_by_suffix = {spec["origo_suffix"]: make_wfs_layer(spec) for spec in county_layers}
+
+    cfg["layers"] = [layer for layer in cfg["layers"] if not layer.get("name", "").startswith("nv_wfs_")]
+
+    updated = []
+    for layer in cfg["layers"]:
+        updated.append(layer)
+        name = layer.get("name", "")
+        if name.startswith("nv_naturreservat_") and layer.get("type") == "GEOJSON":
+            suffix = name.replace("nv_naturreservat_", "")
+            if suffix in wfs_by_suffix:
+                updated.append(wfs_by_suffix[suffix])
+
+    cfg["layers"] = updated
+    ORIGO_JSON.write_text(json.dumps(cfg, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Synced {len(wfs_by_suffix)} WFS layers in {ORIGO_JSON.name}")
 
 
 def build_field_definitions(gdf: gpd.GeoDataFrame) -> str:
@@ -154,12 +223,8 @@ def build_project(layers: list[tuple[dict, gpd.GeoDataFrame]]) -> str:
         )
         maplayers.append(build_maplayer(meta, gdf))
 
-    wfs_block = "\n".join(wfs_ids)
-    layer_tree_block = "\n".join(layer_tree)
-    maplayers_block = "\n".join(maplayers)
-
     return f"""<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis saveDateTime="2026-05-21T12:00:00" version="3.34.0" projectname="Naturkarta WFS">
+<qgis saveDateTime="2026-05-22T12:00:00" version="3.34.0" projectname="Naturkarta WFS">
   <homePath path=""/>
   <title>Naturkarta WFS</title>
   <projectCrs>
@@ -176,7 +241,7 @@ def build_project(layers: list[tuple[dict, gpd.GeoDataFrame]]) -> str:
     </spatialrefsys>
   </projectCrs>
   <layer-tree-group checked="Qt::Checked" expanded="1" name="">
-{layer_tree_block}
+{chr(10).join(layer_tree)}
   </layer-tree-group>
   <mapcanvas name="theMapCanvas">
     <units>meters</units>
@@ -189,11 +254,11 @@ def build_project(layers: list[tuple[dict, gpd.GeoDataFrame]]) -> str:
     <rotation>0</rotation>
   </mapcanvas>
   <projectlayers>
-{maplayers_block}
+{chr(10).join(maplayers)}
   </projectlayers>
   <properties>
     <WFSLayers type="QStringList">
-{wfs_block}
+{chr(10).join(wfs_ids)}
     </WFSLayers>
     <WFSTLayers>
       <Delete type="QStringList"/>
@@ -201,19 +266,24 @@ def build_project(layers: list[tuple[dict, gpd.GeoDataFrame]]) -> str:
       <Update type="QStringList"/>
     </WFSTLayers>
     <WMSServiceTitle type="QString">Naturkarta WFS</WMSServiceTitle>
-    <WMSServiceAbstract type="QString">Pilot WFS for svensk-naturkarta-origo-demo</WMSServiceAbstract>
+    <WMSServiceAbstract type="QString">WFS for svensk-naturkarta-origo-demo (all counties)</WMSServiceAbstract>
   </properties>
 </qgis>
 """
 
 
 def main() -> None:
+    specs = discover_layers_from_origo()
+    if not specs:
+        raise SystemExit("No county GeoJSON layers found in origo.json")
+
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     if GPKG_PATH.exists():
         GPKG_PATH.unlink()
 
     built_layers: list[tuple[dict, gpd.GeoDataFrame]] = []
-    for spec in PILOT_LAYERS:
+    total_features = 0
+    for spec in specs:
         print(f"Loading {spec['geojson'].name}...")
         gdf = gpd.read_file(spec["geojson"])
         if gdf.crs is None:
@@ -221,11 +291,12 @@ def main() -> None:
         gdf = gdf.to_crs(3857)
         gdf.to_file(GPKG_PATH, layer=spec["layer_name"], driver="GPKG")
         built_layers.append((spec, gdf))
+        total_features += len(gdf)
         print(f"  -> {len(gdf)} features as {spec['layer_name']}")
 
-    qgs = build_project(built_layers)
-    QGS_PATH.write_text(qgs, encoding="utf-8")
-    print(f"Wrote {QGS_PATH}")
+    QGS_PATH.write_text(build_project(built_layers), encoding="utf-8")
+    sync_origo_wfs_layers(specs)
+    print(f"Wrote {QGS_PATH} ({len(built_layers)} layers, {total_features} features)")
     print(f"Wrote {GPKG_PATH}")
 
 

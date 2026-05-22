@@ -21,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="description" content="Naturkarta — skyddade naturområden i Stockholms län. Naturreservat och nationalparker med klickbar information.">
   <meta name="theme-color" content="#2d6a4f">
-  <title>Naturkarta — Skyddad natur i Stockholms län</title>
+  <title>Naturkarta — Skyddad natur i Sverige</title>
 
   <!-- Origo framework CSS (controls, popups, layer legend panel) -->
   <link href="css/style.css" rel="stylesheet">
@@ -363,7 +363,9 @@
   var LAYER_AP_CODE = (function() {
     var m = {};
     Object.keys(COUNTY_LAYER_SUFFIX).forEach(function(c) {
-      m['nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c]] = COUNTY_AP_CODE[c] || null;
+      var code = COUNTY_AP_CODE[c] || null;
+      m['nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c]] = code;
+      m['nv_wfs_' + COUNTY_LAYER_SUFFIX[c]] = code;
     });
     return m;
   }());
@@ -385,7 +387,7 @@
       map.forEachFeatureAtPixel(evt.pixel, function(f, layer) {
         if (!layer) return;
         var n = layer.get('name') || '';
-        if (n.indexOf('nv_naturreservat') === -1 && n.indexOf('nv_nationalparker') === -1) return;
+        if (n.indexOf('nv_naturreservat') === -1 && n.indexOf('nv_wfs_') === -1 && n.indexOf('nv_nationalparker') === -1) return;
         var ext = f.getGeometry().getExtent();
         lastClickBbox   = extentToWGS84(ext);
         lastClickAPCode = LAYER_AP_CODE[n] || null;
@@ -557,9 +559,9 @@
   }
 
   function getStatsLayerNames(county) {
-    if (county === 'all') return ALL_NR;
+    if (county === 'all') return getAllNrLayers();
     var suffix = COUNTY_LAYER_SUFFIX[county];
-    return suffix ? ['nv_naturreservat_' + suffix] : [];
+    return suffix ? [nrLayerName(suffix)] : [];
   }
 
   function parseIUCNCategory(value) {
@@ -659,24 +661,44 @@
     all:   [1100000, 7280000, 2900000, 10920000]
   };
 
-  var ALL_NR = Object.keys(COUNTY_LAYER_SUFFIX).map(function(c) {
+  var USE_WFS_NR = false;
+
+  var ALL_NR_GEOJSON = Object.keys(COUNTY_LAYER_SUFFIX).map(function(c) {
     return 'nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c];
   });
-  var ALL_LAYERS = ALL_NR.concat(['nv_nationalparker']);
+  var ALL_NR_WFS = Object.keys(COUNTY_LAYER_SUFFIX).map(function(c) {
+    return 'nv_wfs_' + COUNTY_LAYER_SUFFIX[c];
+  });
 
-  // Layers to show/hide per county — NR + NP shown once a county is selected
-  var COUNTY_LAYERS = (function() {
-    var cfg = {};
-    Object.keys(COUNTY_LAYER_SUFFIX).forEach(function(c) {
-      var nr = 'nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c];
-      cfg[c] = {
-        show: [nr, 'nv_nationalparker'],
-        hide: ALL_NR.filter(function(l) { return l !== nr; })
-      };
-    });
-    cfg.all = { show: ALL_LAYERS, hide: [] };
-    return cfg;
-  }());
+  function nrLayerName(suffix) {
+    return (USE_WFS_NR ? 'nv_wfs_' : 'nv_naturreservat_') + suffix;
+  }
+
+  function getAllNrLayers() {
+    return USE_WFS_NR ? ALL_NR_WFS : ALL_NR_GEOJSON;
+  }
+
+  function getInactiveNrLayers() {
+    return USE_WFS_NR ? ALL_NR_GEOJSON : ALL_NR_WFS;
+  }
+
+  function getCountyLayerConfig(county) {
+    var allActive = getAllNrLayers();
+    var inactive = getInactiveNrLayers();
+    if (county === 'all') {
+      return { show: allActive.concat(['nv_nationalparker']), hide: inactive };
+    }
+    var suffix = COUNTY_LAYER_SUFFIX[county];
+    if (!suffix) return { show: [], hide: [] };
+    var active = nrLayerName(suffix);
+    return {
+      show: [active, 'nv_nationalparker'],
+      hide: allActive.filter(function(l) { return l !== active; }).concat(inactive)
+    };
+  }
+
+  var ALL_NR = ALL_NR_GEOJSON;
+  var ALL_LAYERS = ALL_NR.concat(['nv_nationalparker']);
 
   function findOLLayer(name) {
     var map = null;
@@ -792,10 +814,13 @@
 
   function updateLegendVisibility(county) {
     if (!legendItemCache || Object.keys(legendItemCache).length === 0) buildLegendCache();
-    var cfg = COUNTY_LAYERS[county];
+    var cfg = getCountyLayerConfig(county);
     if (!cfg) return;
-    ALL_NR.forEach(function(name) {
+    getAllNrLayers().concat(getInactiveNrLayers()).forEach(function(name) {
       var el = legendItemCache[name];
+      if (!el && name.indexOf('nv_wfs_') === 0) {
+        el = legendItemCache[name.replace('nv_wfs_', 'nv_naturreservat_')];
+      }
       if (!el) return;
       el.style.display = cfg.hide.indexOf(name) !== -1 ? 'none' : '';
     });
@@ -805,7 +830,7 @@
     var map = null;
     try { map = viewer.api().getMap(); } catch (e) {}
     if (!map) return;
-    var cfg = COUNTY_LAYERS[county];
+    var cfg = getCountyLayerConfig(county);
     if (!cfg) return;
     cfg.show.forEach(function(n) {
       var l = findOLLayer(n); if (l) l.setVisible(true);
@@ -847,44 +872,70 @@
     if (pending === 0) updateFilteredStats(county, currentMaxYear);
   }
 
+  function probeQgisWfs(done) {
+    var url = '/qgis-server/?MAP=/etc/qgisserver/naturkarta.qgs&SERVICE=WFS&REQUEST=GetCapabilities';
+    fetch(url)
+      .then(function(r) { done(!!r.ok); })
+      .catch(function() { done(false); });
+  }
+
+  function extendLayerTitlesForWfs() {
+    Object.keys(COUNTY_LAYER_SUFFIX).forEach(function(c) {
+      var geo = 'nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c];
+      var wfs = 'nv_wfs_' + COUNTY_LAYER_SUFFIX[c];
+      if (LAYER_TITLE[geo]) {
+        LAYER_TITLE[wfs] = LAYER_TITLE[geo].replace(' l\u00e4n', ' (WFS live)').replace(' \u2013 ', ' ');
+      }
+    });
+  }
+
   // Wait until Origo is ready, then wire up dropdown and set initial state
   function initSelector() {
     var map = null;
     try { map = viewer.api().getMap(); } catch (e) {}
     if (!map) { setTimeout(initSelector, 200); return; }
 
-    // Initial state: NR and NP hidden until user selects a county
-    ALL_NR.forEach(function(n) {
-      var l = findOLLayer(n); if (l) l.setVisible(false);
-    });
-    var npLayer = findOLLayer('nv_nationalparker');
-    if (npLayer) npLayer.setVisible(false);
-    try {
-      map.getView().fit(EXTENTS.all, { padding: [60, 60, 60, 60], duration: 800 });
-    } catch(e) {}
+    probeQgisWfs(function(ok) {
+      if (ok) {
+        USE_WFS_NR = true;
+        ALL_NR = getAllNrLayers();
+        ALL_LAYERS = ALL_NR.concat(['nv_nationalparker']);
+        extendLayerTitlesForWfs();
+        getInactiveNrLayers().forEach(function(n) {
+          var l = findOLLayer(n); if (l) l.setVisible(false);
+        });
+      }
 
-    document.getElementById('county-select').addEventListener('change', function() {
-      if (this.value) selectCounty(this.value);
-    });
+      // Initial state: NR and NP hidden until user selects a county
+      getAllNrLayers().forEach(function(n) {
+        var l = findOLLayer(n); if (l) l.setVisible(false);
+      });
+      var npLayer = findOLLayer('nv_nationalparker');
+      if (npLayer) npLayer.setVisible(false);
+      try {
+        map.getView().fit(EXTENTS.all, { padding: [60, 60, 60, 60], duration: 800 });
+      } catch(e) {}
 
-    initSearch();
-    initYearSlider();
-    updateStats('all');
-    updateIUCNChart('all');
-    updateArtobsStats('all');
-    updateSMHIStats('all');
-    initArtobs();
+      document.getElementById('county-select').addEventListener('change', function() {
+        if (this.value) selectCounty(this.value);
+      });
+
+      initSearch();
+      initYearSlider();
+      updateStats('all');
+      updateIUCNChart('all');
+      updateArtobsStats('all');
+      updateSMHIStats('all');
+      initArtobs();
+    });
   }
   setTimeout(initSelector, 600);
 
-  // Layer names per county (used by search)
-  var COUNTY_LAYER_NAME = (function() {
-    var m = {};
-    Object.keys(COUNTY_LAYER_SUFFIX).forEach(function(c) {
-      m[c] = 'nv_naturreservat_' + COUNTY_LAYER_SUFFIX[c];
-    });
-    return m;
-  }());
+  function searchLayerNames(county) {
+    if (county === 'all') return getAllNrLayers();
+    var suffix = COUNTY_LAYER_SUFFIX[county];
+    return suffix ? [nrLayerName(suffix)] : [];
+  }
 
   var searchIndex = {};   // module-level so event handler always reads latest version
 
@@ -892,9 +943,7 @@
   // Handles lazy-loading: hidden layers have no features until made visible,
   // so we listen for featuresloadend when the source is empty.
   function rebuildSearch(county) {
-    var layerNames = county === 'all'
-        ? Object.keys(COUNTY_LAYER_NAME).map(function(k) { return COUNTY_LAYER_NAME[k]; })
-        : (COUNTY_LAYER_NAME[county] ? [COUNTY_LAYER_NAME[county]] : []);
+    var layerNames = searchLayerNames(county);
 
     var newIndex = {};
     var pending = 0;
@@ -975,8 +1024,8 @@
 
     var countyVal = (document.getElementById('county-select').value) || 'all';
     var names = countyVal === 'all'
-      ? ALL_NR
-      : (COUNTY_LAYER_SUFFIX[countyVal] ? ['nv_naturreservat_' + COUNTY_LAYER_SUFFIX[countyVal]] : []);
+      ? getAllNrLayers()
+      : (COUNTY_LAYER_SUFFIX[countyVal] ? [nrLayerName(COUNTY_LAYER_SUFFIX[countyVal])] : []);
 
     var visible = 0, total = 0;
 

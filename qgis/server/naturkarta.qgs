@@ -1,5 +1,5 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis saveDateTime="2026-05-21T12:00:00" version="3.34.0" projectname="Naturkarta WFS">
+<qgis saveDateTime="2026-05-22T12:00:00" version="3.34.0" projectname="Naturkarta WFS">
   <homePath path=""/>
   <title>Naturkarta WFS</title>
   <projectCrs>
@@ -16,19 +16,618 @@
     </spatialrefsys>
   </projectCrs>
   <layer-tree-group checked="Qt::Checked" expanded="1" name="">
-      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_gavleborg_140519d7" name="Naturreservat Gavleborg" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_gavleborg"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_stockholm-v2_4fac9af7" name="Naturreservat – Stockholms län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_stockholm-v2"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_sodermanland_d3dce292" name="Naturreservat – Södermanlands län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_sodermanland"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_uppsala_3543237f" name="Naturreservat – Uppsala län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_uppsala"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_ostergotland_7f35ce3c" name="Naturreservat – Östergötlands län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_ostergotland"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_vastragotaland_37b9afc4" name="Naturreservat – Västra Götalands län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_vastragotaland"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_skane_cb5043de" name="Naturreservat – Skåne län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_skane"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_blekinge_3ea1d7ce" name="Naturreservat – Blekinge län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_blekinge"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_dalarna_3d37b831" name="Naturreservat – Dalarnas län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_dalarna"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_gotland_5f9d5845" name="Naturreservat – Gotlands län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_gotland"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_gavleborg_140519d7" name="Naturreservat – Gävleborgs län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_gavleborg"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_halland_e68cc890" name="Naturreservat – Hallands län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_halland"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_jamtland_fc3a8c73" name="Naturreservat – Jämtlands län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_jamtland"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_jonkoping_df3ab435" name="Naturreservat – Jönköpings län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_jonkoping"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_kalmar_172c1c26" name="Naturreservat – Kalmar län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_kalmar"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_kronoberg_69d652af" name="Naturreservat – Kronobergs län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_kronoberg"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_norrbotten_d978dd77" name="Naturreservat – Norrbottens län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_norrbotten"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_varmland_744e6391" name="Naturreservat – Värmlands län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_varmland"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_vasterbotten_bbe3f151" name="Naturreservat – Västerbottens län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_vasterbotten"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_vasternorrland_2924a7ac" name="Naturreservat – Västernorrlands län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_vasternorrland"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_vastmanland_b5d16828" name="Naturreservat – Västmanlands län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_vastmanland"/>
+      <layer-tree-layer checked="Qt::Checked" expanded="1" id="naturreservat_orebro_6567de9b" name="Naturreservat – Örebro län" providerKey="ogr" source="./data/naturkarta.gpkg|layername=naturreservat_orebro"/>
   </layer-tree-group>
   <mapcanvas name="theMapCanvas">
     <units>meters</units>
     <extent>
-      <xmin>1614415.3680090818</xmin>
-      <ymin>8447822.123662405</ymin>
-      <xmax>1965096.2542958679</xmax>
-      <ymax>8935064.773324654</ymax>
+      <xmin>1218076.7925734343</xmin>
+      <ymin>7414325.73797005</ymin>
+      <xmax>2687751.2190683777</xmax>
+      <ymax>10562797.424776342</ymax>
     </extent>
     <rotation>0</rotation>
   </mapcanvas>
   <projectlayers>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="MultiPolygon">
+      <extent>
+        <xmin>1929474.0172420205</xmin>
+        <ymin>8132199.46153087</ymin>
+        <xmax>2217014.488350862</xmax>
+        <ymax>8450718.052090224</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>17.33276</xmin>
+        <ymin>58.77633</ymin>
+        <xmax>19.91578</xmax>
+        <ymax>60.22819</ymax>
+      </wgs84extent>
+      <id>naturreservat_stockholm-v2_4fac9af7</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_stockholm-v2</datasource>
+      <layername>naturreservat_stockholm-v2</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="BESLUTSSTATUS" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="LAND_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="VATTEN_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="SKOG_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="MultiPolygon">
+      <extent>
+        <xmin>1748167.9625870157</xmin>
+        <ymin>8097220.17977837</ymin>
+        <xmax>1980225.6862895817</xmax>
+        <ymax>8292308.048680594</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>15.704059999999998</xmin>
+        <ymin>58.61305999999999</ymin>
+        <xmax>17.78867</xmax>
+        <ymax>59.51394</ymax>
+      </wgs84extent>
+      <id>naturreservat_sodermanland_d3dce292</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_sodermanland</datasource>
+      <layername>naturreservat_sodermanland</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="BESLUTSSTATUS" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="LAND_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="VATTEN_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="SKOG_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="MultiPolygon">
+      <extent>
+        <xmin>1862876.0186800365</xmin>
+        <ymin>8266881.158095243</ymin>
+        <xmax>2109780.4228697014</xmax>
+        <ymax>8558317.272284742</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>16.734499999999997</xmin>
+        <ymin>59.397859999999994</ymin>
+        <xmax>18.952479999999998</xmax>
+        <ymax>60.704640000000005</ymax>
+      </wgs84extent>
+      <id>naturreservat_uppsala_3543237f</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_uppsala</datasource>
+      <layername>naturreservat_uppsala</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="BESLUTSSTATUS" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1618928.2601658409</xmin>
+        <ymin>7905527.965248859</ymin>
+        <xmax>1915689.3246970891</xmax>
+        <ymax>8176752.326275607</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>14.543079999999998</xmin>
+        <ymin>57.70465</ymin>
+        <xmax>17.20893</xmax>
+        <ymax>58.98317999999999</ymax>
+      </wgs84extent>
+      <id>naturreservat_ostergotland_7f35ce3c</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_ostergotland</datasource>
+      <layername>naturreservat_ostergotland</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="BESLUTSSTATUS" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="MultiPolygon">
+      <extent>
+        <xmin>1218076.7925734343</xmin>
+        <ymin>7789926.199517152</ymin>
+        <xmax>1638142.0042767602</xmax>
+        <ymax>8234958.4540653</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>10.942169999999999</xmin>
+        <ymin>57.14554999999999</ymin>
+        <xmax>14.715680000000003</xmax>
+        <ymax>59.251560000000005</ymax>
+      </wgs84extent>
+      <id>naturreservat_vastragotaland_37b9afc4</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_vastragotaland</datasource>
+      <layername>naturreservat_vastragotaland</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="BESLUTSSTATUS" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1348909.4769078607</xmin>
+        <ymin>7414325.73797005</ymin>
+        <xmax>1622750.9714796823</xmax>
+        <ymax>7670151.641470447</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>12.11746</xmin>
+        <ymin>55.26939000000001</ymin>
+        <xmax>14.577420000000002</xmax>
+        <ymax>56.55722000000001</ymax>
+      </wgs84extent>
+      <id>naturreservat_skane_cb5043de</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_skane</datasource>
+      <layername>naturreservat_skane</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="BESLUTSSTATUS" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1602761.330517934</xmin>
+        <ymin>7540591.523636486</ymin>
+        <xmax>1785731.611560298</xmax>
+        <ymax>7648613.122135397</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>14.397849999999998</xmin>
+        <ymin>55.91036</ymin>
+        <xmax>16.041499999999996</xmax>
+        <ymax>56.45044000000001</ymax>
+      </wgs84extent>
+      <id>naturreservat_blekinge_3ea1d7ce</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_blekinge</datasource>
+      <layername>naturreservat_blekinge</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1351159.2438167927</xmin>
+        <ymin>8380165.004191286</ymin>
+        <xmax>1845109.42794943</xmax>
+        <ymax>8922851.831913693</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>12.137669999999998</xmin>
+        <ymin>59.91196999999999</ymin>
+        <xmax>16.5749</xmax>
+        <ymax>62.26749999999999</ymax>
+      </wgs84extent>
+      <id>naturreservat_dalarna_3d37b831</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_dalarna</datasource>
+      <layername>naturreservat_dalarna</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1997022.6842553788</xmin>
+        <ymin>7745745.155831994</ymin>
+        <xmax>2170426.1682589687</xmax>
+        <ymax>8093715.650659919</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>17.939559999999997</xmin>
+        <ymin>56.92960999999999</ymin>
+        <xmax>19.497269999999997</xmax>
+        <ymax>58.59666000000001</ymax>
+      </wgs84extent>
+      <id>naturreservat_gotland_5f9d5845</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_gotland</datasource>
+      <layername>naturreservat_gotland</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
     <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
       <extent>
         <xmin>1614415.3680090818</xmin>
@@ -92,10 +691,723 @@
         </symbols>
       </renderer-v2>
     </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1322146.044931342</xmin>
+        <ymin>7623470.2047666125</ymin>
+        <xmax>1524361.239542047</xmax>
+        <ymax>7878191.633808698</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>11.87704</xmin>
+        <ymin>56.32540999999999</ymin>
+        <xmax>13.693569999999998</xmax>
+        <ymax>57.57320999999999</ymax>
+      </wgs84extent>
+      <id>naturreservat_halland_e68cc890</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_halland</datasource>
+      <layername>naturreservat_halland</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1351565.5599581883</xmin>
+        <ymin>8773676.096795175</ymin>
+        <xmax>1857650.6817822005</xmax>
+        <ymax>9639839.581560865</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>12.14132</xmin>
+        <ymin>61.63742</ymin>
+        <xmax>16.68756</xmax>
+        <ymax>65.1192</ymax>
+      </wgs84extent>
+      <id>naturreservat_jamtland_fc3a8c73</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_jamtland</datasource>
+      <layername>naturreservat_jamtland</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1455732.773467994</xmin>
+        <ymin>7740793.512257911</ymin>
+        <xmax>1740297.6745879315</xmax>
+        <ymax>7991830.468118649</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>13.077069999999999</xmin>
+        <ymin>56.90532999999999</ymin>
+        <xmax>15.633360000000001</xmax>
+        <ymax>58.11649999999999</ymax>
+      </wgs84extent>
+      <id>naturreservat_jonkoping_df3ab435</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_jonkoping</datasource>
+      <layername>naturreservat_jonkoping</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1726217.985392398</xmin>
+        <ymin>7576584.478267451</ymin>
+        <xmax>1949984.633420681</xmax>
+        <ymax>7996413.679937854</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>15.50688</xmin>
+        <ymin>56.09116</ymin>
+        <xmax>17.51701</xmax>
+        <ymax>58.138239999999996</ymax>
+      </wgs84extent>
+      <id>naturreservat_kalmar_172c1c26</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_kalmar</datasource>
+      <layername>naturreservat_kalmar</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1486078.4666582404</xmin>
+        <ymin>7632795.407551407</ymin>
+        <xmax>1762489.2150775704</xmax>
+        <ymax>7806090.165522742</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>13.34967</xmin>
+        <ymin>56.37183</ymin>
+        <xmax>15.832709999999999</xmax>
+        <ymax>57.224239999999995</ymax>
+      </wgs84extent>
+      <id>naturreservat_kronoberg_69d652af</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_kronoberg</datasource>
+      <layername>naturreservat_kronoberg</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1794676.1326455374</xmin>
+        <ymin>9627898.40532906</ymin>
+        <xmax>2687751.2190683777</xmax>
+        <ymax>10562797.424776342</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>16.12185</xmin>
+        <ymin>65.07403</ymin>
+        <xmax>24.144479999999998</xmax>
+        <ymax>68.38642</ymax>
+      </wgs84extent>
+      <id>naturreservat_norrbotten_d978dd77</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_norrbotten</datasource>
+      <layername>naturreservat_norrbotten</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1305152.0114668407</xmin>
+        <ymin>8121255.507342595</ymin>
+        <xmax>1602503.0692992937</xmax>
+        <ymax>8637563.670398306</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>11.72438</xmin>
+        <ymin>58.72532999999999</ymin>
+        <xmax>14.39553</xmax>
+        <ymax>61.05109</ymax>
+      </wgs84extent>
+      <id>naturreservat_varmland_744e6391</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_varmland</datasource>
+      <layername>naturreservat_varmland</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1614209.426951114</xmin>
+        <ymin>9175592.427136507</ymin>
+        <xmax>2407460.986394902</xmax>
+        <ymax>9972010.72676231</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>14.500689999999997</xmin>
+        <ymin>63.30565000000001</ymin>
+        <xmax>21.62659</xmax>
+        <ymax>66.34535</ymax>
+      </wgs84extent>
+      <id>naturreservat_vasterbotten_bbe3f151</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_vasterbotten</datasource>
+      <layername>naturreservat_vasterbotten</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1647500.6338677504</xmin>
+        <ymin>8890750.756181471</ymin>
+        <xmax>2131043.5588061246</xmax>
+        <ymax>9356720.43010334</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>14.79975</xmin>
+        <ymin>62.13301</ymin>
+        <xmax>19.143489999999996</xmax>
+        <ymax>64.02738</ymax>
+      </wgs84extent>
+      <id>naturreservat_vasternorrland_2924a7ac</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_vasternorrland</datasource>
+      <layername>naturreservat_vasternorrland</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1721209.7215016088</xmin>
+        <ymin>8236852.959486181</ymin>
+        <xmax>1888637.575239416</xmax>
+        <ymax>8439949.265112815</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>15.46189</xmin>
+        <ymin>59.26025999999999</ymin>
+        <xmax>16.96592</xmax>
+        <ymax>60.18012</ymax>
+      </wgs84extent>
+      <id>naturreservat_vastmanland_b5d16828</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_vastmanland</datasource>
+      <layername>naturreservat_vastmanland</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
+    <maplayer autoRefreshMode="Disabled" autoRefreshTime="0" geometry="Polygon" hasScaleBasedVisibilityFlag="0" labelsEnabled="0" maxScale="0" minScale="100000000" readOnly="0" simplifyAlgorithm="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyLocal="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" symbologyReferenceScale="-1" type="vector" wkbType="Polygon">
+      <extent>
+        <xmin>1591258.687534265</xmin>
+        <ymin>8112863.147226503</ymin>
+        <xmax>1748766.8614474838</xmax>
+        <ymax>8417394.276887536</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>14.294519999999999</xmin>
+        <ymin>58.68617</ymin>
+        <xmax>15.709440000000003</xmax>
+        <ymax>60.07921000000001</ymax>
+      </wgs84extent>
+      <id>naturreservat_orebro_6567de9b</id>
+      <datasource>./data/naturkarta.gpkg|layername=naturreservat_orebro</datasource>
+      <layername>naturreservat_orebro</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCRS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",ENSEMBLE["World Geodetic System 1984 ensemble",MEMBER["World Geodetic System 1984 (Transit)"],MEMBER["World Geodetic System 1984 (G730)"],MEMBER["World Geodetic System 1984 (G873)"],MEMBER["World Geodetic System 1984 (G1150)"],MEMBER["World Geodetic System 1984 (G1674)"],MEMBER["World Geodetic System 1984 (G1762)"],MEMBER["World Geodetic System 1984 (G2139)"],MEMBER["World Geodetic System 1984 (G2296)"],ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]],ENSEMBLEACCURACY[2.0]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>EPSG:7030</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">ogr</provider>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+        <Private>0</Private>
+      </flags>
+    <attributeTable>
+      <field configurationFlags="NoFlag" name="NVRID" type="String"/>
+      <field configurationFlags="NoFlag" name="NAMN" type="String"/>
+      <field configurationFlags="NoFlag" name="SKYDDSTYP" type="String"/>
+      <field configurationFlags="NoFlag" name="LAN" type="String"/>
+      <field configurationFlags="NoFlag" name="KOMMUN" type="String"/>
+      <field configurationFlags="NoFlag" name="IUCNKATEGORI" type="String"/>
+      <field configurationFlags="NoFlag" name="FORVALTARE" type="String"/>
+      <field configurationFlags="NoFlag" name="AREA_HA" type="Real"/>
+      <field configurationFlags="NoFlag" name="URSPR_BESLUTSDATUM" type="String"/>
+    </attributeTable>
+      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol clip_to_extent="1" type="fill" name="0" alpha="1" force_rhr="0">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <Option type="Map">
+                <Option value="76,175,80,76,rgb:0.2980392,0.6862745,0.3137255,0.2980392" type="QString" name="color"/>
+                <Option value="46,125,50,255,rgb:0.1803922,0.4901961,0.1960784,1" type="QString" name="outline_color"/>
+                <Option value="0.4" type="QString" name="outline_width"/>
+                <Option value="MM" type="QString" name="outline_width_unit"/>
+                <Option value="solid" type="QString" name="style"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+    </maplayer>
   </projectlayers>
   <properties>
     <WFSLayers type="QStringList">
+      <value>naturreservat_stockholm-v2_4fac9af7</value>
+      <value>naturreservat_sodermanland_d3dce292</value>
+      <value>naturreservat_uppsala_3543237f</value>
+      <value>naturreservat_ostergotland_7f35ce3c</value>
+      <value>naturreservat_vastragotaland_37b9afc4</value>
+      <value>naturreservat_skane_cb5043de</value>
+      <value>naturreservat_blekinge_3ea1d7ce</value>
+      <value>naturreservat_dalarna_3d37b831</value>
+      <value>naturreservat_gotland_5f9d5845</value>
       <value>naturreservat_gavleborg_140519d7</value>
+      <value>naturreservat_halland_e68cc890</value>
+      <value>naturreservat_jamtland_fc3a8c73</value>
+      <value>naturreservat_jonkoping_df3ab435</value>
+      <value>naturreservat_kalmar_172c1c26</value>
+      <value>naturreservat_kronoberg_69d652af</value>
+      <value>naturreservat_norrbotten_d978dd77</value>
+      <value>naturreservat_varmland_744e6391</value>
+      <value>naturreservat_vasterbotten_bbe3f151</value>
+      <value>naturreservat_vasternorrland_2924a7ac</value>
+      <value>naturreservat_vastmanland_b5d16828</value>
+      <value>naturreservat_orebro_6567de9b</value>
     </WFSLayers>
     <WFSTLayers>
       <Delete type="QStringList"/>
@@ -103,6 +1415,6 @@
       <Update type="QStringList"/>
     </WFSTLayers>
     <WMSServiceTitle type="QString">Naturkarta WFS</WMSServiceTitle>
-    <WMSServiceAbstract type="QString">Pilot WFS for svensk-naturkarta-origo-demo</WMSServiceAbstract>
+    <WMSServiceAbstract type="QString">WFS for svensk-naturkarta-origo-demo (all counties)</WMSServiceAbstract>
   </properties>
 </qgis>

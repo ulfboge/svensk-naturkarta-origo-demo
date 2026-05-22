@@ -1,6 +1,6 @@
 # QGIS Server — live WFS (Phase 5 pilot)
 
-Ersätter statisk GeoJSON med vektor via lokal QGIS Server. Pilot: **Gävleborgs län** (252 naturreservat).
+Ersätter statisk GeoJSON med vektor via lokal QGIS Server. **Alla 21 län** (5 993 naturreservat) publiceras som WFS.
 
 ## Snabbstart
 
@@ -15,9 +15,7 @@ docker compose up -d
 python scripts/dev_server.py
 ```
 
-Öppna http://localhost:3000 → lagerpanelen → **Naturreservat Gavleborg (WFS live)**.
-
-Jämför med **Naturreservat – Gävleborgs län** (statisk GeoJSON) — samma data, olika leverans.
+Öppna http://localhost:3000 → välj län i dropdown. Med QGIS Server igång används **WFS live** automatiskt (GeoJSON-lager döljs).
 
 ## Verifiera WFS manuellt
 
