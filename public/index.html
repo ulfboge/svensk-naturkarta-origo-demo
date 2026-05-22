@@ -763,6 +763,10 @@
     return search(map.getLayerGroup());
   }
 
+  function geojsonToFeatures(data) {
+    return viewer.api().getMapUtils().geojsonToFeature(data);
+  }
+
   var origNPStyleFn = null;
 
   function featureInCounty(feature, county) {
@@ -1070,7 +1074,7 @@
         return r.json();
       })
       .then(function(data) {
-        var features = viewer.api().geojsonToFeature(data);
+        var features = geojsonToFeatures(data);
         features.forEach(function(f, i) {
           if (!f.getId()) {
             if (f.get('NVRID')) f.setId(String(f.get('NVRID')));
@@ -1124,7 +1128,7 @@
     if (!src) return Promise.resolve(null);
 
     return fetchNvCountyGeojson(lanNv).then(function(data) {
-      var features = viewer.api().geojsonToFeature(data);
+      var features = geojsonToFeatures(data);
       features.forEach(function(f, i) {
         if (!f.getId()) {
           if (f.get('NVRID')) f.setId(String(f.get('NVRID')));
