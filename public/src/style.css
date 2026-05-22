@@ -365,6 +365,139 @@ body {
 /* Popup artobs loading text */
 .artobs-loading { color: #95c9aa; font-style: italic; font-size: 11px; }
 
+/* ── Om kartan modal — match stats panel / popup theme ── */
+.o-map .o-modal:has(.about-body) {
+  width: min(420px, 92vw);
+  max-width: 420px;
+  border-radius: 12px;
+  font-family: sans-serif;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+}
+/* Origo modal header (not .o-modal-title) */
+.o-map .o-modal:has(.about-body) > .grey-lightest.draggable {
+  background: #2d6a4f !important;
+  padding: 10px 10px 10px 16px;
+  align-items: center;
+}
+.o-map .o-modal:has(.about-body) > .grey-lightest.draggable .text-weight-bold {
+  font-family: sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #d8f3dc;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.o-map .o-modal:has(.about-body) > .grey-lightest.draggable .button.grey-lightest {
+  background: rgba(255, 255, 255, 0.14) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.o-map .o-modal:has(.about-body) > .grey-lightest.draggable .button.grey-lightest:hover {
+  background: rgba(255, 255, 255, 0.28) !important;
+}
+.o-map .o-modal:has(.about-body) > .grey-lightest.draggable svg {
+  fill: #d8f3dc;
+}
+.o-map .o-modal:has(.about-body) .o-modal-content {
+  font-family: sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #333;
+  padding: 16px 18px 14px;
+}
+.o-map .o-modal-content .about-body {
+  margin: 0;
+}
+.o-map .o-modal-content .about-lead {
+  margin: 0 0 14px;
+  color: #1b4332;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.o-map .o-modal-content .about-lead strong {
+  font-weight: 700;
+  color: #1b4332;
+}
+.o-map .o-modal-content .about-section {
+  margin-bottom: 14px;
+}
+.o-map .o-modal-content .about-section:last-of-type {
+  margin-bottom: 10px;
+}
+.o-map .o-modal-content .about-heading {
+  margin: 0 0 6px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #95c9aa;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.o-map .o-modal-content .about-list {
+  margin: 0;
+  padding: 0 0 0 18px;
+}
+.o-map .o-modal-content .about-list li {
+  margin: 0 0 4px;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #444;
+  list-style: disc;
+}
+.o-map .o-modal-content .about-list--ordered {
+  padding-left: 20px;
+}
+.o-map .o-modal-content .about-list--ordered li {
+  list-style: decimal;
+}
+.o-map .o-modal-content .about-link-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.o-map .o-modal-content .about-link-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.o-map .o-modal-content .about-link-list span {
+  color: #666;
+  font-size: 11px;
+}
+.o-map .o-modal-content .about-footer {
+  margin: 12px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid #e8f5e9;
+  font-size: 11px;
+  color: #777;
+  line-height: 1.4;
+}
+.o-map .o-modal-content .about-body a {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 12px;
+  border: 1.5px solid #52b788;
+  background: transparent;
+  color: #2d6a4f;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: background 0.15s, color 0.15s;
+}
+.o-map .o-modal-content .about-body a:hover {
+  background: #2d6a4f;
+  color: #fff;
+}
+
 /* ── Mobile: tighten everything below 520 px ── */
 @media (max-width: 520px) {
   #stats-panel { min-width: 140px; bottom: 36px; left: 6px; }
